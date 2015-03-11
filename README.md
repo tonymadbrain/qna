@@ -6,5 +6,6 @@
 * Rails - 4.2.0
 * RSpec - 3.2.1
 * PostgreSQL - 9.3.6
+
 Приложение дублирует функционал сайта http://stackoverflow.com/
 

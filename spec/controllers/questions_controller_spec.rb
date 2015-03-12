@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe QuestionsController, type: :controller do
   
   let(:question) { create :question }
-  let(:questions) { create_list(:question, 2) }
+  let(:questions) { create_list(:question, 3) }
 
   describe 'GET #index' do
     before { get :index }
@@ -21,7 +21,7 @@ RSpec.describe QuestionsController, type: :controller do
     before { get :show, id: question }
 
     it 'assigns questions to @question' do
-      expect(assignd(:question)).to eq question
+      expect(assigns(:question)).to eq question
     end
 
     it 'render show view' do
@@ -60,6 +60,7 @@ RSpec.describe QuestionsController, type: :controller do
       end
 
       it 'redirect to show view' do
+        post :create, question: attributes_for(:question)
         expect(response).to redirect_to question_path(assigns(:question))
       end
     end
@@ -76,9 +77,7 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'PATCH #update' do
-    let(:test_title) { expect(question.title).to eq "Test title" }
-    let(:test_body) { expect(question.body).to eq "Test body" } 
+  describe 'PATCH #update' do 
 
     context 'with valid attr' do
       it 'assigns the requested question with @question' do
@@ -89,18 +88,23 @@ RSpec.describe QuestionsController, type: :controller do
       it 'change attr' do
         patch :update, id: question, question: { title: "Test title", body: "Test body" }
         question.reload
-        test_title
-        test_body
+        expect(question.title).to eq "Test title"
+        expect(question.body).to eq "Test body"
+      end
+
+      it 'redirect to the updated question' do
+        patch :update, id: question, question: attributes_for(:question)
+        expect(response).to redirect_to question
       end
     end
 
     context 'with invalid attr' do
-      before { patch :update, id: question, question: attributes_for(:invalid_question) }
+      before { patch :update, id: question, question: { title: "test title", body: nil } }
       
-      it 'not change que attr' do
+      it 'does not change que attr' do
         question.reload
-        test_title
-        test_body
+        expect(question.title).to eq "Super title"
+        expect(question.body).to eq "Super text"
       end
 
       it 're-render edit view' do
@@ -117,7 +121,8 @@ RSpec.describe QuestionsController, type: :controller do
      end
 
     it 'redirect to index view' do
-      expect(response).to redirect_to :index
+      delete :destroy, id: question
+      expect(response).to redirect_to questions_path
     end
   end
 end

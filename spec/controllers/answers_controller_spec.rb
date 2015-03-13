@@ -32,12 +32,13 @@ RSpec.describe AnswersController, type: :controller do
     context 'with valid attr' do
       it 'save new answer in database' do
         expect { post :create, question_id: question, answer: attributes_for(:answer) }.to change(Answer, :count).by(1)
-      end
-
-      it 'answer assoc with question' do
-        post :create, question_id: question, answer: attributes_for(:answer)
         expect(assigns(:answer).question_id).to eq answer.question_id
       end
+
+      #it 'answer assoc with question' do
+      #  post :create, question_id: question, answer: attributes_for(:answer)
+      #  expect(assigns(:answer).question_id).to eq answer.question_id
+      #end
 
       it 'redirect to answer/show view' do
         post :create, question_id: question, answer: attributes_for(:answer)

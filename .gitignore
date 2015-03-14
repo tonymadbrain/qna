@@ -14,3 +14,6 @@
 
 config/database.yml
 .idea/
+
+#file for test sublime snippets
+test.rb

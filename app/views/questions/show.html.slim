@@ -1,3 +1,5 @@
 p = @question.title
 p = @question.body
+- @question.answers.each do |answer|
+  = answer.body
 = link_to 'create answer', "/questions/#{@question.id}/answers/new"

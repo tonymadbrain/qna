@@ -19,6 +19,18 @@ feature 'View questions' do
     click_on 'Question1'
 
     expect(page).to have_content 'Question1'
-    expect(page).to have_content 'text1'   
+    expect(page).to have_content 'text1'
+  end
+
+  scenario 'view answers' do
+    visit root_path
+    click_on 'Question1'
+    click_on 'create answer'
+    fill_in 'Answer', with: 'question1 answer'
+    click_on 'Create'
+
+    expect(page).to have_content 'Question1'
+    expect(page).to have_content 'text1'
+    expect(page).to have_content 'question1 answer'
   end
 end

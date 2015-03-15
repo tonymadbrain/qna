@@ -1,9 +1,11 @@
 require 'rails_helper'
 
 feature 'View questions' do
-  Question.create!(title: 'Question1', body: 'text1')
-  Question.create!(title: 'Question2', body: 'text2')
-  Question.create!(title: 'Question3', body: 'text3')
+  before do
+    Question.create(title: 'Question1', body: 'text1')
+    Question.create(title: 'Question2', body: 'text2')
+    Question.create(title: 'Question3', body: 'text3')
+  end
   
   scenario 'user get all questions' do
     visit root_path

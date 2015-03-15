@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature 'Create question', %q{
-  In orger to get answer from community
+  In order to get answer from community
   As an user
   I want to be able to ask question
 } do

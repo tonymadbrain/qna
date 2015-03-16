@@ -14,8 +14,10 @@ feature 'User sign up', %q{
     fill_in 'Password', with: 'qwerty123'
     fill_in 'Password confirmation', with: 'qwerty123'
     click_on 'Sign up'
-
     expect(page).to have_content 'Welcome! You have signed up successfully.'
+
+    visit new_user_session_path
+    expect(current_path).to eq root_path
   end
 
   scenario 'Registered user try to sign up' do

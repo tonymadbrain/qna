@@ -1,36 +1,24 @@
 require 'rails_helper'
 
 feature 'View questions' do
-  before do
-    Question.create(title: 'Question1', body: 'text1')
-    Question.create(title: 'Question2', body: 'text2')
-    Question.create(title: 'Question3', body: 'text3')
-  end
-  
-  scenario 'user get all questions' do
-    visit root_path
-    expect(page).to have_content 'Question1'
-    expect(page).to have_content 'Question2'
-    expect(page).to have_content 'Question3'
-  end
 
-  scenario 'user click on one question' do
-    visit root_path
-    click_on 'Question1'
+  given(:user) { create :user }
+  given!(:question) { create :question }
+  given!(:answer) { create :answer, question: question }
 
-    expect(page).to have_content 'Question1'
-    expect(page).to have_content 'text1'
+  scenario 'user can view questions' do
+    log_in(user)
+    visit root_path
+    click_on question.title
+
+    expect(page).to have_content question.title
+    expect(page).to have_content question.body
   end
 
-  scenario 'view answers' do
+  scenario 'user can view answers' do
     visit root_path
-    click_on 'Question1'
-    click_on 'create answer'
-    fill_in 'Answer', with: 'question1 answer'
-    click_on 'Create'
+    click_on question.title
 
-    expect(page).to have_content 'Question1'
-    expect(page).to have_content 'text1'
-    expect(page).to have_content 'question1 answer'
+    expect(page).to have_content answer.body
   end
 end

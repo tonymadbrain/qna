@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :load_question
   before_action :load_answer, only: [:edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:index, :show]
 
   def new
     @answer = @question.answers.new
@@ -11,7 +11,7 @@ class AnswersController < ApplicationController
     @answer = @question.answers.new(answer_params)
     if @answer.save
       flash[:notice] = 'Your answer successfully created.'
-      redirect_to @answer.question
+      redirect_to @question
     else
       render :new
     end
@@ -31,6 +31,7 @@ class AnswersController < ApplicationController
 
   def destroy
     @answer.destroy
+    flash[:notice] = 'Answer successfully deleted.'
     redirect_to @answer.question 
   end
 

@@ -1,33 +1,38 @@
 require 'rails_helper'
 
-feature 'User can delete question' do
+feature 'Delete question' do
 
   given(:user) { create :user }
-
-  before { Question.create(title: 'Question for delete', body: 'test fish text') }
+  given(:question) { create :question}
 
   scenario 'authorized user can delete his question' do
     log_in(user)
 
-    visit questions_path
+    visit root_path
     click_on 'Ask question'
     fill_in 'Title', with: 'Test question'
     fill_in 'Text', with: 'test fish text'
     click_on 'Create'
-    click_on 'delete question'
+    click_on 'Delete question'
     expect(page).to have_content 'You question successfully deleted.'
+    expect(page).to have_no_content 'Test question'
     expect(current_path).to eq questions_path
   end
 
   scenario 'authorized user cant delete not his question' do
     log_in(user)
   
-    visit questions_path
-    click_on 'Question for delete'
-    click_on 'delete question'
+    visit "/questions/#{question.id}"
+    click_on 'Delete question'
     expect(page).to have_content 'You cant delete this question.'
+
+    visit root_path
+    expect(page).to have_content question.title
   end
 
-  scenario "some description" #non-authorized user tries delete question ?
+  scenario 'non-authorized user tries delete question' do
+    visit "/questions/#{question.id}"
+    expect(page).to have_no_content 'Delete question'
+  end
 
 end

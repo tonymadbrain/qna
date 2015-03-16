@@ -6,28 +6,26 @@ feature 'Create answer', %q{
   on question
 } do
 
-  before do
-    Question.create(title: 'Test answer', body: 'fish text for test answer question')
-  end
-
   given(:user) { create :user }
-
+  given!(:question) { create :question }
+  
   scenario 'Authenticated user tries create answer' do
     log_in(user)
     visit root_path
-    click_on 'Test answer'
-    click_on 'create answer'
+    click_on question.title
+    click_on 'Create answer'
     fill_in 'Answer', with: 'test answer'
     click_on 'Create'
 
-    expect(page).to  have_content 'Your answer successfully created.'
+    expect(page).to have_content 'Your answer successfully created.'
+    expect(page).to have_content 'test answer'
+    expect(current_path).to eq "/questions/#{question.id}"
   end
 
   scenario 'Non-authenticated user tries to create answer' do
     visit root_path
-    click_on 'Test answer'
-    click_on 'create answer'
+    click_on question.title
 
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    expect(page).to have_no_content 'Create answer'
   end
 end

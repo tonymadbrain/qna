@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:question) { create :question }
-  let(:answer) { create :answer, question: question }  
+  let(:question) { create :question }  
+  #let(:user) { create :user }
+  let(:answer) { create :answer, question: question }
   
   describe 'GET #new' do
     sign_in_user
@@ -91,15 +92,21 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'DELETE #destroy' do
     sign_in_user
-    before { answer } 
 
-    it 'delete answer from database' do
-       expect { delete :destroy, question_id: question, id: answer }.to change(Answer, :count).by(-1)
-     end
+    it 'delete his answer from database' do
+      post :create, question_id: question, user_id: "#{@user}", answer: attributes_for(:answer)
+      expect { delete :destroy, question_id: question, user_id: "#{@user}", id: answer }.to change(Answer, :count).by(-1)
+    end
+
+    it 'delete other answer from database' do
+      post :create, question_id: question, user_id: 666, answer: attributes_for(:answer)
+      expect{ delete :destroy, question_id: question, user_id: 666, id: answer}.to_not change(Answer, :count)
+    end
 
     it 'redirect to answer/index view' do
       delete :destroy, question_id: question, id: answer
       expect(response).to redirect_to question_path(assigns(:answer).question)
     end
   end
+
 end

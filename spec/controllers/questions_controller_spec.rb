@@ -118,15 +118,16 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'DELETE #destroy' do
     sign_in_user
-    before { question } 
 
-    it 'delete question from database' do
-       expect { delete :destroy, id: question }.to change(Question, :count).by(-1)
+    it 'delete his question from database' do
+      question = Question.create(title: 'Fish question', body: 'Fish text', user_id: "#{@user.id}")
+      expect { delete :destroy, id: question }.to change(Question, :count).by(-1)
+      expect(response).to redirect_to questions_path
      end
 
-    it 'redirect to index view' do
-      delete :destroy, id: question
-      expect(response).to redirect_to questions_path
+    it 'delete other question from database' do
+      question = Question.create(title: 'Fish question', body: 'Fish text', user_id: 666)
+      expect{ delete :destroy, id: question }.to_not change(Question, :count) 
     end
   end
 end

@@ -18,7 +18,8 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    @question = Question.new(question_params)
+    @user = current_user
+    @question = @user.questions.new(question_params)
 
     if @question.save
       flash[:notice] = 'Your question successfully created.'
@@ -37,9 +38,13 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question.destroy
-    flash[:notice] = 'You question successfully deleted.'
-    redirect_to questions_path
+    if @question.user_id == current_user.id
+      @question.destroy
+      flash[:notice] = 'You question successfully deleted.'
+      redirect_to questions_path
+    else
+      flash[:notice] = 'You cant delete this question.'
+    end
   end
 
   private

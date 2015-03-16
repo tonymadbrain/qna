@@ -3,3 +3,5 @@ p = @question.body
 - @question.answers.each do |answer|
   = answer.body
 = link_to 'create answer', "/questions/#{@question.id}/answers/new"
+- if user_signed_in?
+  = link_to 'delete question', question_path, method: :delete

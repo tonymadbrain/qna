@@ -1,4 +1,5 @@
 FactoryGirl.define do
+
   factory :question do
     title "Super title"
     body "Super text"

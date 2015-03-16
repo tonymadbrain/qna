@@ -1,6 +1,7 @@
 class AnswersController < ApplicationController
   before_action :load_question
   before_action :load_answer, only: [:edit, :update, :destroy]
+  before_action :authenticate_user!, except: [:index, :show]
 
   def new
     @answer = @question.answers.new

@@ -118,7 +118,6 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'DELETE #destroy' do
     sign_in_user
-
     it 'delete his question from database' do
       question = Question.create(title: 'Fish question', body: 'Fish text', user_id: "#{@user.id}")
       expect { delete :destroy, id: question }.to change(Question, :count).by(-1)

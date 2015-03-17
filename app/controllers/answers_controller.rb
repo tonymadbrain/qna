@@ -9,8 +9,7 @@ class AnswersController < ApplicationController
 
   def create
     @user = current_user
-    @answer = @question.answers.new(answer_params)
-
+    @answer = @user.answers.new(answer_params.merge(question: @question))
     if @answer.save
       flash[:notice] = 'Your answer successfully created.'
       redirect_to @question

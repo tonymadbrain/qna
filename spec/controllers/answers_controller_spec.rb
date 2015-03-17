@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
   let(:question) { create :question }  
   let(:user) { create :user }
-  let(:answer) { create :answer, question: question, user_id: user }
+  let(:answer) { create :answer, question: question, user: user }
   
   describe 'GET #new' do
     sign_in_user

@@ -8,12 +8,12 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @user = current_user
-    @answer = @user.answers.new(answer_params.merge(question: @question))
+    @answer = current_user.answers.new(answer_params.merge(question: @question))
     if @answer.save
       flash[:notice] = 'Your answer successfully created.'
       redirect_to @question
     else
+      flash[:notice] = 'Answer cant be blank.'
       render :new
     end
   end
@@ -34,11 +34,10 @@ class AnswersController < ApplicationController
     if @answer.user_id == current_user.id
       @answer.destroy
       flash[:notice] = 'Answer successfully deleted.'
-      redirect_to @answer.question
     else
       flash[:notice] = 'You cant delete this question.'
-      redirect_to @answer.question
     end
+    redirect_to @answer.question
   end
 
   private 

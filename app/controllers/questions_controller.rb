@@ -18,13 +18,13 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    @user = current_user
-    @question = @user.questions.new(question_params)
+    @question = current_user.questions.new(question_params)
 
     if @question.save
       flash[:notice] = 'Your question successfully created.'
       redirect_to @question
     else
+      flash[:notice] = 'You must fill all fields.'
       render :new
     end
   end
@@ -41,10 +41,10 @@ class QuestionsController < ApplicationController
     if @question.user_id == current_user.id
       @question.destroy
       flash[:notice] = 'You question successfully deleted.'
-      redirect_to questions_path
     else
       flash[:notice] = 'You cant delete this question.'
     end
+    redirect_to questions_path
   end
 
   private

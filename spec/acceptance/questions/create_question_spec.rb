@@ -8,7 +8,7 @@ feature 'Create question', %q{
   
   given(:user) { create :user }
 
-  scenario 'Authenticated user create the question' do
+  scenario 'Authenticated user create the question with valid attr' do
 
     log_in(user)
 
@@ -19,6 +19,21 @@ feature 'Create question', %q{
     click_on 'Create'
 
     expect(page).to have_content 'Your question successfully created.'
+    expect(page).to have_content 'test fish text'
+  end
+
+  scenario 'Authenticated user create the question with invalid attr' do
+
+    log_in(user)
+
+    visit questions_path
+    click_on 'Ask question'
+    fill_in 'Title', with: ''
+    fill_in 'Text', with: 'test fish text'
+    click_on 'Create'
+
+    expect(page).to have_content 'You must fill all fields.'
+    expect(current_path).to eq questions_path
   end
 
   scenario 'Non-authenticated user tries to create question' do

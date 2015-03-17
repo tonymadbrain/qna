@@ -1,8 +1,18 @@
-p = @question.title
-p = @question.body
-- @question.answers.each do |answer|
-  = answer.body
-  = link_to 'Delete answer', question_answer_path(@question, answer.id), method: :delete
-- if user_signed_in?
-  = link_to 'Delete question', question_path, method: :delete
-  = link_to 'Create answer', "/questions/#{@question.id}/answers/new"
+h2= @question.title
+- if current_user && @question.user_id == current_user.id
+  small= link_to 'Delete question', question_path, method: :delete
+
+p= @question.body
+
+h4 Answers
+.answer
+  - @question.answers.each do |answer|
+    p= answer.body
+    - if current_user && answer.user_id == current_user.id
+      small= link_to 'Delete answer', question_answer_path(@question, answer.id), method: :delete
+  hr
+
+- if current_user
+  small= link_to 'Create answer', "/questions/#{@question.id}/answers/new"
+- else
+  | Sign in or sign up to leave answers

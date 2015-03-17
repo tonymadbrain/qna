@@ -29,10 +29,10 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'GET #new' do
+  describe 'authorized user GET #new' do
     sign_in_user
     before { get :new }
-
+      
     it 'assigns new question to @question' do
       expect(assigns(:question)).to be_a_new(Question)
     end
@@ -42,7 +42,14 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'GET #edit' do
+  describe 'non-authorized user GET #new' do
+    before { get :new }
+    it 'redirect to log in form' do
+      expect(response).to redirect_to new_user_session_path
+    end
+  end
+
+  describe 'authorized user GET #edit' do
     sign_in_user
     before { get :edit, id: question }
 
@@ -55,7 +62,14 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'POST #create' do
+  describe 'non-authorized user GET #edit' do
+    before { get :edit, id: question}
+    it 'resirect to log in form' do
+      expect(response).to redirect_to new_user_session_path
+    end
+  end
+
+  describe 'authorized user POST #create' do
     sign_in_user
     context 'with valid attr' do
       it 'save new question in database' do
@@ -80,7 +94,23 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'PATCH #update' do 
+  describe 'non-authorized user POST #create' do
+    context 'with valid attr' do
+      it 'dont save and redirect to new_user_session_path' do
+        expect { post :create, question: attributes_for(:question) }.to_not change(Question, :count)
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
+    context 'with invalid attr' do
+      it 'dont save and redirect to new_user_session_path' do
+        expect { post :create, question: attributes_for(:invalid_question) }.to_not change(Question, :count)
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+  end
+
+  describe 'authorized user PATCH #update' do 
     sign_in_user
     context 'with valid attr' do
       it 'assigns the requested question with @question' do
@@ -116,7 +146,34 @@ RSpec.describe QuestionsController, type: :controller do
     end 
   end
 
-  describe 'DELETE #destroy' do
+  describe 'non-authorized user PATCH #update' do
+    context 'with valid attr' do
+      it 'not assigns the requested question with @question' do
+        patch :update, id: question, question: attributes_for(:question)
+        expect(response).to redirect_to new_user_session_path
+      end
+
+      it 'not change attr' do
+        patch :update, id: question, question: { title: "Test title", body: "Test body" }
+        expect(response).to redirect_to new_user_session_path
+      end
+
+      it 'not redirect to the updated question' do
+        patch :update, id: question, question: attributes_for(:question)
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
+    context 'with invalid attr' do
+      before { patch :update, id: question, question: { title: "test title", body: nil } }
+      
+      it 'redirect to new_user_session_path' do
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+  end
+
+  describe 'authorized user DELETE #destroy' do
     sign_in_user
     it 'delete his question from database' do
       question = Question.create(title: 'Fish question', body: 'Fish text', user_id: "#{@user.id}")
@@ -128,5 +185,12 @@ RSpec.describe QuestionsController, type: :controller do
       question = Question.create(title: 'Fish question', body: 'Fish text', user_id: 666)
       expect{ delete :destroy, id: question }.to_not change(Question, :count) 
     end
+  end
+
+  describe 'non-authorized user DELETE #destroy' do
+    it 'not delete his question from database' do
+      question
+      expect { delete :destroy, id: question }.to_not change(Question, :count)
+     end
   end
 end

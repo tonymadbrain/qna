@@ -93,7 +93,7 @@ RSpec.describe AnswersController, type: :controller do
   describe 'DELETE #destroy' do
     sign_in_user
     it 'delete his answer' do
-      answer_for_del = Answer.create(body: answer.body, user_id: @user.id, question_id: question.id)
+      answer_for_del = Answer.create(body: answer.body, user: @user, question: question)
 
       expect { delete :destroy, question_id: question.id, id: answer_for_del }.to change(Answer, :count).by(-1)
       expect(response).to redirect_to question

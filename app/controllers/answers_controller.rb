@@ -1,3 +1,4 @@
+require 'pry'
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :load_question

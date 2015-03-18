@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
   
+  let(:user) { create :user } 
   let(:question) { create :question }
   let(:questions) { create_list(:question, 3) }
 
@@ -176,13 +177,13 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'authorized user DELETE #destroy' do
     sign_in_user
     it 'delete his question from database' do
-      question = Question.create(title: 'Fish question', body: 'Fish text', user_id: "#{@user.id}")
-      expect { delete :destroy, id: question }.to change(Question, :count).by(-1)
+      question_for_del = Question.create(title: question.title, body: question.body, user_id: @user.id)
+      expect { delete :destroy, id: question_for_del }.to change(Question, :count).by(-1)
       expect(response).to redirect_to questions_path
      end
 
     it 'delete other question from database' do
-      question = Question.create(title: 'Fish question', body: 'Fish text', user_id: 666)
+      question = Question.create(title: 'Fish question', body: 'Fish text', user_id: user)
       expect{ delete :destroy, id: question }.to_not change(Question, :count) 
     end
   end

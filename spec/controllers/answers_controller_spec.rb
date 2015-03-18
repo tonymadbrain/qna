@@ -1,10 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:question) { create :question }
-  let(:answer) { create :answer, question: question }  
+  let(:question) { create :question }  
+  let(:user) { create :user }
+  let(:answer) { create :answer, question: question, user: user }
   
   describe 'GET #new' do
+    sign_in_user
     before { get :new, question_id: question }
 
     it 'assigns new answer to answer' do
@@ -17,6 +19,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'GET #edit' do
+    sign_in_user
     before { get :edit, question_id: question, id: answer }
 
     it 'assigns requested answer to @answer' do
@@ -29,6 +32,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'POST #create' do
+    sign_in_user
     context 'with valid attr' do
       it 'save new answer in db' do
         expect { post :create, question_id: question, answer: attributes_for(:answer) }.to change(question.answers, :count).by(1)
@@ -53,6 +57,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'PATCH #update' do 
+    sign_in_user
     context 'with valid attr' do
       it 'assigns the requested answer with @answer' do
         patch :update, question_id: question, id: answer, answer: attributes_for(:answer)
@@ -86,15 +91,18 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    before { answer } 
+    sign_in_user
+    it 'delete his answer' do
+      answer_for_del = Answer.create(body: answer.body, user: @user, question: question)
 
-    it 'delete answer from database' do
-       expect { delete :destroy, question_id: question, id: answer }.to change(Answer, :count).by(-1)
-     end
+      expect { delete :destroy, question_id: question.id, id: answer_for_del }.to change(Answer, :count).by(-1)
+      expect(response).to redirect_to question
+    end
 
-    it 'redirect to answer/index view' do
-      delete :destroy, question_id: question, id: answer
-      expect(response).to redirect_to question_path(assigns(:answer).question)
+    it 'delete not his answer' do
+      answer
+      expect { delete :destroy, question_id: question.id, id: answer }.to_not change(Answer, :count)
+      expect(response).to redirect_to question
     end
   end
 end

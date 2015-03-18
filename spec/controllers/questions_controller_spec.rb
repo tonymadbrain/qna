@@ -147,6 +147,20 @@ RSpec.describe QuestionsController, type: :controller do
     end 
   end
 
+  describe 'non-authorized user PATCH #update' do
+    context 'with valid attr' do
+      it 'not assigns the requested question with @question' do
+        patch :update, id: question, question: attributes_for(:question)
+        expect(response).to redirect_to new_user_session_path
+      end
+
+      it 'not change attr' do
+        patch :update, id: question, question: { title: "Test title", body: "Test body" }
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+  end
+
   describe 'authorized user DELETE #destroy' do
     sign_in_user
     it 'delete his question from database' do

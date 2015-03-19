@@ -9,7 +9,7 @@ feature 'Create answer', %q{
   given(:user) { create :user }
   given!(:question) { create :question }
   
-  scenario 'Authenticated user tries create answer with valid attr'  do
+  scenario 'Authenticated user tries create answer with valid attr', js: true  do
     log_in(user)
     visit question_path(question)
     

@@ -1,0 +1,4 @@
+- @question.answers.each do |answer|
+  p= answer.body
+  - if current_user && answer.user_id == current_user.id
+    small= link_to 'Delete answer', question_answer_path(@question, answer.id), method: :delete

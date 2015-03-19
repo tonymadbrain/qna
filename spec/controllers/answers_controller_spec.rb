@@ -35,12 +35,12 @@ RSpec.describe AnswersController, type: :controller do
     sign_in_user
     context 'with valid attr' do
       it 'save new answer in db' do
-        expect { post :create, question_id: question, answer: attributes_for(:answer) }.to change(question.answers, :count).by(1)
+        expect { post :create, question_id: question, answer: attributes_for(:answer), format: :js }.to change(question.answers, :count).by(1)
       end
 
-      it 'redirect to answer/show view' do
-        post :create, question_id: question, answer: attributes_for(:answer)
-        expect(response).to redirect_to question_path(assigns(:answer).question)
+      it 'render create template' do
+        post :create, question_id: question, answer: attributes_for(:answer), format: :js
+        expect(response).to render_template :create
       end
     end
 

@@ -26,7 +26,7 @@ group :development, :test do
   gem 'launchy'
   gem 'pry'
   gem 'pry-rails'
-  gem 'selenium-webdriver'
+  gem 'capybara-webkit'
   gem 'database_cleaner'
 end
 

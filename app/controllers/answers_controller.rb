@@ -12,7 +12,6 @@ class AnswersController < ApplicationController
     @answer = current_user.answers.new(answer_params.merge(question: @question))
     if @answer.save
       flash[:notice] = 'Your answer successfully created.'
-      redirect_to @question
     else
       flash[:notice] = 'Answer cant be blank.'
       render :new

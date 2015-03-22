@@ -20,20 +20,16 @@ feature 'Create answer', %q{
     within '.answers' do
       expect(page).to have_content 'test answer'
     end
-    #expect(page).to have_content 'Your answer successfully created.'
   end
 
-  #scenario 'Authenticated user tries create answer with not-valid attr'  do
-  #  log_in(user)
-  #  visit root_path
-  #  click_on question.title
-  #  click_on 'Create answer'
-  #  fill_in 'Answer', with: ''
-  #  click_on 'Create'
+  scenario 'User try to create invalid answer', js: true do
+    log_in(user)
+    visit question_path(question)
+
+    click_on 'Create'
     
-  #  expect(page).to have_content 'Answer cant be blank.'
-  #  expect(current_path).to eq question_answers_path(question)
-  #end  
+    expect(page).to have_content "Body can't be blank"
+  end  
 
   scenario 'Non-authenticated user tries to create answer' do
     visit root_path

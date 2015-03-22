@@ -1,2 +1,9 @@
-$('.answers').html('<%= j render 'questions/answers' %>');
-$('#answer_body').val('');
+<% if @answer.errors.present? %>
+  <% @answer.errors.full_messages.each do |message| %>
+    $('.answer-errors').html('<div class="alert alert-danger"><%= j message %></div>');
+  <% end %>
+<% else %>
+  $('.answers').html('<%= j render 'questions/answers' %>');
+  $('#answer_body').val('');
+  $('.answer-errors').html('')
+<% end %>

@@ -6,11 +6,9 @@ div[class="well"]
 hr
 .answers
   = render 'answers'
-
+  .answer-errors
 - if current_user
-  /small= link_to 'Create answer', "/questions/#{@question.id}/answers/new"
   = bootstrap_form_for [@question, @answer], remote: true do |f|
-    /= f.label :body, 'Answer'
     = f.text_area :body, label: 'Answer'
     = f.submit 'Create'
 - else

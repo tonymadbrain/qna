@@ -1,4 +1,3 @@
-require 'pry'
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :load_question
@@ -8,14 +7,19 @@ class AnswersController < ApplicationController
     @answer = @question.answers.new
   end
 
+  #def create
+  #  @answer = current_user.answers.new(answer_params.merge(question: @question))
+  #  if @answer.save
+  #    flash[:notice] = 'Your answer successfully created.'
+  #  else
+  #    flash[:notice] = "Answer can't be blank."
+  #    render :new
+  #  end
+  #end
+
   def create
-    @answer = current_user.answers.new(answer_params.merge(question: @question))
-    if @answer.save
-      flash[:notice] = 'Your answer successfully created.'
-    else
-      flash[:notice] = 'Answer cant be blank.'
-      render :new
-    end
+    @question = Question.find(params[:question_id])
+    @answer = @question.answers.create(answer_params)
   end
 
   def edit

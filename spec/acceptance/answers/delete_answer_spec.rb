@@ -11,7 +11,7 @@ feature 'Delete Answer' do
     log_in(user)
     answer
     visit question_path(question)
-    click_on 'Delete answer'
+    click_on 'Delete'
 
     expect(page).to have_no_content answer.body
   end
@@ -20,6 +20,6 @@ feature 'Delete Answer' do
     log_in(user)
     visit question_path(question)
 
-    expect(page).to have_no_content 'Delete answer'
+    expect(page).to have_no_content 'Delete'
   end
 end

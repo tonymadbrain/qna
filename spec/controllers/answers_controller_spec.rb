@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let!(:question) { create :question }  
+  let!(:question) { create :question }
+  let(:answer) { create(:answer, question: question) }
 
   describe 'POST #create' do
     sign_in_user
@@ -29,28 +30,39 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    sign_in_user
-    let(:answer) { create(:answer, question: question) }
+    describe 'like owner' do
+      sign_in_user
+      let(:answer) { create(:answer, question: question, user: @user) }
 
-    it 'assings the requested answer to @answer' do
-      patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
-      expect(assigns(:answer)).to eq answer
+      it 'assings the requested answer to @answer' do
+        patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
+        expect(assigns(:answer)).to eq answer
+      end
+
+      it 'assigns the question' do
+        patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
+        expect(assigns(:question)).to eq question
+      end
+
+      it 'changes answer attributes' do
+        patch :update, id: answer, question_id: question, answer: { body: 'new body'}, format: :js
+        answer.reload
+        expect(answer.body).to eq 'new body'
+      end
+
+      it 'render update template' do
+        patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
+        expect(response).to render_template :update
+      end
     end
 
-    it 'assigns th question' do
-      patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
-      expect(assigns(:question)).to eq question
-    end
+    describe 'like other user' do
+      sign_in_user
 
-    it 'changes answer attributes' do
-      patch :update, id: answer, question_id: question, answer: { body: 'new body'}, format: :js
-      answer.reload
-      expect(answer.body).to eq 'new body'
-    end
-
-    it 'render update template' do
-      patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
-      expect(response).to render_template :update
+      it 'not assigns the requested answer to @answer' do
+        patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
+        expect(assigns(:answer)).to_not eq answer
+      end
     end
   end
 

@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
   let!(:question) { create :question }
   let(:answer) { create(:answer, question: question) }
+  let(:user) { create :user } 
 
   describe 'POST #create' do
     sign_in_user
@@ -30,7 +31,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    describe 'like owner' do
+    context 'valid user' do
       sign_in_user
       let(:answer) { create(:answer, question: question, user: @user) }
 
@@ -56,7 +57,7 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
 
-    describe 'like other user' do
+    context 'invalid user' do
       sign_in_user
       let(:another_answer) { create(:answer, question: question) }
       it 'not assigns the requested answer to @answer' do
@@ -68,19 +69,35 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
-  #describe 'DELETE #destroy' do
-  #  sign_in_user
-  #  it 'delete his answer' do
-  #    answer_for_del = Answer.create(body: answer.body, user: @user, question: question)
+  describe 'DELETE #destroy' do
+    context 'valid user' do
+      sign_in_user
+      let(:answer) { create(:answer, question: question, user: @user) }
+      
+      it 'deletes the answer' do
+        expect { delete :destroy, question_id: question, id: answer, format: :js }.to change(Answer, :count).by(-1)
+      end
+    end
 
-  #    expect { delete :destroy, question_id: question.id, id: answer_for_del }.to change(Answer, :count).by(-1)
-  #    expect(response).to redirect_to question
-  #  end
+    context 'invalid user' do
+      sign_in_user
+      let(:another_answer) { create(:answer, question: question) }
 
-  #  it 'delete not his answer' do
-  #    answer
-  #    expect { delete :destroy, question_id: question.id, id: answer }.to_not change(Answer, :count)
-  #    expect(response).to redirect_to question
-  #  end
-  #end
+      it "can't delete the answer" do
+        expect { delete :destroy, question_id: question, id: another_answer }.not_to change(Answer, :count)
+      end
+    end
+
+    context 'guest user' do
+      it 'can not to delete the answer' do
+        answer
+        expect { delete :destroy, question_id: answer.question, id: answer }.not_to change(Answer, :count)
+      end
+
+      it 'redirects to sign in page' do
+        delete :destroy, question_id: answer.question, id: answer
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+  end
 end

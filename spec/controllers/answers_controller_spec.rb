@@ -58,10 +58,12 @@ RSpec.describe AnswersController, type: :controller do
 
     describe 'like other user' do
       sign_in_user
-
+      let(:another_answer) { create(:answer, question: question) }
       it 'not assigns the requested answer to @answer' do
-        patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
-        expect(assigns(:answer)).to_not eq answer
+      
+        patch :update, id: another_answer, question_id: question, answer: { body: 'new body'}, format: :js
+        another_answer.reload
+        expect(another_answer.body).to_not eq 'new body'
       end
     end
   end

@@ -9,7 +9,7 @@ feature 'Answer editing', %q{
   given(:user) { create :user }
   given(:other_user) { create :user }
   given!(:question) { create :question  }
-  given!(:answer) { create(:answer, question: question) }
+  given!(:answer) { create(:answer, question: question, user: user) }
 
   scenario 'Unauthenticated user try to edit question' do
     visit question_path(question)

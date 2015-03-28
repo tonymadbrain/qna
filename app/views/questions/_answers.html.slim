@@ -1,7 +1,7 @@
 - @question.answers.each do |answer| 
   - if answer.persisted?
     p = answer.body
-    - if user_signed_in?
+    - if user_signed_in? && (answer.user_id == current_user.id)
       = link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
       = link_to 'Delete answer', question_answer_path(@question, answer.id), method: :delete
       p

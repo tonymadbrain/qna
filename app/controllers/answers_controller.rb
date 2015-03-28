@@ -7,18 +7,8 @@ class AnswersController < ApplicationController
     @answer = @question.answers.new
   end
 
-  #def create
-  #  @answer = current_user.answers.new(answer_params.merge(question: @question))
-  #  if @answer.save
-  #    flash[:notice] = 'Your answer successfully created.'
-  #  else
-  #    flash[:notice] = "Answer can't be blank."
-  #    render :new
-  #  end
-  #end
-
   def create
-    @question = Question.find(params[:question_id])
+    #@question = Question.find(params[:question_id])
     @answer = @question.answers.create(answer_params)
   end
 
@@ -27,7 +17,7 @@ class AnswersController < ApplicationController
   end
 
   def update
-    @answer.update(answer_params)
+    @answer.update(answer_params) if @answer.user_id == current_user.id
     @question = @answer.question
   end
 
@@ -52,6 +42,8 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:body)
+    #params.require(:answer).permit(:body)
+    answer_params = params.require(:answer).permit(:body, :user_id)
+    answer_params.merge( user_id: current_user.id )
   end
 end

@@ -111,40 +111,39 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'authorized user PATCH #update' do 
-    sign_in_user
-    context 'with valid attr' do
-      it 'assigns the requested question with @question' do
-        patch :update, id: question, question: attributes_for(:question)
-        expect(assigns(:question)).to eq question
+  describe 'PATCH #update' do 
+    describe 'authorized user author' do
+      sign_in_user
+      let(:question) { create(:question, user: @user) } 
+      context 'with valid attr' do
+        it 'assigns the requested question with @question' do
+          patch :update, id: question, question: attributes_for(:question), format: :js
+          expect(assigns(:question)).to eq question
+        end
+
+        it 'change attr' do
+          patch :update, id: question, question: { title: "Test title", body: "Test body" }, format: :js
+          question.reload
+          expect(question.title).to eq "Test title"
+          expect(question.body).to eq "Test body"
+        end
       end
 
-      it 'change attr' do
-        patch :update, id: question, question: { title: "Test title", body: "Test body" }
-        question.reload
-        expect(question.title).to eq "Test title"
-        expect(question.body).to eq "Test body"
-      end
+      context 'with invalid attr' do
+        before { patch :update, id: question, question: { title: "test title", body: nil }, format: :js }
+        
+        it 'does not change que attr' do
+          question.reload
+          expect(question.title).to eq "Super title"
+          expect(question.body).to eq "Super text"
+        end
 
-      it 'redirect to the updated question' do
-        patch :update, id: question, question: attributes_for(:question)
-        expect(response).to redirect_to question
+        it 're-render edit view' do
+          expect(response).to render_template :edit
+        end
       end
     end
-
-    context 'with invalid attr' do
-      before { patch :update, id: question, question: { title: "test title", body: nil } }
-      
-      it 'does not change que attr' do
-        question.reload
-        expect(question.title).to eq "Super title"
-        expect(question.body).to eq "Super text"
-      end
-
-      it 're-render edit view' do
-        expect(response).to render_template :edit
-      end
-    end 
+    describe "authorized user not-author" 
   end
 
   describe 'non-authorized user PATCH #update' do

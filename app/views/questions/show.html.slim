@@ -1,8 +1,6 @@
-h1= @question.title
-div[class="well"]
-  p= @question.body
-- if current_user && @question.user_id == current_user.id
-  small= button_to 'Delete question', question_path, method: :delete, class: 'button btn btn-danger btn-xs'
+.question
+  = render 'question'
+  .question-error
 hr
 .answers
   = render 'answers'

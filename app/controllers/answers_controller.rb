@@ -23,8 +23,6 @@ class AnswersController < ApplicationController
 
   def destroy
     @answer.destroy
-    #flash[:notice] = 'Answer successfully deleted.'
-    #redirect_to @answer.question
   end
 
   private 

@@ -2,10 +2,9 @@
   - if answer.persisted?
     p = answer.body
     - if user_signed_in? && (answer.user_id == current_user.id)
-      = link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
-      = link_to 'Delete answer', [answer.question, answer], remote: true, method: :delete
+      = button_to 'Edit', '', class: 'edit-answer-link btn btn-danger btn-xs', data: { answer_id: answer.id }
+      = button_to 'Delete answer', [answer.question, answer], class: 'btn btn-danger btn-xs', remote: true, method: :delete
       p
-        = form_for [@question, answer], remote: true, html: { id: "edit-answer-#{answer.id}"} do |f|
-          = f.label :body, "Answer"
-          = f.text_area :body
+        = bootstrap_form_for [@question, answer], remote: true, html: { id: "edit-answer-#{answer.id}"} do |f|
+          = f.text_area :body, label: 'Edit answer'
           = f.submit 'Save'

@@ -26,7 +26,7 @@ feature 'Answer editing', %q{
 
       scenario 'sees link to Edit' do
         within '.answers' do
-          expect(page).to have_link 'Edit'
+          expect(page).to have_content 'Edit'
         end
       end
 

@@ -70,34 +70,16 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    context 'valid user' do
-      sign_in_user
-      let(:answer) { create(:answer, question: question, user: @user) }
-      
-      it 'deletes the answer' do
-        expect { delete :destroy, question_id: question, id: answer, format: :js }.to change(Answer, :count).by(-1)
-      end
+    sign_in_user
+    it 'delete his answer' do
+      answer_for_del = Answer.create(body: answer.body, user: @user, question: question)
+
+      expect { delete :destroy, question_id: question.id, id: answer_for_del, format: :js }.to change(Answer, :count).by(-1)
     end
 
-    context 'invalid user' do
-      sign_in_user
-      let(:another_answer) { create(:answer, question: question) }
-
-      it "can't delete the answer" do
-        expect { delete :destroy, question_id: question, id: another_answer }.not_to change(Answer, :count)
-      end
-    end
-
-    context 'guest user' do
-      it 'can not to delete the answer' do
-        answer
-        expect { delete :destroy, question_id: answer.question, id: answer }.not_to change(Answer, :count)
-      end
-
-      it 'redirects to sign in page' do
-        delete :destroy, question_id: answer.question, id: answer
-        expect(response).to redirect_to new_user_session_path
-      end
+    it 'delete not his answer' do
+      answer
+      expect { delete :destroy, question_id: question.id, id: answer, format: :js }.to_not change(Answer, :count)
     end
   end
 end

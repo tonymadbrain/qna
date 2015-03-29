@@ -3,7 +3,6 @@
     p = answer.body
     - if user_signed_in? && (answer.user_id == current_user.id)
       = link_to 'Edit', '', class: 'edit-answer-link', data: { answer_id: answer.id }
-      /= link_to 'Delete answer', question_answer_path(@question, answer.id), method: :delete
       = link_to 'Delete answer', [answer.question, answer], remote: true, method: :delete
       p
         = form_for [@question, answer], remote: true, html: { id: "edit-answer-#{answer.id}"} do |f|

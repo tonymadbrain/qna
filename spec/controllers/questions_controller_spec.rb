@@ -137,10 +137,6 @@ RSpec.describe QuestionsController, type: :controller do
           expect(question.title).to eq "Super title"
           expect(question.body).to eq "Super text"
         end
-
-        it 're-render edit view' do
-          expect(response).to render_template :edit
-        end
       end
     end
     describe "authorized user not-author" 

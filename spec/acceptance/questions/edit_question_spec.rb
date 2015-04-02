@@ -6,57 +6,30 @@ feature 'Question editing', %q{
     I'd like to be able to edit my question
 } do
   
-  given!(:user) { create :user }
+  given(:user) { create :user }
   given(:other_user) { create :user }
-  given!(:question) { create :question  }
-  given!(:answer) { create(:answer, question: question, user: user) }
+  given!(:question) { create :question, user: user  }
 
-  scenario 'Unauthenticated user try to edit question' do
+  scenario 'Author can edit his question without page reload', type: feature, js: true do
+    log_in user
     visit question_path(question)
-    within '.question' do
-      expect(page).to_not have_link 'Edit'
-    end
+    click_on 'Edit'
+    expect(current_path).to eq question_path(question)
+    fill_in 'Title', with: 'Edited title'
+    fill_in 'Question', with: 'Edited body'
+    click_on 'Save'
+    expect(current_path).to eq question_path(question)
+    expect(page).to have_content 'Edited body'
   end
   
-  describe 'Authenticated user' do
-    describe 'like owner' do
-      before do
-        log_in user
-        visit question_path(question)
-      end
-
-      scenario 'sees link to Edit' do
-        within '.question' do
-          expect(page).to have_content 'Edit'
-        end
-      end
-
-      scenario 'try to edit his question', js: true do
-        within '.question' do
-          click_on 'Edit'
-          fill_in 'Text', with: 'Edited question'
-          click_on 'Save'
-
-          expect(page).to_not have_content question.body
-          expect(page).to have_content 'Edited question'
-          expect(page).to_not have_selector 'textarea'
-        end
-      end
-    end
-
-    describe 'like not owner' do
-      
-      before do 
-        log_in other_user
-        visit question_path(question)
-      end
-
-      scenario "don't sees link to Edit" do
-        within '.question' do
-          expect(page).to_not have_content 'Edit'
-        end
-      end
-    end
+  scenario 'Users can not edit question of another user' do
+    log_in other_user
+    visit question_path(question)
+    expect(page).not_to have_link 'Edit'
   end
-
+  
+  scenario 'Guest can not edit any questions' do
+    visit question_path(question)
+    expect(page).not_to have_link 'Edit'
+  end
 end

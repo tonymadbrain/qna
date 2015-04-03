@@ -26,13 +26,13 @@ feature 'Answer editing', %q{
       end
 
       scenario 'sees link to Edit' do
-        within '.answers' do
-          expect(page).to have_content 'Edit'
+        within "#answer_#{ answer.id }" do
+          expect(page).to have_selector ("input[value='Edit']") 
         end
       end
 
       scenario 'try to edit his answer', js: true do
-        within '.answers' do
+        within "#answer_#{ answer.id }" do
           click_on 'Edit'
           fill_in 'Answer', with: 'edited answer'
           click_on 'Save'

@@ -7,9 +7,9 @@
       - if user_signed_in? && (answer.user_id == current_user.id)
         = button_to 'Edit', '', class: 'edit-answer-link btn btn-primary btn-xs', data: { answer_id: answer.id }
         = button_to 'Delete answer', [answer], class: 'btn btn-danger btn-xs', remote: true, method: :delete
-      - if user_signed_in? && (@question.user_id == current_user.id)
-        = button_to 'Best answer', make_best_answer_path(answer), class: 'btn btn-success btn-xs', method: :patch, remote: true
         p
           = bootstrap_form_for [answer], remote: true, html: { id: "edit-answer-#{answer.id}"} do |f|
             = f.text_area :body, label: 'Edit answer'
             = f.submit 'Save'
+      - if user_signed_in? && (@question.user_id == current_user.id)
+        = button_to 'Best answer', make_best_answer_path(answer), class: 'btn btn-success btn-xs', method: :patch, remote: true

@@ -3,7 +3,7 @@
   .question-error
 hr
 .answers
-  = render 'answers'
+  = render @question.answers
   .answer-errors
 - if current_user
   = bootstrap_form_for [@question, @answer], remote: true do |f|

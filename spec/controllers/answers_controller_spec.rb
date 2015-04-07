@@ -12,6 +12,15 @@ RSpec.describe AnswersController, type: :controller do
         expect { post :create, answer: attributes_for(:answer), question_id: question, format: :js }.to change(question.answers, :count).by(1)
       end
 
+      it 'assign user to answer.user_id' do
+        expect(answer.user_id).to eq user.id
+      end
+
+      it 'assign @user to answer.user_id' do
+        my_answer = Answer.create(body: answer.body, user: @user, question: question)
+        expect(my_answer.user_id).to eq @user.id
+      end
+
       it 'render create template' do
         post :create, answer: attributes_for(:answer), question_id: question, format: :js
         expect(response).to render_template :create

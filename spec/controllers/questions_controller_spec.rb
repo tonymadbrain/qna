@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe QuestionsController, type: :controller do
   
   let(:user) { create :user } 
-  let(:question) { create :question }
-  let(:questions) { create_list(:question, 3) }
+  let(:question) { create :question, user: user }
+  let(:questions) { create_list(:question, 3, user: user) }
 
   describe 'GET #index' do
     before { get :index }
@@ -165,7 +165,7 @@ RSpec.describe QuestionsController, type: :controller do
      end
 
     it 'delete other question from database' do
-      question = Question.create(title: 'Fish question', body: 'Fish text', user_id: user)
+      question = Question.create(title: 'Fish question', body: 'Fish text', user: user)
       expect{ delete :destroy, id: question }.to_not change(Question, :count) 
     end
   end

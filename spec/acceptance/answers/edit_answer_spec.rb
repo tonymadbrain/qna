@@ -8,7 +8,7 @@ feature 'Answer editing', %q{
   
   given(:user) { create :user }
   given(:other_user) { create :user }
-  given!(:question) { create :question  }
+  given!(:question) { create :question, user: user }
   given!(:answer) { create(:answer, question: question, user: user) }
 
   scenario 'Unauthenticated user try to edit answer' do

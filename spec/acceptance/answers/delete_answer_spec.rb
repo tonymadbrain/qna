@@ -4,15 +4,16 @@ feature 'Delete Answer' do
 
   given(:user) { create(:user) }
   given(:another_user) { create(:user) }
-  given(:question) { create(:question) }
+  given(:question) { create(:question, user: user) }
   given(:answer) { create :answer, question: question, user: user }
 
   scenario 'author delete his answer', js: true do
     log_in user 
     answer
     visit question_path(question)
-    click_on 'Delete'
-
+    within "#answer_#{ answer.id }" do
+      click_on 'Delete'
+    end
     expect(page).to_not have_content answer.body
   end
 

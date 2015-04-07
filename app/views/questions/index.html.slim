@@ -1,4 +1,3 @@
 - @questions.each do |question|
-  h3
-    a href="/questions/#{question.id}" = question.title
+  h3 = link_to question.title, question_path(question)
   small = question.created_at

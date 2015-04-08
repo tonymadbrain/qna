@@ -3,5 +3,5 @@
     $('.answer-errors').html('<div class="alert alert-danger"><%= j message %></div>');
   <% end %>
 <% else %>
-  $('#answer_<%= @answer.id %>').html('');
+  $('#answer_<%= @answer.id %>').remove();
 <% end %>

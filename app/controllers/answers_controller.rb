@@ -4,16 +4,8 @@ class AnswersController < ApplicationController
   before_action :load_question
   before_action :check_user, only: [:update, :destroy]
 
-  def new
-    @answer = @question.answers.new
-  end
-
   def create
     @answer = @question.answers.create(answer_params)
-  end
-
-  def edit
-    
   end
 
   def update

@@ -10,7 +10,6 @@ RSpec.describe Answer, type: :model do
     let(:user) { create(:user) }
     let(:question) { create(:question, user: user) }
     let(:answer) { create(:answer, user: user, question: question) }
-    let(:another_answer) { create(:answer, user: user, question: question) }
 
     it 'it work' do
       expect{ answer.make_best }.to change(answer, :best).from(false).to(true)
@@ -23,14 +22,15 @@ RSpec.describe Answer, type: :model do
     end
 
     it 'makes only one best answer per question' do
-      answer.make_best
-      another_answer.make_best
+      answer_1 = create(:answer, user: user, question: question)
+      answer_2 = create(:answer, user: user, question: question, best: true)
+      answer_1.make_best
 
-      answer.reload      
-      another_answer.reload      
+      answer_1.reload
+      answer_2.reload
 
-      expect(answer.best).to eq false
-      expect(another_answer.best).to eq true
+      expect(answer_1.best).to eq true
+      expect(answer_2.best).to eq false
     end
   end
 

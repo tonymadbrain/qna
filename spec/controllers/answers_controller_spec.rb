@@ -14,7 +14,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'assign user to created answer' do
         post :create, answer: attributes_for(:answer), question_id: question, format: :js
-        expect(assigns(:current_user)).to eq @user
+        expect(assigns(:answer).user).to eq subject.current_user
       end
 
       it 'render create template' do

@@ -22,14 +22,13 @@ RSpec.describe Answer, type: :model do
     end
 
     it 'makes only one best answer per question' do
-      answer_1 = create(:answer, user: user, question: question)
       answer_2 = create(:answer, user: user, question: question, best: true)
-      answer_1.make_best
+      answer.make_best
 
-      answer_1.reload
+      answer.reload
       answer_2.reload
 
-      expect(answer_1.best).to eq true
+      expect(answer.best).to eq true
       expect(answer_2.best).to eq false
     end
   end

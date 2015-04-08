@@ -17,3 +17,5 @@ config/database.yml
 
 #file for test sublime snippets
 test.rb
+.rubocop.yml
+config/database.yml

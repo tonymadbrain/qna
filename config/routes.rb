@@ -1,13 +1,13 @@
 Rails.application.routes.draw do
-  
+
   devise_for :users
   resources :questions do
     resources :answers, except: [:index, :show, :edit], shallow: true do
       patch :make_best, on: :member
     end
   end
-  
-  root to: "questions#index"
+
+  root to: 'questions#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -1,18 +1,19 @@
 require_relative '../acceptance_helper'
 
-feature 'Create answer', %q{
+feature 'Create answer', '
   For help user who ask question
   I want to be able give answer
   on question
-} do
+
+' do
 
   given(:user) { create :user }
   given!(:question) { create :question, user: user }
-  
+
   scenario 'Authenticated user tries create answer with valid attr', js: true  do
     log_in(user)
     visit question_path(question)
-    
+
     fill_in 'Answer', with: 'test answer'
     click_on 'Create'
 
@@ -27,9 +28,9 @@ feature 'Create answer', %q{
     visit question_path(question)
 
     click_on 'Create'
-    
+
     expect(page).to have_content "Body can't be blank"
-  end  
+  end
 
   scenario 'Non-authenticated user tries to create answer' do
     visit root_path

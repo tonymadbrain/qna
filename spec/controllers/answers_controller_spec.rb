@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
   let!(:question) { create :question, user: user }
   let(:answer) { create(:answer, question: question, user: user) }
-  let(:user) { create :user } 
+  let(:user) { create :user }
 
   describe 'POST #create' do
     sign_in_user
@@ -51,7 +51,7 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 'changes answer attributes' do
-        patch :update, id: answer, question_id: question, answer: { body: 'new body'}, format: :js
+        patch :update, id: answer, question_id: question, answer: { body: 'new body' }, format: :js
         answer.reload
         expect(answer.body).to eq 'new body'
       end
@@ -66,8 +66,8 @@ RSpec.describe AnswersController, type: :controller do
       sign_in_user
       let(:another_answer) { create(:answer, question: question, user: user) }
       it 'not assigns the requested answer to @answer' do
-      
-        patch :update, id: another_answer, question_id: question, answer: { body: 'new body'}, format: :js
+
+        patch :update, id: another_answer, question_id: question, answer: { body: 'new body' }, format: :js
         another_answer.reload
         expect(another_answer.body).to_not eq 'new body'
       end
@@ -99,10 +99,10 @@ RSpec.describe AnswersController, type: :controller do
       sign_in_user
 
       it 'doesnt change #best' do
-        expect{
+        expect do
           patch :make_best, id: answer, question_id: question, format: :js
           answer.reload
-        }.to_not change(answer, :best)
+        end.to_not change(answer, :best)
       end
     end
   end

@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  
-  let(:user) { create :user } 
+
+  let(:user) { create :user }
   let(:question) { create :question, user: user }
   let(:questions) { create_list(:question, 3, user: user) }
 
@@ -33,7 +33,7 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'authorized user GET #new' do
     sign_in_user
     before { get :new }
-      
+
     it 'assigns new question to @question' do
       expect(assigns(:question)).to be_a_new(Question)
     end
@@ -116,10 +116,10 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'PATCH #update' do 
-    describe 'authorized user author' do
+  describe 'PATCH #update' do
+    context 'authorized user author' do
       sign_in_user
-      let(:question) { create(:question, user: @user) } 
+      let(:question) { create(:question, user: @user) }
       context 'with valid attr' do
         it 'assigns the requested question with @question' do
           patch :update, id: question, question: attributes_for(:question), format: :js
@@ -127,24 +127,24 @@ RSpec.describe QuestionsController, type: :controller do
         end
 
         it 'change attr' do
-          patch :update, id: question, question: { title: "Test title", body: "Test body" }, format: :js
+          patch :update, id: question, question: { title: 'Test title', body: 'Test body' }, format: :js
           question.reload
-          expect(question.title).to eq "Test title"
-          expect(question.body).to eq "Test body"
+          expect(question.title).to eq 'Test title'
+          expect(question.body).to eq 'Test body'
         end
       end
 
       context 'with invalid attr' do
-        before { patch :update, id: question, question: { title: "test title", body: nil }, format: :js }
-        
+        before { patch :update, id: question, question: { title: 'test title', body: nil }, format: :js }
+
         it 'does not change que attr' do
           question.reload
-          expect(question.title).to eq "Super title"
-          expect(question.body).to eq "Super text"
+          expect(question.title).to eq 'Super title'
+          expect(question.body).to eq 'Super text'
         end
       end
     end
-    describe "authorized user not-author" 
+    describe 'authorized user not-author'
   end
 
   describe 'non-authorized user PATCH #update' do
@@ -155,7 +155,7 @@ RSpec.describe QuestionsController, type: :controller do
       end
 
       it 'not change attr' do
-        patch :update, id: question, question: { title: "Test title", body: "Test body" }
+        patch :update, id: question, question: { title: 'Test title', body: 'Test body' }
         expect(response).to redirect_to new_user_session_path
       end
     end
@@ -164,20 +164,20 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'authorized user DELETE #destroy' do
     sign_in_user
     it 'delete his question from database' do
-      question_for_del = Question.create(title: question.title, body: question.body, user_id: @user.id)
+       question_for_del = Question.create(title: question.title, body: question.body, user_id: @user.id)
       expect { delete :destroy, id: question_for_del }.to change(Question, :count).by(-1)
       expect(response).to redirect_to questions_path
      end
 
     it 'delete other question from database' do
       question = Question.create(title: 'Fish question', body: 'Fish text', user: user)
-      expect{ delete :destroy, id: question }.to_not change(Question, :count) 
+      expect{ delete :destroy, id: question }.to_not change(Question, :count)
     end
   end
 
   describe 'non-authorized user DELETE #destroy' do
     it 'not delete his question from database' do
-      question
+       question
       expect { delete :destroy, id: question }.to_not change(Question, :count)
      end
   end

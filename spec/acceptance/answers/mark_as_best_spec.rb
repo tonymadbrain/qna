@@ -1,9 +1,10 @@
 require_relative '../acceptance_helper'
 
-feature 'Mark answer as best', %q{
+feature 'Mark answer as best', "
     Like author of question
     I'd like to be able to mark some answer as best
-} do
+
+" do
 
   given(:question_author) { create(:user) }
   given(:other_user) { create(:user) }
@@ -17,9 +18,9 @@ feature 'Mark answer as best', %q{
     visit question_path(question)
 
     within "#answer_#{ answer.id }" do
-      click_on "Best answer"
+      click_on 'Best answer'
       expect(current_path).to eq question_path(question)
-      expect(page).to have_content 'This is best answer' 
+      expect(page).to have_content 'This is best answer'
     end
   end
 
@@ -29,13 +30,13 @@ feature 'Mark answer as best', %q{
 
     visit question_path(question)
     within "#answer_#{ first_best_answer.id }" do
-      click_on "Best answer"
+      click_on 'Best answer'
       expect(page).to have_content 'This is best answer'
     end
 
     other_best_answer = answers[2]
     within "#answer_#{ other_best_answer.id }" do
-      click_on "Best answer"
+      click_on 'Best answer'
       expect(page).to have_content 'This is best answer'
     end
 
@@ -44,7 +45,7 @@ feature 'Mark answer as best', %q{
     end
   end
 
-  scenario "Best answer should be the first in answers list", js: :true do
+  scenario 'Best answer should be the first in answers list', js: :true do
     log_in question_author
     visit question_path(question)
 
@@ -54,25 +55,25 @@ feature 'Mark answer as best', %q{
     first_answer_selector = '.answers div:first-child'
 
     first_answer_in_list = page.find(first_answer_selector)
-    expect( first_answer_in_list ).not_to have_content second_answer.body
+    expect(first_answer_in_list).not_to have_content second_answer.body
 
     within "#answer_#{ second_answer.id }" do
-      click_on "Best answer"
-    end 
+      click_on 'Best answer'
+    end
 
     first_answer_in_list = page.find(first_answer_selector)
-    expect( first_answer_in_list ).to have_content second_answer.body
+    expect(first_answer_in_list).to have_content second_answer.body
   end
 
   scenario 'Other user can not accept answer as the best answer', js: :true do
     log_in other_user
 
     visit question_path(question.id)
-    expect(page).not_to have_link "Best answer"
+    expect(page).not_to have_link 'Best answer'
   end
 
   scenario 'Guest can not accept answer as the best answer' do
     visit question_path(question.id)
-    expect(page).not_to have_link "Best answer"
+    expect(page).not_to have_link 'Best answer'
   end
 end

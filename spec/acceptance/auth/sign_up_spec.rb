@@ -1,10 +1,11 @@
 require_relative '../acceptance_helper'
 
-feature 'User sign up', %q{
+feature 'User sign up', '
   In order to be able to ask question
   As an user
   I want to be able to sign up
-} do
+
+' do
 
   given(:user) { create :user }
 

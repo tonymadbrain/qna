@@ -8,7 +8,7 @@ feature 'Delete Answer' do
   given(:answer) { create :answer, question: question, user: user }
 
   scenario 'author delete his answer', js: true do
-    log_in user 
+    log_in user
     answer
     visit question_path(question)
     within "#answer_#{ answer.id }" do

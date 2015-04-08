@@ -21,11 +21,11 @@ class AnswersController < ApplicationController
     @answer.make_best if @question.user_id == current_user.id
   end
 
-  private 
-  
+  private
+
   def load_question
-    @question = if params.has_key?(:question_id)
-      Question.find(params[:question_id])
+    @question = if params.key?(:question_id)
+                  Question.find(params[:question_id])
     else
       @answer.question
     end
@@ -37,7 +37,7 @@ class AnswersController < ApplicationController
 
   def answer_params
     answer_params = params.require(:answer).permit(:body, :user_id)
-    answer_params.merge( user_id: current_user.id )
+    answer_params.merge(user_id: current_user.id)
   end
 
   def check_user

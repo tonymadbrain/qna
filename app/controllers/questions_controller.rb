@@ -15,7 +15,7 @@ class QuestionsController < ApplicationController
     @question = Question.new
   end
 
-  def edit   
+  def edit
   end
 
   def create
@@ -31,12 +31,7 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    #if @question.update(question_params)
     @question.update(question_params)
-      #redirect_to @question
-    #else
-      #render :edit
-    #end
   end
 
   def destroy

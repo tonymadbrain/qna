@@ -1,11 +1,12 @@
 require_relative '../acceptance_helper'
 
-feature 'Answer editing', %q{
+feature 'Answer editing', "
   In order to fix mistake
   As an autor of answer
   I'd like to be able to edit my answer
-} do
-  
+
+" do
+
   given(:user) { create :user }
   given(:other_user) { create :user }
   given!(:question) { create :question, user: user }
@@ -17,7 +18,7 @@ feature 'Answer editing', %q{
       expect(page).to_not have_link 'Edit'
     end
   end
-  
+
   describe 'Authenticated user' do
     describe 'like owner' do
       before do
@@ -27,7 +28,7 @@ feature 'Answer editing', %q{
 
       scenario 'sees link to Edit' do
         within "#answer_#{ answer.id }" do
-          expect(page).to have_selector ("input[value='Edit']") 
+          expect(page).to have_selector ("input[value='Edit']")
         end
       end
 
@@ -45,8 +46,8 @@ feature 'Answer editing', %q{
     end
 
     describe 'like not owner' do
-      
-      before do 
+
+      before do
         log_in other_user
         visit question_path(question)
       end

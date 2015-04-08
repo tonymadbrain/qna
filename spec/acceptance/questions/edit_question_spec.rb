@@ -1,11 +1,12 @@
 require_relative '../acceptance_helper'
 
-feature 'Question editing', %q{
+feature 'Question editing', "
     In order to fix mistake
     As an autor of question
     I'd like to be able to edit my question
-} do
-  
+
+" do
+
   given(:user) { create :user }
   given(:other_user) { create :user }
   given!(:question) { create :question, user: user  }
@@ -21,13 +22,13 @@ feature 'Question editing', %q{
     expect(current_path).to eq question_path(question)
     expect(page).to have_content 'Edited body'
   end
-  
+
   scenario 'Users can not edit question of another user' do
     log_in other_user
     visit question_path(question)
     expect(page).not_to have_link 'Edit'
   end
-  
+
   scenario 'Guest can not edit any questions' do
     visit question_path(question)
     expect(page).not_to have_link 'Edit'

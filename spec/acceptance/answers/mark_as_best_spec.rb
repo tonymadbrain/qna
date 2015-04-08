@@ -13,7 +13,7 @@ feature 'Mark answer as best', %q{
 
   scenario 'Question author can accept any answer as the best answer', js: :true do
     log_in question_author
-    answer = answers.at(0)
+    answer = answers[0]
     visit question_path(question)
 
     within "#answer_#{ answer.id }" do
@@ -25,7 +25,7 @@ feature 'Mark answer as best', %q{
 
   scenario 'Only one answer can be the best answer', js: :true do
     log_in question_author
-    first_best_answer = answers.at(1)
+    first_best_answer = answers[1]
 
     visit question_path(question)
     within "#answer_#{ first_best_answer.id }" do
@@ -33,7 +33,7 @@ feature 'Mark answer as best', %q{
       expect(page).to have_content 'This is best answer'
     end
 
-    other_best_answer = answers.at(2)
+    other_best_answer = answers[2]
     within "#answer_#{ other_best_answer.id }" do
       click_on "Best answer"
       expect(page).to have_content 'This is best answer'
@@ -48,8 +48,8 @@ feature 'Mark answer as best', %q{
     log_in question_author
     visit question_path(question)
 
-    first_answer = answers.at(0)
-    second_answer = answers.at(1)
+    first_answer = answers[0]
+    second_answer = answers[1]
 
     first_answer_selector = '.answers div:first-child'
 

@@ -1,18 +1,13 @@
-h1= @question.title
-- if current_user && @question.user_id == current_user.id
-  small= link_to 'Delete question', question_path, method: :delete
-
-p= @question.body
-
-h4 Answers
+.question
+  = render 'question'
+  .question-error
+hr
 .answers
-  = render 'answers'
-
+  = render @question.answers
+  .answer-errors
 - if current_user
-  /small= link_to 'Create answer', "/questions/#{@question.id}/answers/new"
-  = form_for [@question, @answer], remote: true do |f|
-    = f.label :body, 'Answer'
-    = f.text_area :body
+  = bootstrap_form_for [@question, @answer], remote: true do |f|
+    = f.text_area :body, label: 'Answer'
     = f.submit 'Create'
 - else
   | Sign in or sign up to leave answers

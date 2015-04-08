@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative '../acceptance_helper'
 
 feature 'Create question', %q{
   In order to get answer from community
@@ -8,7 +8,7 @@ feature 'Create question', %q{
   
   given(:user) { create :user }
 
-  scenario 'Authenticated user create the question with valid attr' do
+  scenario 'Authenticated user create the question with valid attr', js: true do
 
     log_in(user)
 

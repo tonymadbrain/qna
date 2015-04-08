@@ -1,56 +1,46 @@
-require 'pry'
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
+  before_action :load_answer, only: [:edit, :update, :destroy, :make_best, :load_question]
   before_action :load_question
-  before_action :load_answer, only: [:edit, :update, :destroy]
-
-  def new
-    @answer = @question.answers.new
-  end
+  before_action :check_user, only: [:update, :destroy]
 
   def create
-    @answer = current_user.answers.new(answer_params.merge(question: @question))
-    if @answer.save
-      flash[:notice] = 'Your answer successfully created.'
-    else
-      flash[:notice] = 'Answer cant be blank.'
-      render :new
-    end
-  end
-
-  def edit
-    
+    @answer = @question.answers.create(answer_params)
   end
 
   def update
-    if @answer.update(answer_params)
-      redirect_to @answer.question
-    else
-      render :edit
-    end
+    @answer.update(answer_params)
+    @question = @answer.question
   end
 
   def destroy
-    if @answer.user_id == current_user.id
-      @answer.destroy
-      flash[:notice] = 'Answer successfully deleted.'
-    else
-      flash[:notice] = 'You cant delete this question.'
-    end
-    redirect_to @answer.question
+    @answer.destroy
+  end
+
+  def make_best
+    @answer.make_best if @question.user_id == current_user.id
   end
 
   private 
   
   def load_question
-    @question = Question.find(params[:question_id])
+    @question = if params.has_key?(:question_id)
+      Question.find(params[:question_id])
+    else
+      @answer.question
+    end
   end
 
   def load_answer
-    @answer = @question.answers.find(params[:id])
+    @answer = Answer.find(params[:id])
   end
 
   def answer_params
-    params.require(:answer).permit(:body)
+    answer_params = params.require(:answer).permit(:body, :user_id)
+    answer_params.merge( user_id: current_user.id )
+  end
+
+  def check_user
+    render text: 'You do not have permission to view this page.', status: 403 if @answer.user_id != current_user.id
   end
 end

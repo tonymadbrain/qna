@@ -1,93 +1,110 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:question) { create :question }  
-  let(:user) { create :user }
-  let(:answer) { create :answer, question: question, user: user }
-  
-  describe 'GET #new' do
-    sign_in_user
-    before { get :new, question_id: question }
-
-    it 'assigns new answer to answer' do
-      expect(assigns(:answer)).to be_a_new(Answer)
-    end
-
-    it 'render answer/new view' do
-      expect(response).to render_template :new
-    end
-  end
-
-  describe 'GET #edit' do
-    sign_in_user
-    before { get :edit, question_id: question, id: answer }
-
-    it 'assigns requested answer to @answer' do
-      expect(assigns(:answer)).to eq answer
-    end
-
-    it 'render answer/edit view' do
-      expect(response).to render_template :edit
-    end
-  end
+  let!(:question) { create :question, user: user }
+  let(:answer) { create(:answer, question: question, user: user) }
+  let(:user) { create :user } 
 
   describe 'POST #create' do
     sign_in_user
-    context 'with valid attr' do
-      it 'save new answer in db' do
-        expect { post :create, question_id: question, answer: attributes_for(:answer), format: :js }.to change(question.answers, :count).by(1)
+    context 'with valid attributes' do
+      it 'saves the new answer in the database' do
+        expect { post :create, answer: attributes_for(:answer), question_id: question, format: :js }.to change(question.answers, :count).by(1)
+      end
+
+      it 'assign user to created answer' do
+        post :create, answer: attributes_for(:answer), question_id: question, format: :js
+        expect(assigns(:answer).user).to eq subject.current_user
       end
 
       it 'render create template' do
-        post :create, question_id: question, answer: attributes_for(:answer), format: :js
+        post :create, answer: attributes_for(:answer), question_id: question, format: :js
         expect(response).to render_template :create
       end
     end
 
-    context 'with invalid attr' do
-      it 'does not save new answer in database' do
-        expect { post :create, question_id: question, answer: attributes_for(:invalid_answer) }.to_not change(Answer, :count)
+    context 'with invalid attributes' do
+      it 'does not save the question' do
+        expect { post :create, answer: attributes_for(:invalid_answer), question_id: question, format: :js }.to_not change(Answer, :count)
       end
 
-      it 're-render new view' do
-        post :create, question_id: question, answer: attributes_for(:invalid_answer)
-        expect(response).to render_template :new
+      it 'render create template' do
+        post :create, answer: attributes_for(:invalid_answer), question_id: question, format: :js
+        expect(response).to render_template :create
       end
     end
   end
 
-  describe 'PATCH #update' do 
-    sign_in_user
-    context 'with valid attr' do
-      it 'assigns the requested answer with @answer' do
-        patch :update, question_id: question, id: answer, answer: attributes_for(:answer)
+  describe 'PATCH #update' do
+    context 'valid user' do
+      sign_in_user
+      let(:answer) { create(:answer, question: question, user: @user) }
+
+      it 'assings the requested answer to @answer' do
+        patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
         expect(assigns(:answer)).to eq answer
       end
 
-      it 'change attr' do
-        patch :update, question_id: question, id: answer, answer: { body: "Test body" }
-        answer.reload
-        expect(answer.body).to eq "Test body"
+      it 'assigns the question' do
+        patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
+        expect(assigns(:question)).to eq question
       end
 
-      it 'redirect to the updated answer' do
-        patch :update, question_id: question, id: answer, answer: attributes_for(:answer)
-        expect(response).to redirect_to question
+      it 'changes answer attributes' do
+        patch :update, id: answer, question_id: question, answer: { body: 'new body'}, format: :js
+        answer.reload
+        expect(answer.body).to eq 'new body'
+      end
+
+      it 'render update template' do
+        patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
+        expect(response).to render_template :update
       end
     end
 
-    context 'with invalid attr' do
-      before { patch :update, question_id: question, id: answer, answer: { body: nil } }
+    context 'invalid user' do
+      sign_in_user
+      let(:another_answer) { create(:answer, question: question, user: user) }
+      it 'not assigns the requested answer to @answer' do
       
-      it 'does not change answer attr' do
-        answer.reload
-        expect(answer.body).to eq "Super answer text"
+        patch :update, id: another_answer, question_id: question, answer: { body: 'new body'}, format: :js
+        another_answer.reload
+        expect(another_answer.body).to_not eq 'new body'
+      end
+    end
+  end
+
+  describe 'PATCH #make_best' do
+    let(:answer) { create(:answer, question: question, user: @user) }
+
+    context 'correct user' do
+      sign_in_user
+
+      before do
+        question.update(user: @user)
+        patch :make_best, id: answer, question_id: question, format: :js
       end
 
-      it 're-render edit view' do
-        expect(response).to render_template :edit
+      it 'sets #best to true' do
+        answer.reload
+        expect(answer).to be_best
       end
-    end 
+
+      it 'renders #make_best template' do
+        expect(response).to render_template :make_best
+      end
+    end
+
+    context 'incorrect user' do
+      sign_in_user
+
+      it 'doesnt change #best' do
+        expect{
+          patch :make_best, id: answer, question_id: question, format: :js
+          answer.reload
+        }.to_not change(answer, :best)
+      end
+    end
   end
 
   describe 'DELETE #destroy' do
@@ -95,14 +112,12 @@ RSpec.describe AnswersController, type: :controller do
     it 'delete his answer' do
       answer_for_del = Answer.create(body: answer.body, user: @user, question: question)
 
-      expect { delete :destroy, question_id: question.id, id: answer_for_del }.to change(Answer, :count).by(-1)
-      expect(response).to redirect_to question
+      expect { delete :destroy, question_id: question.id, id: answer_for_del, format: :js }.to change(Answer, :count).by(-1)
     end
 
     it 'delete not his answer' do
       answer
-      expect { delete :destroy, question_id: question.id, id: answer }.to_not change(Answer, :count)
-      expect(response).to redirect_to question
+      expect { delete :destroy, question_id: question.id, id: answer, format: :js }.to_not change(Answer, :count)
     end
   end
 end

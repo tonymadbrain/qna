@@ -19,4 +19,4 @@ config/database.yml
 test.rb
 .rubocop.yml
 config/database.yml
-rubocop_pre_commit_hook
+rubocop_pre_commit_hook.rb

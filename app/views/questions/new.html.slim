@@ -6,5 +6,4 @@
   p
     = f.fields_for :attachments do |a|
       = a.file_field :file, label: "File"
-
   p= f.submit 'Create'

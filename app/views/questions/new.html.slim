@@ -1,4 +1,10 @@
 = bootstrap_form_for @question do |f|
+  p
   = f.text_field :title, label: "Title"
   = f.text_area :body, label: "Text"
-  = f.submit 'Create'
+  p Attachments:
+  p
+    = f.fields_for :attachments do |a|
+      = a.file_field :file, label: "File"
+
+  p= f.submit 'Create'

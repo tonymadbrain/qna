@@ -4,6 +4,10 @@ div[class="well"]
 - if current_user && @question.user_id == current_user.id
   = button_to 'Edit', '', class: 'edit-question-link btn btn-danger btn-xs', data: { question_id: @question.id }, remote: true
   = button_to 'Delete question', question_path, method: :delete, class: 'button btn btn-danger btn-xs'
+  p Attachments:
+  ul
+    - @question.attachments.each do |a|
+      li= a.file.file.filename
   p
     = bootstrap_form_for @question, remote: true, html: { id: "edit-question-#{@question.id}"} do |f|
       = f.text_field :title, label: 'Title'

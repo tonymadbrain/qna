@@ -10,7 +10,7 @@ feature 'Add files to answer' do
     visit question_path(question)
   end
 
-  scenario 'User adds file when give answer' do
+  scenario 'User adds file when give answer', js: true do
     fill_in 'Answer', with: 'Test answer'
     attach_file 'File', "#{Rails.root}/spec/spec_helper.rb"
     click_on 'Create'

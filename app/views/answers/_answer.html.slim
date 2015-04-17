@@ -3,6 +3,9 @@
       - if answer.best
         | This is best answer
       p = answer.body
+      ul
+        - answer.attachments.each do |a|
+          li= link_to a.file.identifier, a.file.url
       - if user_signed_in? && (answer.user_id == current_user.id)
         = button_to 'Edit', '', class: 'edit-answer-link btn btn-primary btn-xs', data: { answer_id: answer.id }
         = button_to 'Delete answer', [answer], class: 'btn btn-danger btn-xs', remote: true, method: :delete

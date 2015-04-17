@@ -8,6 +8,8 @@ hr
 - if current_user
   = bootstrap_form_for [@question, @answer], remote: true do |f|
     = f.text_area :body, label: 'Answer'
+    = f.fields_for :attachments do |a|
+      = a.file_field :file, label: "File"
     = f.submit 'Create'
 - else
   | Sign in or sign up to leave answers

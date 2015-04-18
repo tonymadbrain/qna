@@ -30,7 +30,7 @@ feature 'Add files to answer' do
     file_inputs[0].set first_file
     file_inputs[1].set second_file
     click_on 'Create'
-    save_and_open_page
+
     within '.answers' do
       expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/1/spec_helper.rb'
       expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/2/rails_helper.rb'

@@ -10,7 +10,7 @@ hr
     = f.text_area :body, label: 'Answer'
     = f.fields_for :attachments do |a|
       = a.file_field :file, label: "File"
-    p= f.link_to_add 'More files', :attachments
+    p= f.link_to_add 'Add more', :attachments
     = f.submit 'Create'
 - else
   | Sign in or sign up to leave answers

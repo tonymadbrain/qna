@@ -6,7 +6,7 @@ div[class="well"]
     - @question.attachments.each do |a|
       div id="attachment_#{a.id}"
         li= link_to a.file.identifier, a.file.url
-      - if current_user && @question.user_id == current_user.id
+        - if current_user && @question.user_id == current_user.id
           = button_to 'Delete file', a, method: :delete, remote: true
 - if current_user && @question.user_id == current_user.id
   = button_to 'Edit', '', class: 'edit-question-link btn btn-danger btn-xs', data: { question_id: @question.id }, remote: true

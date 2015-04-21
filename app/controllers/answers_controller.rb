@@ -36,7 +36,7 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    answer_params = params.require(:answer).permit(:body, :user_id)
+    answer_params = params.require(:answer).permit(:body, :user_id, attachments_attributes: [:id, :file, :_destroy])
     answer_params.merge(user_id: current_user.id)
   end
 

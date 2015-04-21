@@ -19,3 +19,4 @@ config/database.yml
 test.rb
 .rubocop.yml
 config/database.yml
+/public/uploads

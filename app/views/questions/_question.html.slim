@@ -1,6 +1,13 @@
 h1= @question.title
 div[class="well"]
   p= @question.body
+  p Attachments:
+  ul
+    - @question.attachments.each do |a|
+      div id="attachment_#{a.id}"
+        li= link_to a.file.identifier, a.file.url
+        - if current_user && @question.user_id == current_user.id
+          = button_to 'Delete file', a, method: :delete, remote: true
 - if current_user && @question.user_id == current_user.id
   = button_to 'Edit', '', class: 'edit-question-link btn btn-danger btn-xs', data: { question_id: @question.id }, remote: true
   = button_to 'Delete question', question_path, method: :delete, class: 'button btn btn-danger btn-xs'

@@ -14,6 +14,10 @@ gem 'slim-rails'
 gem 'devise'
 gem 'bootstrap-sass', '3.2.0.0'
 gem 'bootstrap_form'
+gem 'carrierwave'
+gem 'remotipart'
+gem 'nested_form'
+#gem 'twitter-bootstrap-rails', git: 'git://github.com/seyhunak/twitter-bootstrap-rails.git'
 
 group :development, :test do
   gem 'byebug'

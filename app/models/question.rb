@@ -7,5 +7,5 @@ class Question < ActiveRecord::Base
   validates :body, presence: true, length: { maximum: 200 }
   validates :user, presence: true
 
-  accepts_nested_attributes_for :attachments
+  accepts_nested_attributes_for :attachments, reject_if: proc { |attrib| attrib['file'].nil? }, allow_destroy: true
 end

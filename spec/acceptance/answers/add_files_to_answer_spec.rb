@@ -26,4 +26,16 @@ feature 'Add files to answer' do
       expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/2/rails_helper.rb'
     end
   end
+
+  scenario 'User attach file then delete him, and try to create answer', js: true do
+    fill_in 'Answer', with: 'Test answer'
+    attach_file 'File', first_file
+    click_on 'Clear'
+    click_on 'Create'
+
+    within '.answers' do
+      expect(page).to have_content 'Test answer'
+      expect(page).to_not have_link 'spec_helper.rb', href: '/uploads/attachment/file/1/spec_helper.rb'
+    end
+  end
 end

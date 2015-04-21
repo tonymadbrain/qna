@@ -33,4 +33,15 @@ feature 'Add files to question' do
     expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/2/spec_helper.rb'
     expect(page).to have_link 'rails_helper.rb', href: '/uploads/attachment/file/3/rails_helper.rb'
   end
+
+  scenario 'User attach file then delete him, and try to create question', js: true do
+    fill_in 'Title', with: 'Test question'
+    fill_in 'Text', with: 'text text text'
+    attach_file 'File', first_file
+    click_on 'Clear'
+    click_on 'Create'
+
+    expect(page).to have_content 'Test question'
+    expect(page).to_not have_link 'spec_helper.rb', href: '/uploads/attachment/file/1/spec_helper.rb'
+  end
 end

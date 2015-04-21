@@ -12,16 +12,6 @@ feature 'Add files to answer' do
     visit question_path(question)
   end
 
-  scenario 'User adds file when give answer', js: true do
-    fill_in 'Answer', with: 'Test answer'
-    attach_file 'File', first_file
-    click_on 'Create'
-
-    within '.answers' do
-      expect(page).to have_link 'spec_helper.rb', href: '/uploads/attachment/file/1/spec_helper.rb'
-    end
-  end
-
   scenario 'User attach several files when give answer', js: true do
     fill_in 'Answer', with: 'Test answer'
     click_on 'Add more'

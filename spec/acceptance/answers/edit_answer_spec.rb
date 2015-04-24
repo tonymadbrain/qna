@@ -28,7 +28,7 @@ feature 'Answer editing', "
 
       scenario 'sees link to Edit' do
         within "#answer_#{ answer.id }" do
-          expect(page).to have_selector ("input[value='Edit']")
+          expect(page).to have_link 'Edit'
         end
       end
 

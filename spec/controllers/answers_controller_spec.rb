@@ -9,28 +9,28 @@ RSpec.describe AnswersController, type: :controller do
     sign_in_user
     context 'with valid attributes' do
       it 'saves the new answer in the database' do
-        expect { post :create, answer: attributes_for(:answer), question_id: question, format: :js }.to change(question.answers, :count).by(1)
+        expect { post :create, answer: attributes_for(:answer), question_id: question, format: :json }.to change(question.answers, :count).by(1)
       end
 
       it 'assign user to created answer' do
-        post :create, answer: attributes_for(:answer), question_id: question, format: :js
+        post :create, answer: attributes_for(:answer), question_id: question, format: :json
         expect(assigns(:answer).user).to eq subject.current_user
       end
 
-      it 'render create template' do
-        post :create, answer: attributes_for(:answer), question_id: question, format: :js
-        expect(response).to render_template :create
+      it 'returns json with answer' do
+        post :create, answer: attributes_for(:answer), question_id: question, format: :json
+        expect(response.body).to eq(assigns(:answer).to_json(include: :attachments))
       end
     end
 
     context 'with invalid attributes' do
       it 'does not save the question' do
-        expect { post :create, answer: attributes_for(:invalid_answer), question_id: question, format: :js }.to_not change(Answer, :count)
+        expect { post :create, answer: attributes_for(:invalid_answer), question_id: question, format: :json }.to_not change(Answer, :count)
       end
 
-      it 'render create template' do
-        post :create, answer: attributes_for(:invalid_answer), question_id: question, format: :js
-        expect(response).to render_template :create
+      it 'response with status 422' do
+        post :create, answer: attributes_for(:invalid_answer), question_id: question, format: :json
+        expect(response).to have_http_status 422
       end
     end
   end

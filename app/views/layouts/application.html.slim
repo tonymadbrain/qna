@@ -1,8 +1,8 @@
 doctype html
 head
   title Qna
-  = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
-  = javascript_include_tag 'application', 'data-turbolinks-track' => true
+  = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => false
+  = javascript_include_tag 'application', 'data-turbolinks-track' => false
   = csrf_meta_tags
 body
   = render 'layouts/header'
@@ -11,7 +11,7 @@ body
       div class=("row")
         div class=("col-md-6 col-md-offset-3")
           - if flash[:notice]
-            div class=("alert alert-warning")
+            div class=("alert alert-success")
               = notice
           - if flash[:alert]
             div class=("alert alert-danger")

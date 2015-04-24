@@ -6,7 +6,7 @@ hr
   = render @question.answers
   .answer-errors
 - if current_user
-  = bootstrap_nested_form_for [@question, @answer], remote: true do |f|
+  = bootstrap_nested_form_for [@question, @answer], remote: true, data: { type: :json } do |f|
     = f.text_area :body, label: 'Answer'
     = f.fields_for :attachments do |a|
       = a.file_field :file, label: "File"

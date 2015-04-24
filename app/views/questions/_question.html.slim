@@ -7,10 +7,10 @@ div[class="well"]
       div id="attachment_#{a.id}"
         li= link_to a.file.identifier, a.file.url
         - if current_user && @question.user_id == current_user.id
-          = button_to 'Delete file', a, method: :delete, remote: true
+          = link_to 'Delete file', a, method: :delete, remote: true
 - if current_user && @question.user_id == current_user.id
-  = button_to 'Edit', '', class: 'edit-question-link btn btn-danger btn-xs', data: { question_id: @question.id }, remote: true
-  = button_to 'Delete question', question_path, method: :delete, class: 'button btn btn-danger btn-xs'
+  = link_to 'Edit', '', class: 'edit-question-link btn btn-danger btn-xs', data: { question_id: @question.id }, remote: true
+  = link_to 'Delete question', question_path, method: :delete, class: 'button btn btn-danger btn-xs'
   p
     = bootstrap_form_for @question, remote: true, html: { id: "edit-question-#{@question.id}"} do |f|
       = f.text_field :title, label: 'Title'

@@ -89,6 +89,11 @@ GEM
       railties (>= 3.0.0)
     globalid (0.3.5)
       activesupport (>= 4.1.0)
+    handlebars_assets (0.19.1)
+      execjs (>= 1.2.9)
+      multi_json
+      sprockets (>= 2.0.3)
+      tilt
     i18n (0.7.0)
     jbuilder (2.2.13)
       activesupport (>= 3.0.0, < 5)
@@ -230,6 +235,7 @@ DEPENDENCIES
   database_cleaner
   devise
   factory_girl_rails
+  handlebars_assets
   jbuilder (~> 2.0)
   jquery-rails
   launchy

@@ -18,6 +18,7 @@ gem 'carrierwave'
 gem 'remotipart'
 gem 'nested_form'
 gem 'underscore-rails'
+gem 'handlebars_assets'
 #gem 'twitter-bootstrap-rails', git: 'git://github.com/seyhunak/twitter-bootstrap-rails.git'
 
 group :development, :test do

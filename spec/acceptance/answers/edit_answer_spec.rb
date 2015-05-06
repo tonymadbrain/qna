@@ -32,7 +32,7 @@ feature 'Answer editing', "
         end
       end
 
-      scenario 'try to edit his answer', json: true do
+      scenario 'try to edit his answer', js: true do
         within "#answer_#{ answer.id }" do
           click_on 'Edit'
           fill_in 'Edit answer', with: 'edited answer'

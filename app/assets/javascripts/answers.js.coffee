@@ -25,22 +25,35 @@ ready = ->
     errors = $.parseJSON(xhr.responseText)
     $.each errors, (index, value) ->
       $('.answer-errors').html("<div class='alert alert-danger'>" + value + "</div>")
-
-  $('form.edit_answer').bind 'ajax:success', (e, data, status, xhr) ->
-    answer = $.parseJSON(xhr.responseText)
-    $(this).hide()
-    $.when($('#answer_'+ answer.id).find("p:first-child").html(answer.body))
+        
+  $(document).on 'ajax:success', '.edit_answer', (e, data, status, xhr) ->
+    answer = $.parseJSON(xhr.responseText);
+    $.when($('#answer_' + answer.id).replaceWith(generate_answer(answer)))
      .done ->
       $('.edit-answer-link').click   (e) ->
         e.preventDefault()
         $(this).hide()
         answer_id = $(this).data('answerId')
         $('form#edit-answer-' + answer_id).show()
-    $('.edit-answer-link').show()
   .bind 'ajax:error', (e, xhr, status, error) ->
     errors = $.parseJSON(xhr.responseText)
     $.each errors, (index, value) ->
       $('.answer-errors').html("<div class='alert alert-danger'>" + value + "</div>")
+  # $('form.edit_answer').bind 'ajax:success', (e, data, status, xhr) ->
+  #   answer = $.parseJSON(xhr.responseText)
+  #   $('#edit-answer-' + answer.id).hide()
+  #   $.when($('#answer_' + answer.id).find("p:first-child").html(answer.body))
+  #    .done ->
+  #     $('.edit-answer-link').click   (e) ->
+  #       e.preventDefault()
+  #       $(this).hide()
+  #       answer_id = $(this).data('answerId')
+  #       $('form#edit-answer-' + answer_id).show()
+  #   $('.edit-answer-link').show()
+  # .bind 'ajax:error', (e, xhr, status, error) ->
+  #   errors = $.parseJSON(xhr.responseText)
+  #   $.each errors, (index, value) ->
+  #     $('.answer-errors').html("<div class='alert alert-danger'>" + value + "</div>")
   
   generate_answer = (answer) ->
     answer_template = _.template window.answer

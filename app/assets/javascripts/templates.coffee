@@ -9,7 +9,7 @@ window.answer = '''
     </ul>
     <a class="edit-answer-link btn btn-primary btn-xs" data-answer-id="<%= id %>" href="">Edit</a>
     <a class="btn btn-danger btn-xs" data-remote="true" rel="nofollow" data-method="delete" href="/answers/<%= id %>">Delete answer</a>
-    <form id="edit-answer-<%= id %>" role="form" class="edit_answer" action="/answers/<%= id %>" accept-charset="UTF-8" data-remote="true" method="post">
+    <form id="edit-answer-<%= id %>" role="form" class="edit_answer" data-type="json" action="/answers/<%= id %>" accept-charset="UTF-8" data-remote="true" method="post">
       <input name="utf8" value="✓" type="hidden"><input name="_method" value="patch" type="hidden">
       <div class="form-group">
         <label class="control-label required" for="answer_body">Edit answer</label>

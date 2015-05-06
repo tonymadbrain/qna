@@ -41,24 +41,24 @@ RSpec.describe AnswersController, type: :controller do
       let(:answer) { create(:answer, question: question, user: @user) }
 
       it 'assings the requested answer to @answer' do
-        patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
+        patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :json
         expect(assigns(:answer)).to eq answer
       end
 
       it 'assigns the question' do
-        patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
+        patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :json
         expect(assigns(:question)).to eq question
       end
 
       it 'changes answer attributes' do
-        patch :update, id: answer, question_id: question, answer: { body: 'new body' }, format: :js
+        patch :update, id: answer, question_id: question, answer: { body: 'new body' }, format: :json
         answer.reload
         expect(answer.body).to eq 'new body'
       end
 
-      it 'render update template' do
-        patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
-        expect(response).to render_template :update
+      it 'returns json with new answer' do
+        patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :json
+        expect(response.body).to eq(assigns(:answer).to_json(include: :attachments))
       end
     end
 
@@ -67,9 +67,14 @@ RSpec.describe AnswersController, type: :controller do
       let(:another_answer) { create(:answer, question: question, user: user) }
       it 'not assigns the requested answer to @answer' do
 
-        patch :update, id: another_answer, question_id: question, answer: { body: 'new body' }, format: :js
+        patch :update, id: another_answer, question_id: question, answer: { body: 'new body' }, format: :json
         another_answer.reload
         expect(another_answer.body).to_not eq 'new body'
+      end
+
+      it 'response with status 403' do
+        patch :update, id: another_answer, question_id: question, answer: { body: 'new body' }, format: :json
+        expect(response).to have_http_status 403
       end
     end
   end

@@ -16,6 +16,6 @@
       - if user_signed_in? && (@question.user_id == current_user.id)
         = link_to 'Best answer', make_best_answer_path(answer), class: 'btn btn-success btn-xs', method: :patch, remote: true
         p
-          = bootstrap_form_for [answer], remote: true, html: { id: "edit-answer-#{ answer.id }"} do |f|
+          = bootstrap_form_for [answer], remote: true, data: { type: :json }, html: { id: "edit-answer-#{ answer.id }"} do |f|
             = f.text_area :body, label: 'Edit answer'
             = f.submit 'Save'

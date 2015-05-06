@@ -1,13 +1,10 @@
 class AnswersController < ApplicationController
-  #before_action :authenticate_user!, except: [:index, :show]
-  before_action :load_answer, only: [:edit, :update, :destroy, :make_best, :load_question]
+
+  before_action :load_answer, only: [:edit, :update, :destroy, :make_best, :load_question, :render_answer, :render_error]
   before_action :load_question
   before_action :check_user, only: [:update, :destroy]
 
   include PublicIndex
-  # def create
-  #   @answer = @question.answers.create(answer_params)
-  # end
 
    def create
     @answer = @question.answers.build(answer_params)
@@ -22,8 +19,14 @@ class AnswersController < ApplicationController
   end
 
   def update
-    @answer.update(answer_params)
-    @question = @answer.question
+    respond_to do |format|
+      if @answer.update(answer_params)
+        format.json { render json: @answer.to_json(include: :attachments) }
+      else
+        format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
+      end
+    end    
+      #@question = @answer.question
   end
 
   def destroy

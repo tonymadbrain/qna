@@ -8,6 +8,10 @@ div[class="well"]
         li= link_to a.file.identifier, a.file.url
         - if current_user && @question.user_id == current_user.id
           = link_to 'Delete file', a, method: :delete, remote: true
+  - if current_user 
+    p= link_to '+'
+    p Rating: 0
+    p= link_to '-'
 - if current_user && @question.user_id == current_user.id
   = link_to 'Edit', '', class: 'edit-question-link btn btn-danger btn-xs', data: { question_id: @question.id }, remote: true
   = link_to 'Delete question', question_path, method: :delete, class: 'button btn btn-danger btn-xs'

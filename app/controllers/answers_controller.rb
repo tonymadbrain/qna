@@ -26,7 +26,6 @@ class AnswersController < ApplicationController
         format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
       end
     end    
-      #@question = @answer.question
   end
 
   def destroy

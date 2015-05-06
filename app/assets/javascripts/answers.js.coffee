@@ -2,7 +2,7 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-# require templates
+## require templates
 
 ready = ->
   $('.edit-answer-link').click   (e) ->
@@ -11,9 +11,15 @@ ready = ->
     answer_id = $(this).data('answerId')
     $('form#edit-answer-' + answer_id).show()
 
+  Handlebars.registerHelper 'link', (object) ->
+    url = Handlebars.escapeExpression(object.url)
+    text = object.url.split('/').pop()
+    return new Handlebars.SafeString "<a href=" + url + ">" + text + "</a>"
+
   $('form.new_answer').bind 'ajax:success', (e, data, status, xhr) ->
     answer = $.parseJSON(xhr.responseText)
-    $.when($('.answers').append(generate_answer(answer)))
+    #$.when($('.answers').append(generate_answer(answer)))
+    $.when($('.answers').append(HandlebarsTemplates['answers/create'](answer)))
      .done ->
       $('.edit-answer-link').click   (e) ->
         e.preventDefault()
@@ -28,7 +34,8 @@ ready = ->
         
   $(document).on 'ajax:success', '.edit_answer', (e, data, status, xhr) ->
     answer = $.parseJSON(xhr.responseText);
-    $.when($('#answer_' + answer.id).replaceWith(generate_answer(answer)))
+    #$.when($('#answer_' + answer.id).replaceWith(generate_answer(answer)))
+    $.when($('#answer_' + answer.id).replaceWith(HandlebarsTemplates['answers/create'](answer)))
      .done ->
       $('.edit-answer-link').click   (e) ->
         e.preventDefault()
@@ -39,6 +46,7 @@ ready = ->
     errors = $.parseJSON(xhr.responseText)
     $.each errors, (index, value) ->
       $('.answer-errors').html("<div class='alert alert-danger'>" + value + "</div>")
+  
   # $('form.edit_answer').bind 'ajax:success', (e, data, status, xhr) ->
   #   answer = $.parseJSON(xhr.responseText)
   #   $('#edit-answer-' + answer.id).hide()
@@ -55,19 +63,19 @@ ready = ->
   #   $.each errors, (index, value) ->
   #     $('.answer-errors').html("<div class='alert alert-danger'>" + value + "</div>")
   
-  generate_answer = (answer) ->
-    answer_template = _.template window.answer
-    attachment_template = _.template window.attachment
+  # generate_answer = (answer) ->
+  #   answer_template = _.template window.answer
+  #   attachment_template = _.template window.attachment
 
-    if answer.attachments
-      attachments_html = ''
-      $.each answer.attachments, (key, value) ->
-        value['name'] = value.file.url.split('/').pop()
-        attachments_html += attachment_template(value)
+    # if answer.attachments
+    #   attachments_html = ''
+    #   $.each answer.attachments, (key, value) ->
+    #     value['name'] = value.file.url.split('/').pop()
+    #     attachments_html += attachment_template(value)
 
-    full_answer = $(answer_template(answer))
-    full_answer.find('.attachments').html(attachments_html)
-    full_answer
+    # full_answer = $(answer_template(answer))
+    # full_answer.find('.attachments').html(attachments_html)
+    # full_answer
 
   clean = ($form) ->
     # $('.new_answer').find('#answer_body').val('')

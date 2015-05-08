@@ -1,5 +1,4 @@
 class AttachmentsController < ApplicationController
-
   before_action :find_attachment
   
   def destroy

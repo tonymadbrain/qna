@@ -2,11 +2,11 @@ require_relative '../acceptance_helper'
 
 feature 'Delete files attached to answer' do
 
-  given(:user) { create(:user) }
-  given(:another_user) { create(:user) }
-  given(:question) { create(:question, user: user) }
-  given(:answer) { create(:answer, question: question, user: user) }
-  given!(:file) { create(:attachment, attachable: answer) }
+  given(:user)          { create(:user) }
+  given(:another_user)  { create(:user) }
+  given(:question)      { create(:question, user: user) }
+  given(:answer)        { create(:answer, question: question, user: user) }
+  given!(:file)         { create(:attachment, attachable: answer) }
 
   describe 'valid user' do
     

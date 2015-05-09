@@ -1,9 +1,10 @@
 class AnswersController < ApplicationController
   before_action :load_answer, only: [:edit, :update, :destroy, :make_best, :load_question, :render_answer, :render_error]
-  before_action :load_question
+  before_action :load_question, only: [:create, :make_best, :update]
   before_action :check_user, only: [:update, :destroy]
 
   include PublicIndex
+  include Voted
 
    def create
     @answer = @question.answers.build(answer_params)

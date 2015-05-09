@@ -3,17 +3,13 @@ require 'rails_helper'
 RSpec.describe Answer, type: :model do
 
   it { should belong_to(:question) }
-  it { should have_many(:attachments) }
-
   it { should validate_presence_of :body }
   it { should validate_presence_of :user }
 
-  it { should accept_nested_attributes_for :attachments }
-
   describe 'Make answer best' do
-    let(:user) { create(:user) }
-    let(:question) { create(:question, user: user) }
-    let(:answer) { create(:answer, user: user, question: question) }
+    let(:user)      { create(:user) }
+    let(:question)  { create(:question, user: user) }
+    let(:answer)    { create(:answer, user: user, question: question) }
 
     it 'it work' do
       expect{ answer.make_best }.to change(answer, :best).from(false).to(true)
@@ -36,5 +32,7 @@ RSpec.describe Answer, type: :model do
       expect(answer_2.best).to eq false
     end
   end
-
+  
+  it_behaves_like 'votable'
+  it_behaves_like 'attachable'
 end

@@ -2,10 +2,10 @@ require_relative '../acceptance_helper'
 
 feature 'Delete Answer' do
 
-  given(:user) { create(:user) }
-  given(:another_user) { create(:user) }
-  given(:question) { create(:question, user: user) }
-  given(:answer) { create :answer, question: question, user: user }
+  given(:user)          { create(:user) }
+  given(:another_user)  { create(:user) }
+  given(:question)      { create(:question, user: user) }
+  given(:answer)        { create :answer, question: question, user: user }
 
   scenario 'author delete his answer', js: true do
     log_in user

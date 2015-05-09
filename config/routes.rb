@@ -12,10 +12,10 @@ Rails.application.routes.draw do
   end
 
   resources :questions, concerns: [:votable] do
-    resources :answers, except: [:index, :show, :edit], shallow: true do
+    resources :answers, concerns: [:votable], except: [:index, :show, :edit], shallow: true do
       patch :make_best, on: :member
     end
   end
 
-  resources :attachments
+  resources :attachments, only: [:destroy]
 end

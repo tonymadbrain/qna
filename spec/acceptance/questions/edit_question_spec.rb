@@ -7,9 +7,9 @@ feature 'Question editing', "
 
 " do
 
-  given(:user) { create :user }
-  given(:other_user) { create :user }
-  given!(:question) { create :question, user: user  }
+  given(:user)        { create :user }
+  given(:other_user)  { create :user }
+  given!(:question)   { create :question, user: user  }
 
   scenario 'Author can edit his question without page reload', type: feature, js: true do
     log_in user

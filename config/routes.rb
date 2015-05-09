@@ -11,18 +11,10 @@ Rails.application.routes.draw do
     end
   end
 
-  # resources :questions, concerns: [:votable] do
-  #   resources :answers, except: [:index, :show, :edit], shallow: true do
-  #     patch :make_best, on: :member
-  #   end
-  # end
-
   resources :questions, concerns: [:votable] do
-    resources :answers, only: [:create]
-  end
-
-  resources :answers, except: [:create], concerns: [:votable] do
-    patch 'best_answer', on: :member
+    resources :answers, except: [:index, :show, :edit], shallow: true do
+      patch :make_best, on: :member
+    end
   end
 
   resources :attachments

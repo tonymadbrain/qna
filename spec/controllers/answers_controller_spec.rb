@@ -38,10 +38,10 @@ RSpec.describe AnswersController, type: :controller do
   describe 'PATCH #update' do
     context 'valid user' do
       sign_in_user
-      let(:answer) { create(:answer, question: question, user: @user) }
+      let(:answer) { create(:answer, user: @user) }
 
       it 'assings the requested answer to @answer' do
-        patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :json
+        patch :update, id: answer, answer: attributes_for(:answer), format: :json
         expect(assigns(:answer)).to eq answer
       end
 
@@ -51,13 +51,13 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 'changes answer attributes' do
-        patch :update, id: answer, question_id: question, answer: { body: 'new body' }, format: :json
+        patch :update, id: answer, answer: { body: 'new body' }, format: :json
         answer.reload
         expect(answer.body).to eq 'new body'
       end
 
       it 'returns json with new answer' do
-        patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :json
+        patch :update, id: answer, answer: attributes_for(:answer), format: :json
         expect(response.body).to eq(assigns(:answer).to_json(include: :attachments))
       end
     end
@@ -67,13 +67,13 @@ RSpec.describe AnswersController, type: :controller do
       let(:another_answer) { create(:answer, question: question, user: user) }
       it 'not assigns the requested answer to @answer' do
 
-        patch :update, id: another_answer, question_id: question, answer: { body: 'new body' }, format: :json
+        patch :update, id: another_answer, answer: { body: 'new body' }, format: :json
         another_answer.reload
         expect(another_answer.body).to_not eq 'new body'
       end
 
       it 'response with status 403' do
-        patch :update, id: another_answer, question_id: question, answer: { body: 'new body' }, format: :json
+        patch :update, id: another_answer, answer: { body: 'new body' }, format: :json
         expect(response).to have_http_status 403
       end
     end

@@ -2,9 +2,9 @@ require_relative '../acceptance_helper'
 
 feature 'Add files to answer' do
   
-  given(:user) { create(:user) }
-  given(:question) { create(:question, user: user) }
-  given(:first_file) { "#{Rails.root}/spec/spec_helper.rb" }
+  given(:user)        { create(:user) }
+  given(:question)    { create(:question, user: user) }
+  given(:first_file)  { "#{Rails.root}/spec/spec_helper.rb" }
   given(:second_file) { "#{Rails.root}/spec/rails_helper.rb" }
 
   background do

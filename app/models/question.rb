@@ -1,6 +1,9 @@
 class Question < ActiveRecord::Base
+  include Votable
+  include Attachable
+  
   has_many :answers, dependent: :destroy
-  has_many :attachments, as: :attachable
+  has_many :attachments, as: :attachable 
   belongs_to :user
 
   validates :title, presence: true, length: { maximum: 20 }

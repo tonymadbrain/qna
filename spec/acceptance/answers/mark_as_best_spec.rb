@@ -7,10 +7,10 @@ feature 'Mark answer as best', "
 " do
 
   given(:question_author) { create(:user) }
-  given(:other_user) { create(:user) }
+  given(:other_user)      { create(:user) }
 
   given!(:question) { create(:question, user: question_author) }
-  given!(:answers) { create_list(:answer, 3, question: question, user: other_user) }
+  given!(:answers)  { create_list(:answer, 3, question: question, user: other_user) }
 
   scenario 'Question author can accept any answer as the best answer', js: :true do
     log_in question_author

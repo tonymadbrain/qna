@@ -1,16 +1,24 @@
 h1= @question.title
 div[class="well"]
   p= @question.body
+  div class="total_votes" Rating: #{@question.total_votes}
+  - if user_signed_in? && current_user.id != @question.user_id
+    .vote
+      - if @question.voted_by?(current_user)
+        p = link_to '-', delete_vote_question_path(@question), class: 'delete_vote_link', remote: true, method: :delete
+      - else
+        p = link_to '+', create_vote_question_path(@question, value: 1), class: 'vote_link', remote: true, method: :post
+        p = link_to '-', create_vote_question_path(@question, value: -1), class: 'vote_link', remote: true, method: :post
   p Attachments:
   ul
     - @question.attachments.each do |a|
       div id="attachment_#{a.id}"
         li= link_to a.file.identifier, a.file.url
         - if current_user && @question.user_id == current_user.id
-          = button_to 'Delete file', a, method: :delete, remote: true
+          = link_to 'Delete file', a, method: :delete, remote: true
 - if current_user && @question.user_id == current_user.id
-  = button_to 'Edit', '', class: 'edit-question-link btn btn-danger btn-xs', data: { question_id: @question.id }, remote: true
-  = button_to 'Delete question', question_path, method: :delete, class: 'button btn btn-danger btn-xs'
+  = link_to 'Edit', '', class: 'edit-question-link btn btn-danger btn-xs', data: { question_id: @question.id }, remote: true
+  = link_to 'Delete question', question_path, method: :delete, class: 'button btn btn-danger btn-xs'
   p
     = bootstrap_form_for @question, remote: true, html: { id: "edit-question-#{@question.id}"} do |f|
       = f.text_field :title, label: 'Title'

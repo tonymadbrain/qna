@@ -4,13 +4,13 @@ RSpec.describe AttachmentsController, type: :controller do
 
   describe 'DELETE #destroy' do
 
-    let(:question_user) { create(:user) }
-    let(:answer_user) { create(:user) }
-    let(:another_user) { create(:user) }
-    let!(:question_file) { create(:attachment, attachable: question) }
-    let(:answer_file) { create(:attachment, attachable: answer) }
-    let(:question) { create(:question, user: question_user) }
-    let(:answer) { create(:answer, question: question, user: answer_user) }
+    let(:question_user)   { create(:user) }
+    let(:answer_user)     { create(:user) }
+    let(:another_user)    { create(:user) }
+    let!(:question_file)  { create(:attachment, attachable: question) }
+    let(:answer_file)     { create(:attachment, attachable: answer) }
+    let(:question)        { create(:question, user: question_user) }
+    let(:answer)          { create(:answer, question: question, user: answer_user) }
 
     context 'valid question user' do
       

@@ -1,16 +1,31 @@
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
-  before_action :load_answer, only: [:edit, :update, :destroy, :make_best, :load_question]
-  before_action :load_question
+  before_action :load_answer, only: [:edit, :update, :destroy, :make_best, :render_answer, :render_error]
+  before_action :load_question, only: [:create, :make_best, :update]
   before_action :check_user, only: [:update, :destroy]
 
-  def create
-    @answer = @question.answers.create(answer_params)
+  include PublicIndex
+  include Voted
+
+   def create
+    @answer = @question.answers.build(answer_params)
+
+    respond_to do |format|
+      if @answer.save
+        format.json { render json: @answer.to_json(include: :attachments) }
+      else
+        format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
+      end
+    end
   end
 
   def update
-    @answer.update(answer_params)
-    @question = @answer.question
+    respond_to do |format|
+      if @answer.update(answer_params)
+        format.json { render json: @answer.to_json(include: :attachments) }
+      else
+        format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
+      end
+    end    
   end
 
   def destroy

@@ -2,35 +2,35 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   let!(:question) { create :question, user: user }
-  let(:answer) { create(:answer, question: question, user: user) }
-  let(:user) { create :user }
+  let(:answer)    { create(:answer, question: question, user: user) }
+  let(:user)      { create :user }
 
   describe 'POST #create' do
     sign_in_user
     context 'with valid attributes' do
       it 'saves the new answer in the database' do
-        expect { post :create, answer: attributes_for(:answer), question_id: question, format: :js }.to change(question.answers, :count).by(1)
+        expect { post :create, answer: attributes_for(:answer), question_id: question, format: :json }.to change(question.answers, :count).by(1)
       end
 
       it 'assign user to created answer' do
-        post :create, answer: attributes_for(:answer), question_id: question, format: :js
+        post :create, answer: attributes_for(:answer), question_id: question, format: :json
         expect(assigns(:answer).user).to eq subject.current_user
       end
 
-      it 'render create template' do
-        post :create, answer: attributes_for(:answer), question_id: question, format: :js
-        expect(response).to render_template :create
+      it 'returns json with answer' do
+        post :create, answer: attributes_for(:answer), question_id: question, format: :json
+        expect(response.body).to eq(assigns(:answer).to_json(include: :attachments))
       end
     end
 
     context 'with invalid attributes' do
       it 'does not save the question' do
-        expect { post :create, answer: attributes_for(:invalid_answer), question_id: question, format: :js }.to_not change(Answer, :count)
+        expect { post :create, answer: attributes_for(:invalid_answer), question_id: question, format: :json }.to_not change(Answer, :count)
       end
 
-      it 'render create template' do
-        post :create, answer: attributes_for(:invalid_answer), question_id: question, format: :js
-        expect(response).to render_template :create
+      it 'response with status 422' do
+        post :create, answer: attributes_for(:invalid_answer), question_id: question, format: :json
+        expect(response).to have_http_status 422
       end
     end
   end
@@ -38,27 +38,27 @@ RSpec.describe AnswersController, type: :controller do
   describe 'PATCH #update' do
     context 'valid user' do
       sign_in_user
-      let(:answer) { create(:answer, question: question, user: @user) }
+      let(:answer) { create(:answer, user: @user) }
 
       it 'assings the requested answer to @answer' do
-        patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
+        patch :update, id: answer, answer: attributes_for(:answer), format: :json
         expect(assigns(:answer)).to eq answer
       end
 
       it 'assigns the question' do
-        patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
+        patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :json
         expect(assigns(:question)).to eq question
       end
 
       it 'changes answer attributes' do
-        patch :update, id: answer, question_id: question, answer: { body: 'new body' }, format: :js
+        patch :update, id: answer, answer: { body: 'new body' }, format: :json
         answer.reload
         expect(answer.body).to eq 'new body'
       end
 
-      it 'render update template' do
-        patch :update, id: answer, question_id: question, answer: attributes_for(:answer), format: :js
-        expect(response).to render_template :update
+      it 'returns json with new answer' do
+        patch :update, id: answer, answer: attributes_for(:answer), format: :json
+        expect(response.body).to eq(assigns(:answer).to_json(include: :attachments))
       end
     end
 
@@ -67,9 +67,14 @@ RSpec.describe AnswersController, type: :controller do
       let(:another_answer) { create(:answer, question: question, user: user) }
       it 'not assigns the requested answer to @answer' do
 
-        patch :update, id: another_answer, question_id: question, answer: { body: 'new body' }, format: :js
+        patch :update, id: another_answer, answer: { body: 'new body' }, format: :json
         another_answer.reload
         expect(another_answer.body).to_not eq 'new body'
+      end
+
+      it 'response with status 403' do
+        patch :update, id: another_answer, answer: { body: 'new body' }, format: :json
+        expect(response).to have_http_status 403
       end
     end
   end

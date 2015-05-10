@@ -17,7 +17,7 @@ gem 'bootstrap_form'
 gem 'carrierwave'
 gem 'remotipart'
 gem 'nested_form'
-#gem 'twitter-bootstrap-rails', git: 'git://github.com/seyhunak/twitter-bootstrap-rails.git'
+gem 'handlebars_assets'
 
 group :development, :test do
   gem 'byebug'
@@ -33,4 +33,3 @@ group :development, :test do
   gem 'capybara-webkit'
   gem 'database_cleaner'
 end
-

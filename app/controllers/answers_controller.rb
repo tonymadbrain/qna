@@ -8,11 +8,15 @@ class AnswersController < ApplicationController
 
    def create
     @answer = @question.answers.build(answer_params)
-
     respond_to do |format|
       if @answer.save
+        format.js do
+          PrivatePub.publish_to "/questions/#{@question.id}", answer: @answer.to_json(include: :attachments)
+          render nothing: true
+        end
         format.json { render json: @answer.to_json(include: :attachments) }
       else
+        format.js
         format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
       end
     end

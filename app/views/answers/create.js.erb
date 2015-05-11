@@ -1,0 +1,5 @@
+<% if @answer.errors.present? %>
+  <% @answer.errors.full_messages.each do |message| %>
+    $('.answer-errors').html('<div class="alert alert-danger"><%= j message %></div>');
+  <% end %>
+<% end %>

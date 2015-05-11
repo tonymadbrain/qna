@@ -24,10 +24,16 @@ processingJsonAnswerErrors = ($xhr) ->
   $.each errors, (index, value) ->
     $('.answer-errors').html("<div class='alert alert-danger'>" + value + "</div>")
 
-$(document).on 'ajax:success', '.new_answer', (e, data, status, xhr) ->
-  processingJsonForAnswer(".new_answer", xhr)
-.bind 'ajax:error', (e, xhr, status, error) ->
-  processingJsonAnswerErrors(xhr)
+subscribeForQuestion = ->
+  questionId = $('.answers').data('questionId')
+  channel = '/questions/' + questionId
+  PrivatePub.subscribe channel, (data, channel) ->
+    console.log(data)
+    answer = $.parseJSON(data['answer'])
+    $.when($('.answers').append(HandlebarsTemplates['answers/create'](answer)))
+     .done ->
+      editAnswerLink('.new_answer')
+    $('.new_answer').find('textarea').val('')
 
 $(document).on 'ajax:success', '.edit_answer', (e, data, status, xhr) ->
   processingJsonForAnswer(".edit_answer", xhr)
@@ -42,5 +48,6 @@ editAnswerLink =  ($doc) ->
     $('form#edit-answer-' + answer_id).show()
 
 $(document).ready(editAnswerLink)
+$(document).ready(subscribeForQuestion)
 $(document).on('page:load', editAnswerLink)
 $(document).on('page:update', editAnswerLink)

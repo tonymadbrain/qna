@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require private_pub
 //= require jquery.remotipart
 //= require jquery_nested_form
 //= require handlebars

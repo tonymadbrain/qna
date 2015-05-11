@@ -9,3 +9,7 @@
 
 Приложение дублирует функционал сайта http://stackoverflow.com/
 
+Для запуска:
+* запустить само приложение, например - rails s
+* запустить faye сервер - rackup private_pub.ru -s thin -E production
+

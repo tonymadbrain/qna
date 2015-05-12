@@ -20,7 +20,7 @@ div id="answer_{{ id }}" class="answer"
   a class="edit-answer-link btn btn-primary btn-xs" href="" data-answer-id="{{ id }}" Edit
   a class="btn btn-danger btn-xs" href="/answers/{{ id }}" data-method="delete" rel="nofollow" data-remote="true" Delete
 
-  form id="edit-answer-{{ id }}" role="form" class="edit_answer" method="post" data-remote="true" accept-charset="UTF-8" action="/answers/{{ id }}" data-type="json"
+  form id="edit-answer-{{ id }}" role="form" class="edit_answer" method="post" data-remote="true" accept-charset="UTF-8" action="/answers/{{ id }}"
     input type="hidden" value="✓" name="utf8"
     input type="hidden" value="patch" name="_method"
     label class="control-label required" for="answer_body" Edit answer

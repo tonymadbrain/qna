@@ -28,17 +28,17 @@ subscribeForQuestion = ->
   questionId = $('.answers').data('questionId')
   channel = '/questions/' + questionId
   PrivatePub.subscribe channel, (data, channel) ->
-    console.log(data)
     answer = $.parseJSON(data['answer'])
-    $.when($('.answers').append(HandlebarsTemplates['answers/create'](answer)))
-     .done ->
-      editAnswerLink('.new_answer')
-    $('.new_answer').find('textarea').val('')
-
-$(document).on 'ajax:success', '.edit_answer', (e, data, status, xhr) ->
-  processingJsonForAnswer(".edit_answer", xhr)
-.bind 'ajax:error', (e, xhr, status, error) ->
-  processingJsonAnswerErrors(xhr)
+    type = data['type']
+    if type == "new"
+      $.when($('.answers').append(HandlebarsTemplates['answers/create'](answer)))
+       .done ->
+        editAnswerLink('.answers')
+      $('.new_answer').find('textarea').val('')
+    if type == "update"
+      $.when($('#answer_' + answer.id).replaceWith(HandlebarsTemplates['answers/create'](answer)))
+      .done ->
+      editAnswerLink('.answers')
 
 editAnswerLink =  ($doc) ->
   $('.edit-answer-link').click (e) ->

@@ -6,6 +6,7 @@ hr
   = render @question.answers
   .answer-errors
 - if current_user
+  .user-auth data={ current_user: "#{ current_user.id }"}
   = bootstrap_nested_form_for [@question, @answer], remote: true do |f|
     = f.text_area :body, label: 'Answer'
     = f.fields_for :attachments do |a|

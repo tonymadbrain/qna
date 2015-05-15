@@ -5,7 +5,7 @@ div id="answer_{{ id }}" class="answer"
   | {{/if }}
   p
     | {{ body }}
-
+    
   | {{#if attachments }}
   p Attachments:
   ul

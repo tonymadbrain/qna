@@ -2,4 +2,13 @@
   <% @answer.errors.full_messages.each do |message| %>
     $('.answer-errors').html('<div class="alert alert-danger"><%= j message %></div>');
   <% end %>
+<% else %>
+  $('.answers').append('<%= j render @answer %>');
+  $('.edit-answer-link').click(function(e) {
+      e.preventDefault();
+      $(this).hide();
+      answer_id = $(this).data('answerId');
+      $('form#edit-answer-' + answer_id).show();
+  });
+  $('.new_answer').find('#answer_body').val('');
 <% end %>

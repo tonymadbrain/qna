@@ -1,0 +1,4 @@
+h3 
+  a href="/questions/{{ id }}" {{ title }}
+small
+  | {{ created_at }}

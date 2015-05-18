@@ -30,11 +30,21 @@ updateRatings = ($buttonClass, $xhr) ->
       html_source = '<p><a class="delete_vote_link" data-remote="true" rel="nofollow" data-method="delete" href="/questions/' + resource.id + '/delete_vote">-</a></p>'    
   vote.html(html_source)
 
+subscribeForQuestions = ->
+  channel = '/questions'
+  currentUser = $('.user-auth').data('currentUser')
+  PrivatePub.subscribe channel, (data, channel) ->
+    console.log(data)
+    question = $.parseJSON(data['question'])
+    author = data['author']
+    $('.questions').append(HandlebarsTemplates['questions/index'](question))
+
 $(document).on 'ajax:success', '.vote_link', (e, data, status, xhr) ->
   updateRatings(".vote_link", xhr)
 $(document).on 'ajax:success', '.delete_vote_link', (e, data, status, xhr) ->
   updateRatings(".delete_vote_link", xhr)
 
 $(document).ready(editQuestionLink)
+$(document).ready(subscribeForQuestions)
 $(document).on('page:load', editQuestionLink)
 $(document).on('page:update', editQuestionLink)

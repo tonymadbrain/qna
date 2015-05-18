@@ -8,11 +8,14 @@ class AnswersController < ApplicationController
 
    def create
     @answer = @question.answers.build(answer_params)
-
     respond_to do |format|
       if @answer.save
+        format.js do
+          PrivatePub.publish_to "/questions/#{@question.id}", answer: @answer.to_json(include: :attachments), type: 'new', author: @answer.user_id, data: 'answer'
+        end
         format.json { render json: @answer.to_json(include: :attachments) }
       else
+        format.js
         format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
       end
     end
@@ -21,8 +24,12 @@ class AnswersController < ApplicationController
   def update
     respond_to do |format|
       if @answer.update(answer_params)
+        format.js do
+          PrivatePub.publish_to "/questions/#{@question.id}", answer: @answer.to_json(include: :attachments), type: "update", author: @answer.user_id, data: 'answer'
+        end
         format.json { render json: @answer.to_json(include: :attachments) }
       else
+        format.js
         format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
       end
     end    

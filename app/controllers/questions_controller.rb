@@ -27,6 +27,7 @@ class QuestionsController < ApplicationController
     if @question.save
       flash[:notice] = 'Your question successfully created.'
       redirect_to @question
+      PrivatePub.publish_to "/questions", question: @question.to_json(include: :attachments), data: 'question'
     else
       flash[:notice] = 'You must fill all fields.'
       render :new

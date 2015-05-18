@@ -1,0 +1,17 @@
+div id="answer_{{ id }}" class="answer"
+  | {{#if best }}
+  p 
+    | This is best answer
+  | {{/if }}
+  p
+    | {{ body }}
+
+  | {{#if attachments }}
+  p Attachments:
+  ul
+    | {{#each attachments }}
+    div id="attachment_{{ id }}"
+      li 
+        | {{link file}}
+    | {{/each }}
+  | {{/if }}

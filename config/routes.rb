@@ -11,11 +11,15 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :questions, concerns: [:votable] do
+  resources :questions, concerns: [:votable] do 
+    resources :comments, only: [:create], defaults: { commentable: 'question' }
     resources :answers, concerns: [:votable], except: [:index, :show, :edit], shallow: true do
+      resources :comments, only: [:create], defaults: { commentable: 'answer' }
       patch :make_best, on: :member
     end
   end
 
-  resources :attachments, only: [:destroy]
+  resources :comments, :only => [:create]
+
+  resources :attachments, only: [:destroy]  
 end

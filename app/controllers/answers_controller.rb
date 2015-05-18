@@ -2,6 +2,7 @@ class AnswersController < ApplicationController
   before_action :load_answer, only: [:edit, :update, :destroy, :make_best, :render_answer, :render_error]
   before_action :load_question, only: [:create, :make_best, :update]
   before_action :check_user, only: [:update, :destroy]
+  after_action  :publish_answer, only: :create
 
   include PublicIndex
   include Voted
@@ -10,9 +11,7 @@ class AnswersController < ApplicationController
     @answer = @question.answers.build(answer_params)
     respond_to do |format|
       if @answer.save
-        format.js do
-          PrivatePub.publish_to "/questions/#{@question.id}", answer: @answer.to_json(include: :attachments), type: 'new', author: @answer.user_id, data: 'answer'
-        end
+        format.js
         format.json { render json: @answer.to_json(include: :attachments) }
       else
         format.js
@@ -24,9 +23,7 @@ class AnswersController < ApplicationController
   def update
     respond_to do |format|
       if @answer.update(answer_params)
-        format.js do
-          PrivatePub.publish_to "/questions/#{@question.id}", answer: @answer.to_json(include: :attachments), type: "update", author: @answer.user_id, data: 'answer'
-        end
+        format.js
         format.json { render json: @answer.to_json(include: :attachments) }
       else
         format.js
@@ -64,5 +61,9 @@ class AnswersController < ApplicationController
 
   def check_user
     render text: 'You do not have permission to view this page.', status: 403 if @answer.user_id != current_user.id
+  end
+  
+  def publish_answer
+    PrivatePub.publish_to("/questions/#{@question.id}", answer: @answer.to_json(include: :attachments), author: @answer.user_id) if @answer.valid?
   end
 end

@@ -1,0 +1,5 @@
+div id="comment-{{ comment.id }}"
+  p
+  | {{ user.email }}
+  p
+  | {{ comment.body }}

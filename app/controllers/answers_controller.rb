@@ -11,7 +11,7 @@ class AnswersController < ApplicationController
     respond_to do |format|
       if @answer.save
         format.js do
-          PrivatePub.publish_to "/questions/#{@question.id}", answer: @answer.to_json(include: :attachments), type: 'new', author: @answer.user_id
+          PrivatePub.publish_to "/questions/#{@question.id}", answer: @answer.to_json(include: :attachments), type: 'new', author: @answer.user_id, data: 'answer'
         end
         format.json { render json: @answer.to_json(include: :attachments) }
       else
@@ -25,7 +25,7 @@ class AnswersController < ApplicationController
     respond_to do |format|
       if @answer.update(answer_params)
         format.js do
-          PrivatePub.publish_to "/questions/#{@question.id}", answer: @answer.to_json(include: :attachments), type: "update", author: @answer.user_id
+          PrivatePub.publish_to "/questions/#{@question.id}", answer: @answer.to_json(include: :attachments), type: "update", author: @answer.user_id, data: 'answer'
         end
         format.json { render json: @answer.to_json(include: :attachments) }
       else

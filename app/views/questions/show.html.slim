@@ -1,6 +1,8 @@
 .question
-  = render @question
   .question-error
+  = render @question
+  = render 'comments/comments', resource: @question
+  = render 'comments/form', resource: @question
 hr
 .answers data={ question_id: "#{@question.id}" }
   = render @question.answers

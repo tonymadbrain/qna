@@ -3,6 +3,8 @@
       - if answer.best
         | This is best answer
       p = answer.body
+      = render 'comments/comments', resource: answer
+      = render 'comments/form', resource: answer
       div class="total_votes" Rating: #{answer.total_votes}
       - if user_signed_in? && current_user.id != answer.user_id
         .vote

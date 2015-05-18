@@ -1,0 +1,6 @@
+- if user_signed_in?
+  div id="create-#{resource.class.name.downcase}-comment"
+    = link_to 'New comment', '', class: 'create-comment-link', data: { resource_id: resource.id, resource_type: resource.class.name.downcase }
+    = bootstrap_form_for [resource, resource.comments.new], data: { type: :json }, html: { id: "comment-for-#{resource.class.name.downcase}-#{resource.id}" , style: "display: none" }, remote: true do |f|
+      = f.text_area :body, label: 'Comment body'
+      = f.submit 'Create'

@@ -277,6 +277,7 @@ DEPENDENCIES
   pry-rails
   rails (= 4.2.0)
   remotipart
+  responders (~> 2.0)
   rspec-rails
   sass-rails (~> 5.0)
   shoulda-matchers

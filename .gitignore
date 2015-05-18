@@ -19,4 +19,5 @@ config/database.yml
 test.rb
 .rubocop.yml
 config/database.yml
+config/private_pub.yml
 /public/uploads

@@ -1,43 +1,30 @@
 class AnswersController < ApplicationController
-  before_action :load_answer, only: [:edit, :update, :destroy, :make_best, :render_answer, :render_error]
+  before_action :load_answer, only: [:edit, :update, :destroy, :make_best, :render_answer, :render_error, :show]
   before_action :load_question, only: [:create, :make_best, :update]
-  before_action :check_user, only: [:update, :destroy]
+  before_action :answer_owner, only: [:update, :destroy]
+  before_action :question_owner, only: :make_best
   after_action  :publish_answer, only: :create
+
+  respond_to :js, only: [:destroy, :make_best, :create, :update]
 
   include PublicIndex
   include Voted
 
-   def create
-    @answer = @question.answers.build(answer_params)
-    respond_to do |format|
-      if @answer.save
-        format.js
-        format.json { render json: @answer.to_json(include: :attachments) }
-      else
-        format.js
-        format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
-      end
-    end
+  def create
+    respond_with(@answer = @question.answers.create(answer_params))
   end
 
   def update
-    respond_to do |format|
-      if @answer.update(answer_params)
-        format.js
-        format.json { render json: @answer.to_json(include: :attachments) }
-      else
-        format.js
-        format.json { render json: @answer.errors.full_messages, status: :unprocessable_entity }
-      end
-    end    
+    @answer.update(answer_params)
+    respond_with @answer
   end
 
   def destroy
-    @answer.destroy
+    respond_with(@answer.destroy)
   end
 
   def make_best
-    @answer.make_best if @question.user_id == current_user.id
+    respond_with(@answer.make_best)
   end
 
   private
@@ -59,8 +46,12 @@ class AnswersController < ApplicationController
     answer_params.merge(user_id: current_user.id)
   end
 
-  def check_user
+  def answer_owner
     render text: 'You do not have permission to view this page.', status: 403 if @answer.user_id != current_user.id
+  end
+
+  def question_owner
+    render text: 'You do not have permission to view this page.', status: 403 if @question.user_id != current_user.id
   end
   
   def publish_answer

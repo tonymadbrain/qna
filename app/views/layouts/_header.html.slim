@@ -12,7 +12,7 @@ header
       #navbar-ex-collapse.collapse.navbar-collapse
         ul.nav.navbar-nav.navbar-right
           - if user_signed_in?
-            small = current_user.id
+            li class="navbar-text" = current_user.email
             li = button_to 'Ask question', new_question_path, method: :get, class: 'button btn btn-warning navbar-btn'
             li = button_to 'Sign out', destroy_user_session_path, method: :delete, class: 'button btn btn-primary navbar-btn'
           - else

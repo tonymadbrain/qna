@@ -1,10 +1,10 @@
 class QuestionsController < ApplicationController
   before_action :load_question, only: [:show, :edit, :update, :destroy]
   before_action :build_answer, only: :show
+  before_action :check_user, only: :destroy
   after_action  :publish_question, only: :create
 
-  respond_to :html
-  respond_to :js, only: :create
+  respond_to :js, only: :update
 
   include PublicIndex
   include Voted
@@ -14,7 +14,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    respond_with @question
+    respond_with(@question)
   end
 
   def new
@@ -25,8 +25,7 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    # respond_with(@question = current_user.questions.new(question_params))
-    respond_with(@question = Question.create(question_params))
+    respond_with(@question = current_user.questions.create(question_params))
   end
 
   def update
@@ -35,7 +34,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    respond_with(@question.destroy) if @question.user_id == current_user.id
+    respond_with(@question.destroy)
   end
 
   private
@@ -52,7 +51,11 @@ class QuestionsController < ApplicationController
     @answer = @question.answers.build
   end
 
+  def check_user
+    render text: 'You do not have permission to view this page.', status: 403 if @question.user_id != current_user.id
+  end
+
   def publish_question
-    PrivatePub.publish_to("/questions", question: @question.to_json(include: :attachments), data: 'question') if @question.valid?
+    PrivatePub.publish_to("/questions", question: @question.to_json(include: :attachments)) if @question.valid?
   end
 end

@@ -18,7 +18,7 @@ feature 'Create question', '
     fill_in 'Text', with: 'test fish text'
     click_on 'Create'
 
-    expect(page).to have_content 'Your question successfully created.'
+    expect(page).to have_content 'Your Question successfully created.'
     expect(page).to have_content 'test fish text'
   end
 
@@ -32,7 +32,7 @@ feature 'Create question', '
     fill_in 'Text', with: 'test fish text'
     click_on 'Create'
 
-    expect(page).to have_content 'You must fill all fields.'
+    expect(page).to have_content "Titlecan't be blank"
     expect(current_path).to eq questions_path
   end
 

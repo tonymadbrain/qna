@@ -25,6 +25,7 @@ hr
     - if current_user && @question.user_id == current_user.id
       = link_to 'Edit', '', class: 'edit-question-link btn btn-danger btn-xs', data: { question_id: @question.id }, remote: true
       = link_to 'Delete question', question_path, method: :delete, class: 'button btn btn-danger btn-xs'
+.row
   p
     = bootstrap_form_for @question, remote: true, html: { id: "edit-question-#{@question.id}"} do |f|
       = f.text_field :title, label: 'Title'

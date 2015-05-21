@@ -1,10 +1,10 @@
 class AttachmentsController < ApplicationController
-  before_action :find_attachment
-  
+  before_action :find_attachment, only: :destroy
+
+  respond_to :js, only: :destroy
+
   def destroy
-    if current_user.id == @attachment.attachable.user_id
-      @attachment.destroy
-    end
+    respond_with(@attachment.destroy) if current_user.id == @attachment.attachable.user_id
   end
 
   private

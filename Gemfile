@@ -18,8 +18,9 @@ gem 'carrierwave'
 gem 'remotipart'
 gem 'nested_form'
 gem 'handlebars_assets'
-gem "private_pub"
-gem "thin"
+gem 'private_pub'
+gem 'thin'
+gem 'responders', '~> 2.0'
 
 group :development, :test do
   gem 'byebug'

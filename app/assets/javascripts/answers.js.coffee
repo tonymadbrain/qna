@@ -13,8 +13,7 @@ subscribeForQuestion = ->
   currentUser = $('.user-auth').data('currentUser')
   PrivatePub.subscribe channel, (data, channel) ->
     console.log(data)
-    data1 = data['data']
-    if data1 == 'answer'
+    if data['answer']
       answer = $.parseJSON(data['answer'])
       type = data['type']
       author = data['author']
@@ -30,15 +29,13 @@ subscribeForQuestion = ->
           editAnswerLink('.answers')
       else
         console.log('Author')
-    if data1 == 'comment'
+    if data['comment']
       comment_data =
         comment: $.parseJSON(data['comment'])
         user: $.parseJSON(data['user'])
       resource_type = comment_data.comment.commentable_type.toLowerCase()
       $('.' + resource_type + '-comments').append(HandlebarsTemplates['comments/create'](comment_data))
       $('form#comment_body').val('')
-
-
 
 editAnswerLink =  ($doc) ->
   $('.edit-answer-link').click (e) ->

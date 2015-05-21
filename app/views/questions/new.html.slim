@@ -4,7 +4,7 @@
   = f.text_area :body, label: "Text"
   p Attachments:
   p
-    = f.fields_for :attachments do |a|
+    = f.fields_for :attachments, @question.attachments.build do |a|
       = a.file_field :file, label: "File"
       = a.link_to_remove "Clear"
     = f.link_to_add "Add more", :attachments

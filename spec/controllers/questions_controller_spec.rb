@@ -28,10 +28,6 @@ RSpec.describe QuestionsController, type: :controller do
     it 'render show view' do
       expect(response).to render_template :show
     end
-
-    it 'builds new attachment for answer' do
-      expect(assigns(:answer).attachments.first).to be_a_new(Attachment)
-    end
   end
 
   describe 'authorized user GET #new' do
@@ -44,10 +40,6 @@ RSpec.describe QuestionsController, type: :controller do
 
     it 'renders new view' do
       expect(response).to render_template :new
-    end
-
-    it 'builds new attachment for question' do
-      expect(assigns(:question).attachments.first).to be_a_new(Attachment)
     end
   end
 
@@ -91,7 +83,7 @@ RSpec.describe QuestionsController, type: :controller do
       end
 
       it 'assign user to created question' do
-        post :create, question: attributes_for(:question), format: :js
+        post :create, question: attributes_for(:question)
         expect(assigns(:question).user).to eq subject.current_user
       end
     end
@@ -174,7 +166,6 @@ RSpec.describe QuestionsController, type: :controller do
     it 'delete his question from database' do
        question_for_del = Question.create(title: question.title, body: question.body, user_id: @user.id)
       expect { delete :destroy, id: question_for_del }.to change(Question, :count).by(-1)
-      expect(response).to redirect_to questions_path
      end
 
     it 'delete other question from database' do

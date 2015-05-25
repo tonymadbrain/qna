@@ -53,6 +53,9 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    capybara-email (2.4.0)
+      capybara (~> 2.4)
+      mail
     capybara-webkit (1.5.1)
       capybara (>= 2.3.0, < 2.5.0)
       json
@@ -289,6 +292,7 @@ DEPENDENCIES
   bootstrap_form
   byebug
   capybara
+  capybara-email
   capybara-webkit
   carrierwave
   coffee-rails (~> 4.1.0)

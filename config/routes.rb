@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   resources :comments, :only => [:create]
 
   resources :attachments, only: [:destroy]  
+  
   resources :identities, only: :show do
     get :confirm, on: :member
   end

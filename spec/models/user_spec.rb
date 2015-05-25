@@ -5,67 +5,68 @@ RSpec.describe User do
   it { should validate_presence_of :password }
   it { should have_many(:questions).dependent(:destroy) }
   it { should have_many(:answers).dependent(:destroy) }
+  it { should have_many(:identitys).dependent(:destroy) }
 
   describe '.find_for_oauth' do
-    let!(:user) { create(:user) }
-    let!(:auth)  { OmniAuth::AuthHash.new(provider: 'facebook', uid: 'qwe123') }
+    context "when user is unregistered" do
+      let(:user) { build(:user) }
+      let(:auth) do
+        OmniAuth::AuthHash.new({
+          provider: 'provider',
+          uid: '12345',
+          info: {
+            email: user.email
+          }
+        })
+      end
+      let(:create_find_for_oauth) { User.find_for_oauth(auth) }
+      
+      it 'creates user' do
+        create_find_for_oauth
+        expect(User.find_by(email: user.email)).to_not be_nil
+      end
 
-    context 'user already has authoriztion' do
-      it 'returns the user' do
-        user.identitys.create(provider: 'facebook', uid: 'qwe123')
-        expect(User.find_for_oauth(auth)).to eq user
+      it "increments user's count" do
+        expect { create_find_for_oauth }.to change(User, :count).by(1)
+      end
+
+      it 'creates identity for created user' do
+        create_find_for_oauth
+        expect(Identity.find_by(uid: auth.uid, provider: auth.provider).user.email).to eq user.email
       end
     end
 
-    context 'user has no identity'do
-      context 'but already exist' do
-      let!(:auth)  { OmniAuth::AuthHash.new(provider: 'facebook', uid: 'qwe123', info: { email: user.email }) }
-        it 'does not create new user' do
-          expect{ User.find_for_oauth(auth) }.to_not change(User, :count)
-        end
+    context 'when user is registered' do
+      let!(:user) { create(:user) }
+      let(:auth) do
+        OmniAuth::AuthHash.new({
+          provider: 'provider',
+          uid: '12345',
+          info: {
+            email: user.email
+          }
+        })
+      end
+      let(:find_find_for_oauth) { User.find_for_oauth(auth) }
+      
+      it 'finds user' do
+        expect(find_find_for_oauth).to eq user
+      end
 
-        it 'creates identitys for user' do
-          expect{ User.find_for_oauth(auth) }.to change(user.identitys, :count).by(1)
-        end
+      it "doesn't increment user's count" do
+        expect { find_find_for_oauth }.to_not change(User, :count)
+      end
 
-        it 'creates identitys with valid data' do
-          identity = User.find_for_oauth(auth).identitys.first
-          
-          expect(identity.provider).to eq auth.provider
-          expect(identity.uid).to eq auth.uid
-        end
-
-        it 'return the user' do
-          expect(User.find_for_oauth(auth)).to eq user
+      context "when identity doesn't exist" do
+        it 'creates new identity for given user' do
+          expect { find_find_for_oauth }.to change(user.identitys, :count).by(1)
         end
       end
 
-      context 'and does not exist' do
-        let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: 'qwe123', info: { email: 'new_user@email.com' }) }
-      
-        it 'creates new user' do
-          expect{ User.find_for_oauth(auth) }.to change(User, :count).by(1)
-        end
-        
-        it 'returns new user' do
-          expect(User.find_for_oauth(auth)).to be_a(User)
-        end
-        
-        it 'fils user email' do
-          user = User.find_for_oauth(auth)
-          expect(user.email).to eq auth.info.email
-        end
-        
-        it 'creates identitys for user' do
-          user = User.find_for_oauth(auth)
-          expect(user.identitys).to_not be_empty
-        end
-        
-        it 'creates identitys with valid data' do
-          identity = User.find_for_oauth(auth).identitys.first
-
-          expect(identity.provider).to eq auth.provider
-          expect(identity.uid).to eq auth.uid
+      context "when identity exists" do
+        before { create(:identity, user: user, uid: auth.uid, provider: auth.provider) }
+        it "doesn't create new identity" do
+          expect { find_find_for_oauth }.to_not change(user.identitys, :count)
         end
       end
     end

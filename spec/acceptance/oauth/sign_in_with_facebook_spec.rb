@@ -13,7 +13,7 @@ RSpec.feature 'Sign in with Facebook. In order to improve usability as a user I 
 
     expect(page).to have_content 'Successfully authenticated from Facebook account'
     expect(page).to_not have_selector(:link_or_button, 'Log in')
-    expect(page).to have_selector(:link_or_button, 'Log out')
+    expect(page).to have_selector(:link_or_button, 'Sign out')
     expect(current_path).to eq root_path
   end
 
@@ -25,7 +25,7 @@ RSpec.feature 'Sign in with Facebook. In order to improve usability as a user I 
     
     expect(page).to have_content 'Successfully authenticated from Facebook account'
     expect(page).to_not have_selector(:link_or_button, 'Log in')
-    expect(page).to have_selector(:link_or_button, 'Log out')
+    expect(page).to have_selector(:link_or_button, 'Sign out')
     expect(current_path).to eq root_path
   end
 

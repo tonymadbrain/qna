@@ -13,4 +13,9 @@ module AcceptanceMacros
     fill_in 'Password confirmation', with: user.password_confirmation
     click_on 'Sign up'
   end
+
+  def sign_in_soc_network(soc_network, options)
+    OmniAuth.config.mock_auth[soc_network] = nil
+    OmniAuth.config.add_mock(soc_network, options)
+  end
 end

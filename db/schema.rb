@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150518084645) do
+ActiveRecord::Schema.define(version: 20150525082213) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,19 @@ ActiveRecord::Schema.define(version: 20150518084645) do
   end
 
   add_index "comments", ["commentable_id", "commentable_type"], name: "index_comments_on_commentable_id_and_commentable_type", using: :btree
+
+  create_table "identities", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "provider"
+    t.string   "uid"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.string   "confirm_code"
+    t.string   "email"
+  end
+
+  add_index "identities", ["provider", "uid"], name: "index_identities_on_provider_and_uid", using: :btree
+  add_index "identities", ["user_id"], name: "index_identities_on_user_id", using: :btree
 
   create_table "questions", force: :cascade do |t|
     t.string   "title"
@@ -90,5 +103,6 @@ ActiveRecord::Schema.define(version: 20150518084645) do
 
   add_foreign_key "answers", "questions"
   add_foreign_key "comments", "users"
+  add_foreign_key "identities", "users"
   add_foreign_key "votes", "users"
 end

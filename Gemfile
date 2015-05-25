@@ -21,6 +21,9 @@ gem 'handlebars_assets'
 gem 'private_pub'
 gem 'thin'
 gem 'responders', '~> 2.0'
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-twitter'
 
 group :development, :test do
   gem 'byebug'
@@ -35,4 +38,6 @@ group :development, :test do
   gem 'pry-rails'
   gem 'capybara-webkit'
   gem 'database_cleaner'
+  gem 'letter_opener'
+  gem 'capybara-email'
 end

@@ -1,6 +1,8 @@
 class OmniauthCallbacksController < Devise::OmniauthCallbacksController
   before_action :main_function
-  
+
+  include PublicIndex
+
   def facebook
   end
 

@@ -1,6 +1,8 @@
 class IdentitiesController < ApplicationController
   before_action :load_identity, only: [:show, :confirm]
 
+  skip_before_action :authenticate_user!
+
   def show
     render nothing: true unless @identity.confirm_code.present?
   end

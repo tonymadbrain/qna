@@ -1,5 +1,7 @@
 class RegistrationsController < Devise::RegistrationsController
 
+  include PublicIndex
+
   def create
     identity_id = session['devise.identity_id']
     identity = identity_id.present? ? Identity.find(identity_id) : nil

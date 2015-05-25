@@ -38,4 +38,5 @@ group :development, :test do
   gem 'pry-rails'
   gem 'capybara-webkit'
   gem 'database_cleaner'
+  gem 'letter_opener'
 end

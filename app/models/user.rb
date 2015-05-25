@@ -5,26 +5,31 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable, omniauth_providers: [:facebook, :twitter] 
   has_many :questions, dependent: :destroy
   has_many :answers, dependent: :destroy
-  has_many :identitys
+  has_many :identitys, dependent: :destroy
 
-  def self.find_for_oauth(auth)
-    identity = Identity.where(provider: auth.provider, uid: auth.uid.to_s).first
-    return identity.user if identity
+  attr_accessor :without_password
 
-    email = auth.info[:email]
-    user = User.where(email: email).first
-    if user
-      user.create_identity(auth)
-    else
-      password = Devise.friendly_token[0, 16]
-      user = User.create!(email: email, password: password, password_confirmation: password)
-      user.create_identity(auth)
-    end
-    
-    user
+  def password_required?
+    super && !without_password
   end
 
-  def create_identity(auth)
-    self.identitys.create(provider: auth.provider, uid: auth.uid)
+  def self.find_for_oauth(auth)
+    identity = Identity.includes(:user).find_or_create_by(uid: auth.uid, provider: auth.provider)
+    return identity.user if identity.user.present?
+    
+    if auth.info.email.present?
+      user = User.find_by(email: auth.info.email)
+      unless user.present?
+        user = User.new(email: auth.info.email)
+        user.without_password = true
+        user.save!
+      end
+      identity.update!(user: user)
+      return user
+    end
+    
+    user = User.new
+    user.identitys << identity
+    user
   end
 end

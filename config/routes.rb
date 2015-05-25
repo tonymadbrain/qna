@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
   root to: 'questions#index'
   
-  devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
+  devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks', registrations: 'registrations' }
 
   concern :votable do
     member do
@@ -22,4 +22,7 @@ Rails.application.routes.draw do
   resources :comments, :only => [:create]
 
   resources :attachments, only: [:destroy]  
+  resources :identities, only: :show do
+    get :confirm, on: :member
+  end
 end

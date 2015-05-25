@@ -21,10 +21,12 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
+    FileUtils.rm_rf(Dir.glob('public/uploads/*'))
     DatabaseCleaner.start
   end
 
   config.after(:each) do
+    FileUtils.rm_rf(Dir.glob('public/uploads/*'))
     DatabaseCleaner.clean
   end
 end

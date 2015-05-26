@@ -12,8 +12,6 @@ header
             span Q&A point
         #navbar-ex-collapse.collapse.navbar-collapse
           ul.nav.navbar-nav.navbar-right
-            - if can?(:create, Question)
-              li = button_to 'Ask question', new_question_path, method: :get, class: 'button btn btn-xs btn-warning navbar-btn'
             - if user_signed_in?
               li class="navbar-text" = current_user.email
               li = button_to 'Sign out', destroy_user_session_path, method: :delete, class: 'button btn btn-xs btn-primary navbar-btn'

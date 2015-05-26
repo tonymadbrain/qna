@@ -4,6 +4,8 @@ class QuestionsController < ApplicationController
   before_action :check_user, only: :destroy
   after_action  :publish_question, only: :create
 
+  authorize_resource
+
   respond_to :js, only: :update
 
   include PublicIndex

@@ -30,16 +30,16 @@ class Ability
       attachment.attachable.user_id == user.id
     end
 
-    can :vote, [Answer, Question] do |resource|
+    can :make_best, Answer do |answer|
+      answer.question.user_id == user.id
+    end
+
+    can :create_vote, [Answer, Question] do |resource|
       user.id != resource.user_id && !resource.voted_by?(user)
     end
 
-    can :disvote, [Answer, Question] do |resource|
+    can :delete_vote, [Answer, Question] do |resource|
       user.id != resource.user_id
-    end
-
-    can :make_best, Answer do |answer|
-      answer.question.user_id == user.id
     end
 
   end

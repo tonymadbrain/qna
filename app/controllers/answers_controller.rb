@@ -5,6 +5,8 @@ class AnswersController < ApplicationController
   before_action :question_owner, only: :make_best
   after_action  :publish_answer, only: :create
 
+  authorize_resource
+
   respond_to :js, only: [:destroy, :make_best, :create, :update]
 
   include PublicIndex

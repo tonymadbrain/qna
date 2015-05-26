@@ -3,6 +3,8 @@ class CommentsController < ApplicationController
   before_action :load_commentable, only: :create
   after_action  :publish_comment, only: :create
 
+  authorize_resource
+
   respond_to :js, only: :create
 
   def create

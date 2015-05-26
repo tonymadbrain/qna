@@ -5,27 +5,21 @@
       p = answer.body
       = render 'comments/comments', resource: answer
       = render 'comments/form', resource: answer
-      div class="total_votes" Rating: #{answer.total_votes}
-      - if user_signed_in? && current_user.id != answer.user_id
-        .vote
-          - if answer.voted_by?(current_user)
-            p = link_to '-', delete_vote_answer_path(answer), class: 'delete_vote_link', remote: true, method: :delete
-          - else
-            p = link_to '+', create_vote_answer_path(answer, value: 1), class: 'vote_link', remote: true, method: :post
-            p = link_to '-', create_vote_answer_path(answer, value: -1), class: 'vote_link', remote: true, method: :post
+      = render 'votes/votes', resource: answer
       - if answer.attachments.exists?
         p Attachments:
         ul
           - answer.attachments.each do |a|
             div id="attachment_#{a.id}"
               li= link_to a.file.identifier, a.file.url
-              - if current_user && answer.user_id == current_user.id
+              - if can?(:destroy, a)
                 = link_to 'Delete file', a, method: :delete, remote: true
-      - if user_signed_in? && (answer.user_id == current_user.id)
+      - if can?(:update, answer)
         = link_to 'Edit', '', class: 'edit-answer-link btn btn-primary btn-xs', data: { answer_id: answer.id }
-        = link_to 'Delete answer', [answer], class: 'btn btn-danger btn-xs', remote: true, method: :delete
         = bootstrap_form_for [answer], remote: true, html: { id: "edit-answer-#{ answer.id }"} do |f|
           = f.text_area :body, label: 'Edit answer'
           = f.submit 'Save'
-      - if user_signed_in? && (@question.user_id == current_user.id)
+      - if can?(:destroy, answer)
+        = link_to 'Delete answer', [answer], class: 'btn btn-danger btn-xs', remote: true, method: :delete
+      - if can?(:make_best, answer)
         = link_to 'Best answer', make_best_answer_path(answer), class: 'btn btn-success btn-xs', method: :patch, remote: true

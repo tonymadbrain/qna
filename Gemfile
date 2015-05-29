@@ -25,6 +25,7 @@ gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'cancancan'
+gem 'doorkeeper'
 
 group :development, :test do
   gem 'byebug'
@@ -41,4 +42,5 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'letter_opener'
   gem 'capybara-email'
+  gem 'json_spec'
 end

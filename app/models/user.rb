@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
   has_many :answers, dependent: :destroy
   has_many :identitys, dependent: :destroy
 
+  scope :all_except, ->(user) { where.not(id: user) }
+
   attr_accessor :without_password
 
   def password_required?

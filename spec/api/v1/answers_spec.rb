@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'Answers API' do
-  let!(:user)          { create(:user) }
+  let!(:user)         { create(:user) }
   let!(:question)     { create(:question, user: user) }
   let(:access_token)  { create(:access_token) }
   let(:url)           { api_v1_question_answers_path(question) }
@@ -42,7 +42,7 @@ describe 'Answers API' do
   end
 
   describe 'GET /show' do
-    let(:answer) { create(:answer, question: question, user: user) }
+    let(:answer)     { create(:answer, question: question, user: user) }
     let(:answer_url) { api_v1_answer_path(answer) }
 
     context 'unauthorized' do
@@ -58,7 +58,7 @@ describe 'Answers API' do
     end
 
     context 'authorized' do
-      let!(:comment) { create(:comment, commentable: answer) }
+      let!(:comment)    { create(:comment, commentable: answer) }
       let!(:attachment) { create(:attachment, attachable: answer) }
 
       before { get answer_url, format: :json, access_token: access_token.token }
@@ -98,8 +98,8 @@ describe 'Answers API' do
   end
 
   describe 'POST /create' do
-    let(:question) { create(:question, user: user) }
-    let(:answer) { build(:answer, user: user) }
+    let(:question)   { create(:question, user: user) }
+    let(:answer)     { build(:answer, user: user) }
     let(:owner_user) { User.find(access_token.resource_owner_id) }
     
     context 'unauthorized' do

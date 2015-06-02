@@ -12,6 +12,8 @@ class Ability
     end
   end
 
+  private
+
   def guest_abilities
     can :read, :all 
   end
@@ -22,6 +24,7 @@ class Ability
 
   def user_abilities
     guest_abilities
+    can :manage, :profile
     can :create, [Question, Answer, Comment]
     can :update, [Question, Answer], user: user
 

@@ -1,5 +1,5 @@
 class API::V1::QuestionsController < API::V1::BaseController
-  skip_before_action :authenticate_user!, only: [:index, :show]
+  skip_before_action :authenticate_user!, only: [:index, :show, :create]
 
   authorize_resource
 
@@ -11,6 +11,10 @@ class API::V1::QuestionsController < API::V1::BaseController
   def show
     @question = Question.find(params[:id])
     respond_with @question
+  end
+
+  def create
+    respond_with @question = current_resource_owner.questions.create(question_params)
   end
 
   private

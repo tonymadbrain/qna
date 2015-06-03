@@ -4,6 +4,7 @@ describe 'Answers API' do
   let!(:user)         { create(:user) }
   let!(:question)     { create(:question, user: user) }
   let(:access_token)  { create(:access_token) }
+  let!(:resource) { 'answer' }
 
   describe 'GET /index' do
     let!(:answers)  { create_list(:answer, 3, question: question, user: user) }
@@ -13,13 +14,7 @@ describe 'Answers API' do
     context 'authorized' do
       before { do_request access_token: access_token.token }
 
-      it 'returns 200 status code' do
-        expect(response).to be_success
-      end
-
-      it 'returns list of answers' do
-        expect(response.body).to have_json_size(3).at_path("answers")
-      end
+      it_behaves_like 'API 200_and_list'
 
       %w(id body created_at updated_at).each do |attr|
         it "answer object contains #{attr}" do
@@ -40,7 +35,6 @@ describe 'Answers API' do
     context 'authorized' do
       let!(:comment)    { create(:comment, commentable: answer) }
       let!(:attachment) { create(:attachment, attachable: answer) }
-      let!(:resource) { 'answer' }
 
       before { do_request access_token: access_token.token }
 
@@ -70,32 +64,9 @@ describe 'Answers API' do
     it_behaves_like 'API unauthorized'
 
     context 'authorized' do
-      context 'with valid attributes' do
-        it 'returns 201 status code' do
-          do_request access_token: access_token.token, answer: attributes_for(:answer)
-          expect(response.status).to eq 201
-        end
-
-        it 'saves the new answer to database' do
-          expect { do_request access_token: access_token.token, answer: attributes_for(:answer) }.to change(question.answers, :count).by(1)
-        end
-
-        it 'assign new answer to current user' do
-          do_request access_token: access_token.token, answer: attributes_for(:answer)
-          expect(assigns(:answer).user).to eq(owner_user)
-        end
-      end
-
-      context 'with invalid attributes' do
-        it 'returns 422 status code' do
-          do_request access_token: access_token.token, answer: attributes_for(:invalid_answer)
-          expect(response.status).to eq 422
-        end
-
-        it 'not saves the new answer to database' do
-          expect { do_request access_token: access_token.token, answer: attributes_for(:invalid_answer) }.to_not change(question.answers, :count)
-        end
-      end
+      let(:object_attr)     { [{ answer: attributes_for(:answer) }, { answer: attributes_for(:invalid_answer) }] }
+      let!(:list_for_check) { question.answers }
+      it_behaves_like 'API creatable'
     end
 
     def do_request(options = {})

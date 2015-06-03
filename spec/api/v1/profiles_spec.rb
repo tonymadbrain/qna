@@ -2,24 +2,14 @@ require 'rails_helper'
 
 RSpec.describe 'Profile API' do
   describe 'GET #index' do
-    context 'unauthorized' do
-      it 'returns status unauthorized if access_token is not provided' do
-        get '/api/v1/profiles/', format: :json
-        expect(response).to be_unauthorized
-      end
-
-      it 'returns status unauthorized if access_token is invalid' do
-        get '/api/v1/profiles/', format: :json, access_token: SecureRandom.hex
-        expect(response).to be_unauthorized
-      end
-    end
+    it_behaves_like 'API unauthorized'
 
     context 'authorized' do
       let!(:me) { create :user }
       let!(:users) { create_list :user, 3 }
       let(:access_token) { create :access_token, resource_owner_id: me.id }
 
-      before { get '/api/v1/profiles/', format: :json, access_token: access_token.token }
+      before { do_request access_token: access_token.token }
 
       it 'returns status ok' do
         expect(response).to be_success
@@ -30,26 +20,20 @@ RSpec.describe 'Profile API' do
         expect(response.body).to_not include_json(me.to_json).at_path("profiles")
       end
     end
+
+    def do_request(options = {})
+      get api_v1_profiles_path, { format: :json }.merge(options)  
+    end
   end
 
   describe 'GET #me' do
-    context 'unauthorized' do
-      it 'returns status unauthorized if access_token is not provided' do
-        get '/api/v1/profiles/me', format: :json
-        expect(response).to be_unauthorized
-      end
-
-      it 'returns status unauthorized if access_token is invalid' do
-        get '/api/v1/profiles/me', format: :json, access_token: SecureRandom.hex
-        expect(response).to be_unauthorized
-      end
-    end
+    it_behaves_like 'API unauthorized'
 
     context 'authorized' do
       let(:me) { create :user }
       let(:access_token) { create :access_token, resource_owner_id: me.id }
 
-      before { get '/api/v1/profiles/me', format: :json, access_token: access_token.token }
+      before { do_request access_token: access_token.token }
 
       it 'returns status ok' do
         expect(response).to be_success
@@ -66,6 +50,12 @@ RSpec.describe 'Profile API' do
           expect(response.body).to_not have_json_path(attr)
         end
       end
+    end
+
+    def do_request(options = {})
+      # me_api_v1_profiles doesnot work ???
+      # get me_api_v1_profiles, { format: :json }.merge(options)  
+      get '/api/v1/profiles/me', { format: :json }.merge(options)  
     end
   end
 end

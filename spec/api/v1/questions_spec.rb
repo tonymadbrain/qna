@@ -3,27 +3,16 @@ require 'rails_helper'
 describe 'Questions API' do
   let(:access_token) { create(:access_token) }
   let(:user)         { create(:user) }
-  let(:url)          { api_v1_questions_path }
 
   describe 'GET /index' do
-    context 'unauthorized' do
-      it 'returns status unauthorized if access_token is not provided' do
-        get url, format: :json
-        expect(response).to be_unauthorized
-      end
-
-      it 'returns status unauthorized if access_token is invalid' do
-        get url, format: :json, access_token: SecureRandom.hex
-        expect(response).to be_unauthorized
-      end
-    end
+    it_behaves_like 'API unauthorized'
 
     context 'authorized' do
       let!(:questions) { create_list(:question, 2, user: user) }
       let(:question)   { questions.first }
       let!(:answer)    { create(:answer, question: question, user: user) }
 
-      before { get url, format: :json, access_token: access_token.token }
+      before { do_request access_token: access_token.token }
 
       it 'returns 200 status code' do
         expect(response).to be_success
@@ -51,29 +40,21 @@ describe 'Questions API' do
         end
       end
     end
+
+    def do_request(options = {})
+      get api_v1_questions_path, { format: :json }.merge(options)  
+    end
   end
 
   describe 'GET /show' do
     let!(:question)    { create(:question, user: user) }
-    let(:question_url) { api_v1_question_path(question) }
-
-    context 'unauthorized' do
-      it 'returns status unauthorized if access_token is not provided' do
-        get question_url, format: :json
-        expect(response).to be_unauthorized
-      end
-
-      it 'returns status unauthorized if access_token is invalid' do
-        get question_url, format: :json, access_token: SecureRandom.hex
-        expect(response).to be_unauthorized
-      end
-    end
+    it_behaves_like 'API unauthorized'
 
     context 'authorized' do
       let!(:comment)    { create(:comment, commentable: question) }
       let!(:attachment) { create(:attachment, attachable: question) }
 
-      before { get question_url, format: :json, access_token: access_token.token }
+      before { do_request format: :json, access_token: access_token.token }
 
       it 'returns 200 status code' do
         expect(response).to be_success
@@ -107,6 +88,10 @@ describe 'Questions API' do
         end
       end
     end
+
+    def do_request(options = {})
+      get api_v1_question_path(question), { format: :json }.merge(options)  
+    end
   end
 
   describe 'POST /create' do
@@ -115,12 +100,12 @@ describe 'Questions API' do
 
     context 'unauthorized' do
       it 'returns status unauthorized if access_token is not provided' do
-        post url, format: :json, question: attributes_for(:question)
+        do_request question: attributes_for(:question)
         expect(response).to be_unauthorized
       end
 
       it 'returns status unauthorized if access_token is invalid' do
-        post url, format: :json, access_token: SecureRandom.hex, question: attributes_for(:question)
+        do_request access_token: SecureRandom.hex, question: attributes_for(:question)
         expect(response).to be_unauthorized
       end
     end
@@ -128,31 +113,34 @@ describe 'Questions API' do
     context 'authorized' do
       context 'with valid attributes' do
         it 'returns 201 status code' do
-          post url, format: :json, access_token: access_token.token, question: attributes_for(:question)
+          do_request access_token: access_token.token, question: attributes_for(:question)
           expect(response.status).to eq 201
         end
 
         it 'saves the new question to database' do
-          expect { post url, format: :json, access_token: access_token.token, question: attributes_for(:question) }.to change(Question, :count).by(1)
+          expect { do_request access_token: access_token.token, question: attributes_for(:question) }.to change(Question, :count).by(1)
         end
 
         it 'assign new question to current user' do
-          post url, format: :json, access_token: access_token.token, question: attributes_for(:question)
+          do_request access_token: access_token.token, question: attributes_for(:question)
           expect(assigns(:question).user).to eq(owner_user)
         end
       end
 
       context 'with invalid attributes' do
         it 'returns 422 status code' do
-          post url, format: :json, access_token: access_token.token, question: attributes_for(:invalid_question)
+          do_request access_token: access_token.token, question: attributes_for(:invalid_question)
           expect(response.status).to eq 422
         end
 
         it 'not saves the new question to database' do
-          expect { post url, format: :json, access_token: access_token.token, question: attributes_for(:invalid_question) }
-            .to_not change(Question, :count)
+          expect { do_request access_token: access_token.token, question: attributes_for(:invalid_question) }.to_not change(Question, :count)
         end
       end
+    end
+
+    def do_request(options = {})
+      post api_v1_questions_path, { format: :json }.merge(options)  
     end
   end
 end

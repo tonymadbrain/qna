@@ -68,31 +68,40 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'authorized user POST #create' do
     sign_in_user
+    let(:channel) { "/questions" }
+
     context 'with valid attr' do
+      let(:object) { post :create, question: attributes_for(:question) }
       it 'save new question in database' do
-        expect { post :create, question: attributes_for(:question) }.to change(Question, :count).by(1)
+        expect { object }.to change(Question, :count).by(1)
       end
 
       it 'redirect to show view' do
-        post :create, question: attributes_for(:question)
+        object
         expect(response).to redirect_to question_path(assigns(:question))
       end
 
       it 'assign user to created question' do
-        post :create, question: attributes_for(:question)
+        object
         expect(assigns(:question).user).to eq subject.current_user
       end
+
+      it_behaves_like 'publishable'
     end
 
     context 'with invalid attr' do
+      let(:object) { post :create, question: attributes_for(:invalid_question) }
+
       it 'does not save new question in database' do
-        expect { post :create, question: attributes_for(:invalid_question) }.to_not change(Question, :count)
+        expect { object }.to_not change(Question, :count)
       end
 
       it 're-render new view' do
-        post :create, question: attributes_for(:invalid_question)
+        object
         expect(response).to render_template :new
       end
+
+      it_behaves_like 'not publishable'
     end
   end
 

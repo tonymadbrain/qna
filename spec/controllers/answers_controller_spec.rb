@@ -7,21 +7,31 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'POST #create' do
     sign_in_user
+    let(:channel) { "/questions/#{question.id}" }
+
     context 'with valid attributes' do
+      let(:object) { post :create, answer: attributes_for(:answer), question_id: question }
+      
       it 'saves the new answer in the database' do
-        expect { post :create, answer: attributes_for(:answer), question_id: question }.to change(question.answers, :count).by(1)
+        expect { object }.to change(question.answers, :count).by(1)
       end
 
       it 'assign user to created answer' do
-        post :create, answer: attributes_for(:answer), question_id: question
+        object
         expect(assigns(:answer).user).to eq subject.current_user
       end
+
+      it_behaves_like 'publishable'
     end
 
     context 'with invalid attributes' do
+      let(:object) { post :create, answer: attributes_for(:invalid_answer), question_id: question }
+
       it 'does not save the question' do
-        expect { post :create, answer: attributes_for(:invalid_answer), question_id: question }.to_not change(Answer, :count)
+        expect { object }.to_not change(Answer, :count)
       end
+      
+      it_behaves_like 'not publishable'  
     end
   end
 

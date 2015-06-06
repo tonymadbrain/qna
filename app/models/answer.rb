@@ -12,8 +12,18 @@ class Answer < ActiveRecord::Base
 
   default_scope { order(best: :desc).order(created_at: :asc) }
 
+  after_create :report_subscribers
+
   def make_best
     question.answers.update_all(best: false)
     update(best: true)
+  end
+
+  private
+
+  def report_subscribers
+    question.subscribers.find_each do |subscriber|
+      ReportMailer.delay.report(subscriber, self)
+    end
   end
 end

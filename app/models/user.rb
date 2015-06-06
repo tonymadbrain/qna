@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
   has_many :questions, dependent: :destroy
   has_many :answers, dependent: :destroy
   has_many :identitys, dependent: :destroy
+  has_many :subscribe_lists, dependent: :destroy
+  has_many :subscriptions, class_name: 'Question', through: :subscribe_lists 
 
   scope :all_except, ->(user) { where.not(id: user) }
 

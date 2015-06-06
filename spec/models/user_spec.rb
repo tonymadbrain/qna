@@ -6,6 +6,8 @@ RSpec.describe User do
   it { should have_many(:questions).dependent(:destroy) }
   it { should have_many(:answers).dependent(:destroy) }
   it { should have_many(:identitys).dependent(:destroy) }
+  it { should have_many(:subscribe_lists).dependent(:destroy) }
+  it { should have_many(:subscriptions) }
 
   describe '.find_for_oauth' do
     context "when user is unregistered" do

@@ -22,8 +22,9 @@ class Answer < ActiveRecord::Base
   private
 
   def report_subscribers
-    question.subscribers.find_each do |subscriber|
-      ReportMailer.delay.report(subscriber, self)
-    end
+    ReportSubscribersJob.perform_later(self)
+    # self.question.subscribers.find_each do |subscriber|
+    #   ReportMailer.delay.report(subscriber, self)
+    # end
   end
 end

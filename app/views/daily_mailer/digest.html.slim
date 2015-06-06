@@ -1,0 +1,7 @@
+= @greeting + ", here is the list of recently asked questions:\n"
+
+- if @questions
+  - @questions.each do |question|
+    = link_to question_url(question), question.title
+- else
+  | No questions

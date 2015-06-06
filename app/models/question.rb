@@ -12,4 +12,6 @@ class Question < ActiveRecord::Base
   validates :user, presence: true
 
   accepts_nested_attributes_for :attachments, reject_if: proc { |attrib| attrib['file'].nil? }, allow_destroy: true
+
+  scope :created_yesterday, -> { where(created_at: Time.zone.now.yesterday.all_day) }
 end

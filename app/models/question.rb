@@ -20,7 +20,15 @@ class Question < ActiveRecord::Base
   after_create :subscribe_author
 
   def subscribe(user)
-    self.subscribers << user # unless has_subscribed? user
+    self.subscribers << user unless has_subscribed? user
+  end
+
+  def unsubscribe(user)
+    self.subscribers.delete(user) if has_subscribed? user
+  end
+
+  def has_subscribed?(user)
+    subscribers.include? user
   end
 
   private

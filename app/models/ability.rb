@@ -45,5 +45,7 @@ class Ability
       user.id != resource.user_id
     end
 
+    can :subscribe, Question
+    can :unsubscribe, Question
   end
 end

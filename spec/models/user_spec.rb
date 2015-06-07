@@ -6,6 +6,8 @@ RSpec.describe User do
   it { should have_many(:questions).dependent(:destroy) }
   it { should have_many(:answers).dependent(:destroy) }
   it { should have_many(:identitys).dependent(:destroy) }
+  it { should have_many(:subscribe_lists).dependent(:destroy) }
+  it { should have_many(:subscriptions) }
 
   describe '.find_for_oauth' do
     context "when user is unregistered" do
@@ -69,6 +71,15 @@ RSpec.describe User do
           expect { find_find_for_oauth }.to_not change(user.identitys, :count)
         end
       end
+    end
+  end
+
+  describe '.send_daily_digest' do
+    let(:users) { create_list(:user, 2) }
+
+    it 'should send daily digest to all users' do
+      users.each { |user| expect(DailyMailer).to receive(:digest).with(user).and_call_original }
+      User.send_daily_digest
     end
   end
 end

@@ -19,6 +19,12 @@ hr
       = link_to 'Edit', '', class: 'edit-question-link btn btn-danger btn-xs', data: { question_id: @question.id }, remote: true
     - if can?(:destroy, @question)
       = link_to 'Delete question', question_path, method: :delete, class: 'button btn btn-danger btn-xs'
+    p
+    - if user_signed_in?
+      - if @question.has_subscribed?(current_user)
+        = link_to 'Unsubscribe', unsubscribe_question_path(@question), method: :post
+      - else
+        = link_to 'Subscribe', subscribe_question_path(@question), method: :post
 .row
   p
   - if can?(:update, @question)

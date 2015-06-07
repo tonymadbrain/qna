@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-  before_action :load_question, only: [:show, :edit, :update, :destroy]
+  before_action :load_question, only: [:show, :edit, :update, :destroy, :subscribe, :unsubscribe]
   before_action :build_answer, only: :show
   before_action :check_user, only: :destroy
   after_action  :publish_question, only: :create
@@ -37,6 +37,16 @@ class QuestionsController < ApplicationController
 
   def destroy
     respond_with(@question.destroy)
+  end
+
+  def subscribe
+    @question.subscribe(current_user)
+    redirect_to @question, notice: 'Subscribed successfully!'
+  end
+
+  def unsubscribe
+    @question.unsubscribe(current_user)
+    redirect_to @question, notice: 'Unsubscribed successfully!'
   end
 
   private

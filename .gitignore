@@ -17,7 +17,13 @@ config/database.yml
 
 #file for test sublime snippets
 test.rb
+
 .rubocop.yml
 config/database.yml
 config/private_pub.yml
 /public/uploads
+dump.rdb
+
+#sphinx
+config/*.sphinx.conf
+db/sphinx

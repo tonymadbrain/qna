@@ -14,3 +14,4 @@
 * запустить faye сервер - rackup private_pub.ru -s thin -E production
 * запустить redis - redis-server
 * запустить sidekiq - sidekiq
+* запустить sphinx - rake ts:start

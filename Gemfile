@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.0'
+gem 'rails', '~> 4.2'
 gem 'pg'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
@@ -31,6 +31,8 @@ gem 'oj'
 gem 'oj_mimic_json'
 gem 'sidekiq'
 gem 'whenever'
+gem 'mysql2', '~> 0.3.18'
+gem 'thinking-sphinx', '~> 3.1.4'
 
 group :development, :test do
   gem 'byebug'

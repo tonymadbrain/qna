@@ -1,0 +1,6 @@
+h4 Search results
+
+.results
+  - if @results.any?
+      - @results.each do |result|
+        = render partial: "#{result.class.name.downcase}", object: result

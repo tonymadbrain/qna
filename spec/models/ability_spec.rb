@@ -9,6 +9,7 @@ describe Ability do
     it { should be_able_to :read, Question }
     it { should be_able_to :read, Answer }
     it { should be_able_to :read, Comment }
+    it { should be_able_to :search, Search }
 
     it { should_not be_able_to :manage, :all }
   end

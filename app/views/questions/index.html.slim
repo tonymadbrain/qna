@@ -1,5 +1,9 @@
 - if can?(:create, Question)
   = button_to 'Ask question', new_question_path, method: :get, class: 'button btn btn-xs btn-warning navbar-btn pull-right'
+
+.row
+  = render partial: 'search/form'
+
 div class="questions"
   - @questions.each do |question|
     h3 = link_to question.title, question_path(question)

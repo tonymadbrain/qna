@@ -40,4 +40,6 @@ Rails.application.routes.draw do
   resources :identities, only: :show do
     get :confirm, on: :member
   end
+
+  get 'search', to: 'search#search'
 end

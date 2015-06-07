@@ -12,3 +12,5 @@
 Для запуска:
 * запустить само приложение, например - rails s
 * запустить faye сервер - rackup private_pub.ru -s thin -E production
+* запустить redis - redis-server
+* запустить sidekiq - sidekiq

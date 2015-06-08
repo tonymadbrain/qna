@@ -35,6 +35,7 @@ gem 'mysql2', '~> 0.3.18'
 gem 'thinking-sphinx', '~> 3.1.4'
 gem 'dotenv'
 gem 'dotenv-deployment', require: 'dotenv/deployment'
+gem 'therubyracer'
 
 group :development do
   gem 'capistrano', require: false

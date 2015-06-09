@@ -1,2 +1,2 @@
 p Please confirm your email
-= link_to 'Confirm your email now', confirm_identity_url(@identity, confirm_code: @identity.confirm_code)
+= link_to confirm_identity_url(@identity, confirm_code: @identity.confirm_code), 'Confirm your email now'

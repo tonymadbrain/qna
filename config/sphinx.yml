@@ -5,6 +5,6 @@ development: &my_settings
   morphology: stem_ru
   charset_table: "0..9, a..z, _, @, A..Z->a..z, U+410..U+42F->U+430..U+44F, U+430..U+458"
 test:
-  <<<: *my_settings
+  <<: *my_settings
 production:
-  <<<: *my_settings     
+  <<: *my_settings     

@@ -35,8 +35,19 @@ namespace :deploy do
   # end
 end
 
+namespace :sphinx do
+
+  desc 'Restart sphinx'
+  task :restart do
+    on roles(:app) do
+      invoke 'thinking_sphinx:index'
+      invoke 'thinking_sphinx:restart'
+    end
+  end
+end
+
 # private pub tasks
-set :private_pub_pid, -> { "#{current_path}/tmp/pids/private_pub.pid" }
+set :private_pub_pid, -> { "#{current_path}/tmp/pids/thin.pid" }
 
 namespace :private_pub do
   desc "Start private_pub server"
@@ -69,3 +80,4 @@ namespace :private_pub do
 end
 
 after 'deploy:restart', 'private_pub:restart'
+after 'deploy:restart', 'sphinx:restart'

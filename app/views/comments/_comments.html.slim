@@ -1,6 +1,7 @@
 div class="#{resource.class.name.downcase}-comments"
   - resource.comments.each do |comment|
     - if comment.persisted?
-      div id="comment-#{comment.id}"
-        p= comment.user.email
-        p= comment.body
+      - cache comment do
+        div id="comment-#{comment.id}"
+          p= comment.user.email
+          p= comment.body

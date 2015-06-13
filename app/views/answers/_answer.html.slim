@@ -10,7 +10,7 @@
         - if answer.attachments.exists?
           p Attachments:
           ul
-            - cache collection_cache_key_for :answer do
+            - cache collection_cache_key_for :attachment do
               - answer.attachments.each do |a|
                 div id="attachment_#{a.id}"
                   li= link_to a.file.identifier, a.file.url

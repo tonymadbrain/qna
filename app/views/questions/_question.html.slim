@@ -1,20 +1,22 @@
-h1= @question.title
-hr
-.row
-  .col-md-1
-    = render 'votes/votes', resource: @question
-  .col-md-10
-    p= @question.body
+- cache @question do
+  h1= @question.title
+  hr
+  .row
+    .col-md-1
+      = render 'votes/votes', resource: @question
+    .col-md-10
+      p= @question.body
 .row
   .col-md-1
   .col-md-10  
     p Attachments:
     ul
-      - @question.attachments.each do |a|
-        div id="attachment_#{a.id}"
-          li= link_to a.file.identifier, a.file.url
-          - if can?(:destroy, a)
-            = link_to 'Delete file', a, method: :delete, remote: true
+      - cache collection_cache_key_for :attachment do
+        - @question.attachments.each do |a|
+          div id="attachment_#{a.id}"
+            li= link_to a.file.identifier, a.file.url
+            - if can?(:destroy, a)
+              = link_to 'Delete file', a, method: :delete, remote: true
     - if can?(:update, @question)
       = link_to 'Edit', '', class: 'edit-question-link btn btn-danger btn-xs', data: { question_id: @question.id }, remote: true
     - if can?(:destroy, @question)

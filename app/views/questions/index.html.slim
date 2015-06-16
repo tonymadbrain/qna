@@ -1,10 +1,13 @@
-- if can?(:create, Question)
-  = button_to 'Ask question', new_question_path, method: :get, class: 'button btn btn-xs btn-warning navbar-btn pull-right'
-
 .row
-  = render partial: 'search/form'
+  / = button_to 'Questions', questions_path, method: :get, class: 'button btn btn-warning navbar-btn pull-right'
+  / = button_to 'Tags', questions_path, method: :get, class: 'button btn btn-warning navbar-btn pull-right'
+  / = button_to 'Users', questions_path, method: :get, class: 'button btn btn-warning navbar-btn pull-right'
+  / = button_to 'Badges', questions_path, method: :get, class: 'button btn btn-warning navbar-btn pull-right'
+  - if can?(:create, Question)
+    = button_to 'Ask question', new_question_path, method: :get, class: 'button btn btn-warning navbar-btn pull-right'
 
 div class="questions"
+  p Top questions
   - cache collection_cache_key_for :question do
     - @questions.each do |question|
       h3 = link_to question.title, question_path(question)

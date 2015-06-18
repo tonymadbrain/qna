@@ -12,7 +12,8 @@ class QuestionsController < ApplicationController
   include Voted
 
   def index
-    respond_with(@questions = Question.all)
+    # respond_with(@questions = Question.all)
+    respond_with(@questions = Question.paginate(page: params[:page]))
   end
 
   def show

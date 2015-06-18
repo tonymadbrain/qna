@@ -19,6 +19,8 @@ class Question < ActiveRecord::Base
 
   after_create :subscribe_author
 
+  self.per_page = 5
+
   def subscribe(user)
     self.subscribers << user unless has_subscribed? user
   end

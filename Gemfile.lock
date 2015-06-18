@@ -45,6 +45,8 @@ GEM
       debug_inspector (>= 0.0.1)
     bootstrap-sass (3.2.0.0)
       sass (~> 3.2)
+    bootstrap-will_paginate (0.0.10)
+      will_paginate
     bootstrap_form (2.3.0)
     builder (3.2.2)
     byebug (4.0.5)
@@ -382,6 +384,7 @@ GEM
     websocket-extensions (0.1.2)
     whenever (0.9.4)
       chronic (>= 0.6.3)
+    will_paginate (3.0.7)
     xpath (2.0.0)
       nokogiri (~> 1.3)
 
@@ -391,6 +394,7 @@ PLATFORMS
 DEPENDENCIES
   active_model_serializers
   bootstrap-sass (= 3.2.0.0)
+  bootstrap-will_paginate
   bootstrap_form
   byebug
   cancancan
@@ -446,3 +450,7 @@ DEPENDENCIES
   unicorn
   web-console (~> 2.0)
   whenever
+  will_paginate
+
+BUNDLED WITH
+   1.10.4

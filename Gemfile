@@ -38,6 +38,9 @@ gem 'dotenv-deployment', require: 'dotenv/deployment'
 gem 'therubyracer'
 gem 'unicorn'
 gem 'redis-rails'
+gem 'will_paginate'
+gem 'bootstrap-will_paginate'
+
 
 group :development do
   gem 'capistrano', require: false

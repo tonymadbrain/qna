@@ -3,6 +3,7 @@ module ApplicationHelper
     klass = model.to_s.capitalize.constantize
     count = klass.count
     max_updated_at = klass.maximum(:updated_at).try(:utc).try(:to_s, :number)
-    "#{model.to_s.pluralize}/collection-#{count}-#{max_updated_at}"
+    page = params[:page]
+    "#{model.to_s.pluralize}/collection-#{count}-#{max_updated_at}-#{page}"
   end
 end

@@ -12,6 +12,7 @@ div class="questions"
     - @questions.each do |question|
       h3 = link_to question.title, question_path(question)
       small = question.created_at
+= will_paginate @questions
     
 - if current_user
   .user-auth data={ current_user: "#{ current_user.id }"}

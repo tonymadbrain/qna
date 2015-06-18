@@ -1,27 +1,30 @@
 .row
-  .question
-    .question-error
-    .comment-errors
-    = render @question
-    .col-md-1
-    .col-md-10
-      = render 'comments/comments', resource: @question
-      = render 'comments/form', resource: @question
-hr
-.row
-  .answers data={ question_id: "#{@question.id}" }
-    = render @question.answers
-    .answer-errors
-  - if can?(:create, @answer)
-    .user-auth data={ current_user: "#{ current_user.id }"}
-    = bootstrap_nested_form_for [@question, @answer], remote: true do |f|
-      = f.text_area :body, label: 'Answer'
-      = f.fields_for :attachments, @answer.attachments.build do |a|
-        = a.file_field :file, label: "File"
-        = a.link_to_remove "Clear"
-      p= f.link_to_add 'Add more', :attachments
-      = f.submit 'Create'
-  - else
-    | Sign in or sign up to leave answers
+  .col-sm-12.col-md-8.col-md-offset-1.col-lg-8.col-lg-offset-1
+    .row
+      .question
+        .question-error
+        .comment-errors
+        = render @question
+        .col-md-1
+        .col-md-10
+          = render 'comments/comments', resource: @question
+          = render 'comments/form', resource: @question
+    hr
+    .row
+      .answers data={ question_id: "#{@question.id}" }
+        = render @question.answers
+        .answer-errors
+      - if can?(:create, @answer)
+        .user-auth data={ current_user: "#{ current_user.id }"}
+        = bootstrap_nested_form_for [@question, @answer], remote: true do |f|
+          = f.text_area :body, label: 'Answer'
+          = f.fields_for :attachments, @answer.attachments.build do |a|
+            = a.file_field :file, label: "File"
+            = a.link_to_remove "Clear"
+          p= f.link_to_add 'Add more', :attachments
+          = f.submit 'Create'
+      - else
+        | Sign in or sign up to leave answers
 
-  = subscribe_to "/questions/#{@question.id}"
+      = subscribe_to "/questions/#{@question.id}"
+  .col-md-2.col-lg-8

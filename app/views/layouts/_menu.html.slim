@@ -1,0 +1,7 @@
+.row
+  .col-sm-12.col-md-10.col-md-offset-1.col-lg-10.col-lg-offset-1
+    = button_to 'Tags', questions_path, method: :get, class: 'button btn-sm btn btn-warning navbar-btn pull-right'
+    = button_to 'Users', questions_path, method: :get, class: 'button btn-sm btn btn-warning navbar-btn pull-right'
+    = button_to 'Badges', questions_path, method: :get, class: 'button btn-sm btn btn-warning navbar-btn pull-right'
+    - if can?(:create, Question)
+      = button_to 'Ask question', new_question_path, method: :get, class: 'button btn btn-sm btn-warning navbar-btn pull-right'

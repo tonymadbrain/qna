@@ -1,7 +1,7 @@
 header
   .navbar-inverse.navbar-default.navbar-static-top
     .container-fluid
-      .col-md-6.col-md-offset-3
+      .col-sm-12.col-md-10.col-md-offset-1.col-lg-10.col-lg-offset-1
         .navbar-header
           button.navbar-toggle data-target="#navbar-ex-collapse" data-toggle="collapse" type="button" 
             span.sr-only Toggle navigation
@@ -15,6 +15,6 @@ header
           ul.nav.navbar-nav.navbar-right
             - if user_signed_in?
               li class="navbar-text" = current_user.email
-              li = button_to 'Sign out', destroy_user_session_path, method: :delete, class: 'button btn btn-primary navbar-btn'
+              li = button_to 'Sign out', destroy_user_session_path, method: :delete, class: 'button btn btn-primary navbar-btn btn-sm'
             - else
               li = button_to 'Sign in', new_user_session_path, class: 'button btn btn-primary navbar-btn'

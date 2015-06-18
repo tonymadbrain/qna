@@ -1,19 +1,20 @@
 .row
-  / = button_to 'Questions', questions_path, method: :get, class: 'button btn btn-warning navbar-btn pull-right'
-  / = button_to 'Tags', questions_path, method: :get, class: 'button btn btn-warning navbar-btn pull-right'
-  / = button_to 'Users', questions_path, method: :get, class: 'button btn btn-warning navbar-btn pull-right'
-  / = button_to 'Badges', questions_path, method: :get, class: 'button btn btn-warning navbar-btn pull-right'
-  - if can?(:create, Question)
-    = button_to 'Ask question', new_question_path, method: :get, class: 'button btn btn-warning navbar-btn pull-right'
+  .col-sm-12.col-md-8.col-md-offset-1.col-lg-8.col-lg-offset-1
+    div class="questions"
+      - cache collection_cache_key_for :question do
+        - @questions.each do |question|
+          h3 = link_to question.title, question_path(question)
+          = raw "Asked #{time_ago_in_words(question.created_at)} ago #{question.user.email}"
+          hr
+    .row
+      .col-md-offset-5.col-lg-offset-5
+        = will_paginate @questions
+        
+  .hidden-sm.col-md-2.col-lg-2
+    .right-banner
+      p
+        = link_to "FAQ", pages_about_path
 
-div class="questions"
-  - cache collection_cache_key_for :question do
-    - @questions.each do |question|
-      h3 = link_to question.title, question_path(question)
-      small = question.created_at
-= will_paginate @questions
-    
 - if current_user
   .user-auth data={ current_user: "#{ current_user.id }"}
-
 = subscribe_to "/questions"

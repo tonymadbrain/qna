@@ -1,10 +1,11 @@
+/ .row
+/   .col-sm-12.col-md-10.col-md-offset-1.col-lg-10.col-lg-offset-1
 = form_tag search_path, method: 'get', class: 'navbar-form navbar-left'
-  / i class="glyphicon glyphicon-search" aria-hidden="true"
-  .form-group
+  .form-group.input-group-sm
     = text_field_tag :query, params[:query], class: 'form-control'
 
-  .form-group
+  .form-group.input-group-sm
     = select_tag(:condition,
         options_for_select(Search::SEARCH_OPTIONS, params[:condition]), prompt: 'Everywhere', class: 'form-control')
 
-  = submit_tag 'Search', name: nil, class: 'btn btn-default'
+  = submit_tag 'Search', name: nil, class: 'btn btn-default btn-sm'

@@ -1,0 +1,8 @@
+.row
+  .col-sm-12.col-md-10.col-md-offset-1.col-lg-10.col-lg-offset-1
+    - if flash[:notice]
+      div class="alert alert-success"
+        = notice
+    - if flash[:alert]
+      div class="alert alert-danger"
+        = alert

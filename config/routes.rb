@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'pages/about'
+
   use_doorkeeper
   root to: 'questions#index'
   

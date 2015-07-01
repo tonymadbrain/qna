@@ -13,7 +13,7 @@ class QuestionsController < ApplicationController
 
   def index
     # respond_with(@questions = Question.all)
-    respond_with(@questions = Question.paginate(page: params[:page]))
+    respond_with(@questions = Question.paginate(page: params[:page]).order('created_at DESC'))
   end
 
   def show

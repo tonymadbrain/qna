@@ -1,7 +1,6 @@
 .row
   .col-sm-12.col-md-8.col-md-offset-1.col-lg-8.col-lg-offset-1
     div class="questions"
-      h1 Latest questions
       - cache collection_cache_key_for :question do
         - @questions.each do |question|
           h3 = link_to question.title, question_path(question)

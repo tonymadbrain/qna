@@ -1,7 +1,7 @@
 class QuestionsController < ApplicationController
   before_action :load_question, only: [:show, :edit, :update, :destroy, :subscribe, :unsubscribe]
   before_action :build_answer, only: :show
-  before_action :check_user, only: :destroy
+  # before_action :check_user, only: :destroy
   after_action  :publish_question, only: :create
 
   authorize_resource
@@ -64,9 +64,9 @@ class QuestionsController < ApplicationController
     @answer = @question.answers.build
   end
 
-  def check_user
-    render text: 'You do not have permission to view this page.', status: 403 if @question.user_id != current_user.id
-  end
+  # def check_user
+  #   render text: 'You do not have permission to view this page.', status: 403 if @question.user_id != current_user.id
+  # end
 
   def publish_question
     PrivatePub.publish_to("/questions", question: @question.to_json(include: :attachments)) if @question.valid?

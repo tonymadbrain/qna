@@ -1,4 +1,4 @@
-shared_examples_for "API 200_and_list" do
+  shared_examples_for "API 200_and_list" do
   it 'returns 200 status code' do
     expect(response).to be_success
   end

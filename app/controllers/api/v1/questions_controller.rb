@@ -6,6 +6,7 @@ class API::V1::QuestionsController < API::V1::BaseController
   def index
     @questions= Question.all
     respond_with @questions, each_serializer: QuestionsListSerializer
+    # respond_with @questions #, each_serializer: QuestionsListSerializer
   end
 
   def show

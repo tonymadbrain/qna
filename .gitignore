@@ -27,3 +27,6 @@ dump.rdb
 #sphinx
 config/*.sphinx.conf
 db/sphinx
+
+#mac_os specific 
+*.DS_Store

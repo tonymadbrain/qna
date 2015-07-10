@@ -1,4 +1,4 @@
-require 'rails_helper'
+  require 'rails_helper'
 
 describe 'Answers API' do
   let!(:user)         { create(:user) }

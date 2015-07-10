@@ -9,9 +9,9 @@ describe 'Questions API' do
     it_behaves_like 'API unauthorized'
 
     context 'authorized' do
-      let!(:questions) { create_list(:question, 3, user: user) }
+      let!(:questions)  { create_list(:question, 3, user: user) }
       let(:question)   { questions.first }
-      let!(:answer)    { create(:answer, question: question, user: user) }
+      # let(:answer)     { create(:answer, question: question, user: user) }
 
       before { do_request access_token: access_token.token }
 
@@ -19,21 +19,21 @@ describe 'Questions API' do
 
       %w(id title body created_at updated_at).each do |attr|
         it "question object contains #{attr}" do
-          expect(response.body).to be_json_eql(question.send(attr.to_sym).to_json).at_path("questions/0/#{attr}")
+          expect(response.body).to be_json_eql(questions.first.send(attr.to_sym).to_json).at_path("questions/0/#{attr}")
         end
       end
 
-      context 'answers' do
-        it 'included in question object' do
-          expect(response.body).to have_json_size(1).at_path("questions/0/answers")
-        end
+      # context 'answers' do
+      #   it 'included in question object' do
+      #     expect(response.body).to have_json_size(1).at_path("questions/0/answers")
+      #   end
 
-        %w(id body created_at updated_at).each do |attr|
-          it "contains #{attr}" do
-            expect(response.body).to be_json_eql(answer.send(attr.to_sym).to_json).at_path("questions/0/answers/0/#{attr}")
-          end
-        end
-      end
+      #   %w(id body created_at updated_at).each do |attr|
+      #     it "contains #{attr}" do
+      #       expect(response.body).to be_json_eql(answer.send(attr.to_sym).to_json).at_path("questions/0/answers/0/#{attr}")
+      #     end
+      #   end
+      # end
     end
 
     def do_request(options = {})

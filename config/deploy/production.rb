@@ -49,7 +49,7 @@ server 'qna.doam.ru', user: 'deployer', roles: %w{web app db}, primary: true
 # Global options
 # --------------
 set :ssh_options, {
-  keys: %w(/home/madbrain/.ssh/id_rsa),
+  keys: %w(/Users/madbrain/.ssh/id_rsa),
   forward_agent: true,
   auth_methods: %w(publickey password),
   port: 3022

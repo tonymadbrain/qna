@@ -1,4 +1,51 @@
 .row
   .col-sm-12.col-md-8.col-md-offset-1.col-lg-8.col-lg-offset-1
     h1 FAQ
-    p Об этом сайте
+    p На этой странице я постарался ответить на все вопросы, которые могут возникнуть у человека, который впервые открыл данный сайт. 
+
+    #accordion.panel-group aria-multiselectable="true" role="tablist" 
+    .panel.panel-default
+      #headingOne.panel-heading role="tab" 
+        h4.panel-title
+          a aria-controls="collapseOne" aria-expanded="true" data-parent="#accordion" data-toggle="collapse" href="#collapseOne" role="button" 
+            | Зачем?
+      #collapseOne.panel-collapse.collapse.in aria-labelledby="headingOne" role="tabpanel" 
+        .panel-body
+          | Проект был написан на курсах профессиональной разработки от школы Thinknetica.com, в качестве учебного, чтобы отработать основные приемы грамотной разработки веб-приложений на Ruby on Rails.
+    .panel.panel-default
+      #headingTwo.panel-heading role="tab" 
+        h4.panel-title
+          a.collapsed aria-controls="collapseTwo" aria-expanded="false" data-parent="#accordion" data-toggle="collapse" href="#collapseTwo" role="button" 
+            | Что используется?
+      #collapseTwo.panel-collapse.collapse aria-labelledby="headingTwo" role="tabpanel" 
+        .panel-body
+          | В проекте используется множество различных технологий помимо Rails, как мне кажется, легче всего описать это через разбор гем-файла (Gemfile).
+          br
+          code gem 'pg'
+          br
+          | Дефакто в Rails разработке, пока не знаю postgres на таком же уровне как и mysql, но верю что он сделает мир лучше
+          br
+          code gem 'slim-rails'
+          br
+          | Использование slim вместо erb позволяет значительно упростить написание view и облегчить чтение кода. (И в нем нету ужасных %-ов).
+          br
+          code gem 'devise'
+          br
+          | По книге Майкла Хартла я уже научился реализовывать аутентификацию в Rails, но зачастую нет необходимости писать это самостоятельно, devise мощный инструмент созданный специально для этого. 
+          br
+          code gem 'bootstrap-sass', '3.2.0.0'
+          br
+          | Очень люблю этот фреймворк, облегчает программистам задачу создания красивых интерфейсов. 
+          br
+          code gem 'bootstrap_form'
+          br
+          | Позволяет проще создавать формы с bootstrap оформлением.
+    .panel.panel-default
+      #headingThree.panel-heading role="tab" 
+        h4.panel-title
+          a.collapsed aria-controls="collapseThree" aria-expanded="false" data-parent="#accordion" data-toggle="collapse" href="#collapseThree" role="button" 
+            | Collapsible Group Item #3
+      #collapseThree.panel-collapse.collapse aria-labelledby="headingThree" role="tabpanel" 
+        .panel-body
+          | Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+

@@ -7,11 +7,11 @@
     .panel.panel-default
       #headingOne.panel-heading role="tab" 
         h4.panel-title
-          a aria-controls="collapseOne" aria-expanded="true" data-parent="#accordion" data-toggle="collapse" href="#collapseOne" role="button" 
+          a aria-controls="collapseOne" aria-expanded="false" data-parent="#accordion" data-toggle="collapse" href="#collapseOne" role="button" 
             | Зачем?
       #collapseOne.panel-collapse.collapse.in aria-labelledby="headingOne" role="tabpanel" 
         .panel-body
-          | Проект был написан на курсах профессиональной разработки от школы Thinknetica.com, в качестве учебного, чтобы отработать основные приемы грамотной разработки веб-приложений на Ruby on Rails.
+          p Проект был написан на курсах профессиональной разработки от школы Thinknetica.com, в качестве учебного, чтобы отработать основные приемы грамотной разработки веб-приложений на Ruby on Rails.
     .panel.panel-default
       #headingTwo.panel-heading role="tab" 
         h4.panel-title
@@ -19,27 +19,18 @@
             | Что используется?
       #collapseTwo.panel-collapse.collapse aria-labelledby="headingTwo" role="tabpanel" 
         .panel-body
-          | В проекте используется множество различных технологий помимо Rails, как мне кажется, легче всего описать это через разбор гем-файла (Gemfile).
-          br
-          code gem 'pg'
-          br
-          | Дефакто в Rails разработке, пока не знаю postgres на таком же уровне как и mysql, но верю что он сделает мир лучше
-          br
+          p В проекте используется множество различных технологий помимо Rails, как мне кажется, легче всего описать это через разбор гем-файла (Gemfile).
+          p
+            code gem 'pg'
+          p Дефакто в Rails разработке, пока не знаю postgres на таком же уровне как и mysql, но верю что он сделает мир лучше
           code gem 'slim-rails'
-          br
-          | Использование slim вместо erb позволяет значительно упростить написание view и облегчить чтение кода. (И в нем нету ужасных %-ов).
-          br
+          p Использование slim вместо erb позволяет значительно упростить написание view и облегчить чтение кода. (И в нем нету ужасных %-ов).
           code gem 'devise'
-          br
-          | По книге Майкла Хартла я уже научился реализовывать аутентификацию в Rails, но зачастую нет необходимости писать это самостоятельно, devise мощный инструмент созданный специально для этого. 
-          br
+          p По книге Майкла Хартла я уже научился реализовывать аутентификацию в Rails, но зачастую нет необходимости писать это самостоятельно, devise мощный инструмент созданный специально для этого. 
           code gem 'bootstrap-sass', '3.2.0.0'
-          br
-          | Очень люблю этот фреймворк, облегчает программистам задачу создания красивых интерфейсов. 
-          br
+          p Очень люблю этот фреймворк, облегчает программистам задачу создания красивых интерфейсов. 
           code gem 'bootstrap_form'
-          br
-          | Позволяет проще создавать формы с bootstrap оформлением.
+          p Позволяет проще создавать формы с bootstrap оформлением.
     .panel.panel-default
       #headingThree.panel-heading role="tab" 
         h4.panel-title

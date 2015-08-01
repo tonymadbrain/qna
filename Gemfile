@@ -40,7 +40,7 @@ gem 'unicorn'
 gem 'redis-rails'
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
-
+gem 'kramdown'
 
 group :development do
   gem 'capistrano', require: false

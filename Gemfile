@@ -41,6 +41,7 @@ gem 'redis-rails'
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
 gem 'kramdown'
+gem 'coderay'
 
 group :development do
   gem 'capistrano', require: false

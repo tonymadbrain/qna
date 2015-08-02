@@ -9,122 +9,83 @@
     p Функционал проекта скопирован с сайта stackoverflow, который является сервисом вопросов и ответов. Таким образом, основные фнукции, доступные зарегистрированным пользователям, это создание вопросов и ответов.
     h2 Что используется?
     p В проекте используется множество различных технологий помимо Rails, как мне кажется, легче всего описать это через разбор гем-файла (Gemfile).
-    p
-      code gem 'rails', '~> 4.2' <br>
-      code gem 'sass-rails', '~> 5.0' <br>
-      code gem 'uglifier', '>= 1.3.0' <br>
-      code gem 'coffee-rails', '~> 4.1.0' <br>
-      code gem 'jquery-rails' <br>
-      code gem 'turbolinks' <br>
-      code gem 'jbuilder', '~> 2.0' <br>
+    = markdown("~~~ruby\ngem 'rails', '~> 4.2'\ngem 'sass-rails', '~> 5.0'\ngem 'uglifier', '>= 1.3.0'\ngem 'coffee-rails', '~> 4.1.0'v\ngem 'jquery-rails'\ngem 'turbolinks'\ngem 'jbuilder', '~> 2.0'\n~~~")
     p На момент разработки наиболее актуальная версия рельс.
-    p
-      code gem 'pg'
+    = markdown("~~~ruby\ngem 'pg'\n~~~")
     p Дефакто в Rails разработке, пока не знаю postgres на таком же уровне как и mysql, но верю что он сделает мир лучше.
-    p
-      code gem 'slim-rails'
+    = markdown("~~~ruby\ngem 'slim-rails'\n~~~")
     p Использование slim вместо erb позволяет значительно упростить написание view и облегчить чтение кода. (И в нем нету ужасных %-ов).
-    p
-      code gem 'devise'
+    = markdown("~~~ruby\ngem 'devise'\n~~~")
     p По книге Майкла Хартла я уже научился реализовывать аутентификацию в Rails, но зачастую нет необходимости писать это самостоятельно, devise мощный инструмент созданный специально для этого.
-    p
-      code gem 'bootstrap-sass', '3.2.0.0'
+    = markdown("~~~ruby\ngem 'bootstrap-sass', '3.2.0.0'\n~~~")
     p Очень люблю этот фреймворк, облегчает программистам задачу создания красивых интерфейсов.
-    p
-      code gem 'bootstrap_form'
+    = markdown("~~~ruby\ngem 'bootstrap_form'\n~~~")
     p Позволяет проще создавать формы с bootstrap оформлением.
-    p
-      code gem 'carrierwave'
+    = markdown("~~~ruby\ngem 'carrierwave'\n~~~")
     p При создании вопроса или ответа пользователь может загрузить файл, который доступен по ссылке, carrierwave нужен для этого. 
-    p
-      code gem 'remotipart'
+    = markdown("~~~ruby\ngem 'remotipart'\n~~~")
     p Так же используется для загрузки файлов, чтобы формы работали через AJAX.
-    p
-      code gem 'nested_form'
+    = markdown("~~~ruby\ngem 'nested_form'\n~~~")
     p Мудьти-модельные формы.
-    p 
-      code gem 'handlebars_assets'
-    p Шаблонизатор handlebars применяется для вставки новых вопросов и ответов на страницу через AJAX.
-    p 
-      code gem 'private_pub'
+    = markdown("~~~ruby\ngem 'handlebars_assets'\n~~~")
+    p Шаблонизатор handlebars применяется при вставки новых вопросов и ответов на страницу через AJAX.
+    = markdown("~~~ruby\ngem 'private_pub'\n~~~")
     p Это реализация вебсокетов для rails (обертка поверх faye), позволяет легко создавать каналы и отсылать в них данных. Таким образом, если у пользователя открыт вопрос, при добавлении нового ответа он тут же появляется на странице, без перезагрузки самой страницы. 
-    p 
-      code gem 'thin'
+    = markdown("~~~ruby\ngem 'thin'\n~~~")
     p Зависимость private_pub, больше нигде не используется.
-    p 
-      code gem 'responders', '~> 2.0'
+    = markdown("~~~ruby\ngem 'responders', '~> 2.0'\n~~~")
     p Упрощаем себе жизнь и написание контроллеров, которые, при этом, становятся легче. 
-    p 
-      code gem 'omniauth' <br>
-      code gem 'omniauth-facebook' <br>
-      code gem 'omniauth-twitter'
+    = markdown("~~~ruby\ngem 'omniauth'\ngem 'omniauth-facebook'\ngem 'omniauth-twitter'\n~~~")
     p В приложении пользователь может зарегистрироваться/авторизоваться через социальные сети, в частности facebook и twitter.
-    p 
-      code gem 'cancancan'
+    = markdown("~~~ruby\ngem 'cancancan'\n~~~")
     p Разграничиваем права пользователей, на данный момент реализованы: гость, пользователь и администратор.
-    p 
-      code gem 'doorkeeper'
+    = markdown("~~~ruby\ngem 'doorkeeper'\n~~~")
     p Так как в проекте есть API, используется doorkeeper в качестве OAuth провайдера.
-    p 
-      code gem 'active_model_serializers'
+    = markdown("~~~ruby\ngem 'active_model_serializers'\n~~~")
     p Сериализуем объекты в JSON.
-    p
-      code gem 'oj' <br>
-      code gem 'oj_mimic_json'
+    = markdown("~~~ruby\ngem 'oj'\ngem 'oj_mimic_json'\n~~~")
     p Ускоряем парсинг JSON.
-    p 
-      code gem 'sidekiq'
+    = markdown("~~~ruby\ngem 'sidekiq'\n~~~")
     p Крутая штука для отложенных задач, в частности здесь используется для отправки писем/рассылок.
-    p 
-      code gem 'whenever'
+    = markdown("~~~ruby\ngem 'whenever'\n~~~")
     p Управляем задачами Cron из рельсового приложения. Например через него задается запуск рассылки еженедельного дайджеста и переиндексация поиска. 
-    p 
-      code gem 'mysql2', '~> 0.3.18' <br>
-      code gem 'thinking-sphinx', '~> 3.1.4'
+    = markdown("~~~ruby\ngem 'mysql2', '~> 0.3.18'\ngem 'thinking-sphinx', '~> 3.1.4'\n~~~")
     p А вот и сам полнотекстовый поиск. 
-    p 
-      code gem 'dotenv' <br>
-      code gem 'dotenv-deployment', require: 'dotenv/deployment'
+    = markdown("~~~ruby\ngem 'dotenv'\ngem 'dotenv-deployment', require: 'dotenv/deployment'\n~~~")
     p Нужен для деплоя, причем второй гем deprecated, но ни как не дойдут руки переделать. 
-    p 
-      code gem 'therubyracer'
+    = markdown("~~~ruby\ngem 'therubyracer'\n~~~")
     p Embed the V8 JavaScript interpreter into Ruby. А зачем он в проекте нужен не помню, может просто добавил чтобы был? 
-    p 
-      code gem 'unicorn'
+    = markdown("~~~ruby\ngem 'unicorn'\n~~~")
     p Хороший веб-сервер для Rails и хотя Puma мне нравится больше, пока проект работает на единороге. 
-    p 
-      code gem 'redis-rails'
+    = markdown("~~~ruby\ngem 'redis-rails'\n~~~")
     p Используем redis для russian doll caching и для sidekiq
-    p 
-      code gem 'will_paginate' <br>
-      code gem 'bootstrap-will_paginate'
+    = markdown("~~~ruby\ngem 'will_paginate'\ngem 'bootstrap-will_paginate'\n~~~")
     p Добавил уже после курсов, собственно пагинация на главной. 
-    
-    = markdown("~~~ruby\ndef what?\n 42\nend\n~~~")
-
-        group :development do
-          gem 'capistrano', require: false
-          gem 'capistrano-bundler', require: false
-          gem 'capistrano-rails', require: false
-          gem 'capistrano-rvm', require: false
-          gem 'capistrano-sidekiq', require: false
-          gem 'capistrano3-unicorn', require: false
-        end
-
-group :development, :test do
-  gem 'byebug'
-  gem 'web-console', '~> 2.0'
-  gem 'spring'
-  gem 'rspec-rails'
-  gem 'factory_girl_rails'
-  gem 'shoulda-matchers'
-  gem 'capybara'
-  gem 'launchy'
-  gem 'pry'
-  gem 'pry-rails'
-  gem 'capybara-webkit'
-  gem 'database_cleaner'
-  gem 'letter_opener'
-  gem 'capybara-email'
-  gem 'json_spec'
-end
+    = markdown("~~~ruby\ngem 'kramdown'\ngem 'coderay'\n~~~")
+    p Добавил только что, чтобы сделать подсветку синтаксиса.
+    = markdown("~~~ruby\ngroup :development do\n  gem 'capistrano', require: false\n  gem 'capistrano-bundler', require: false\n  gem 'capistrano-rails', require: false\n  gem 'capistrano-rvm', require: false\n  gem 'capistrano-sidekiq', require: false\n  gem 'capistrano3-unicorn', require: false\nend\n~~~")
+    p Деплой приложения через Capistrano
+    = markdown("~~~ruby\ngroup :development, :test do\n  gem 'byebug'\n  gem 'web-console', '~> 2.0'\n  gem 'spring'\n~~~")
+    p Ну и заканчивается гемфайл группой дев/тест. Первые три гема ставятся с Rails.
+    = markdown("~~~ruby\n  gem 'rspec-rails'\n~~~")
+    p Тестируем с помощью rspec (Unit-тесты).
+    = markdown("~~~ruby\n  gem 'factory_girl_rails'\n~~~")
+    p Генерим данные с помощью фабрик, это удобнее чем фикстуры. 
+    = markdown("~~~ruby\n  gem 'shoulda-matchers'\n~~~")
+    p Упрощаем написание тестов. 
+    = markdown("~~~ruby\n  gem 'capybara'\n~~~")
+    p Тестируем с помощью capybara (Интеграционные тесты).
+    = markdown("~~~ruby\n  gem 'launchy'\n~~~")
+    p Используется для запуска бразуера когда вызывается <code>save_and_open_page</code> в тестах.
+    = markdown("~~~ruby\n  gem 'pry'\n  gem 'pry-rails'\n~~~")
+    p Дебажим через <code>binding.pry</code>.
+    = markdown("~~~ruby\n  gem 'capybara-webkit'\n~~~")
+    p Чтобы тестировать javascript но не запускать сам браузер, используем этот драйвер.
+    = markdown("~~~ruby\n  gem 'database_cleaner'\n~~~")
+    p Не засоряем базу данных во время тестов.
+    = markdown("~~~ruby\n  gem 'letter_opener'\n~~~")
+    p Проверяем отправку писем. 
+    = markdown("~~~ruby\n  gem 'capybara-email'\n~~~")
+    p Тестируем отправку писем. 
+    = markdown("~~~ruby\n  gem 'json_spec'\n~~~")
+    p В API данные "бегают" по JSON, поэтому его надо тестировать.  

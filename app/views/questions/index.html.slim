@@ -9,11 +9,6 @@
     .row
       .col-md-offset-5.col-lg-offset-5
         = will_paginate @questions
-        
-  .hidden-sm.col-md-2.col-lg-2
-    .right-banner
-      p
-        = link_to "FAQ", pages_about_path
 
 - if current_user
   .user-auth data={ current_user: "#{ current_user.id }"}

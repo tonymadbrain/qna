@@ -9,6 +9,14 @@
 
 Приложение дублирует функционал сайта http://stackoverflow.com/
 
+Зависимости (Ubuntu):
+* rvm
+* bundler
+* postgresql-server-dev-9.3(на данный момент) 
+* libmysqlclient-dev 
+* libqtwebkit-dev
+* sphinxsearch
+
 Для запуска:
 * запустить само приложение, например - rails s
 * запустить faye сервер - rackup private_pub.ru -s thin -E production

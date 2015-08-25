@@ -6,4 +6,13 @@ module ApplicationHelper
     page = params[:page]
     "#{model.to_s.pluralize}/collection-#{count}-#{max_updated_at}-#{page}"
   end
+
+  def unless_empty(collection, message = "No questions ", &block)
+    if collection.empty?
+      # concat(message)
+      concat(render 'layouts/no_questions')
+    else
+      concat(capture(&block))
+    end
+  end
 end

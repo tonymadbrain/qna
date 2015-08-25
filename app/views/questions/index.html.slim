@@ -1,11 +1,12 @@
 .row
   .col-sm-12.col-md-8.col-md-offset-1.col-lg-8.col-lg-offset-1
     .questions
-      - cache collection_cache_key_for :question do
-        - @questions.each do |question|
-          h3 = link_to question.title, question_path(question)
-          = raw "Asked #{time_ago_in_words(question.created_at)} ago #{question.user.email}"
-          hr
+      - unless_empty @questions do
+        - cache collection_cache_key_for :question do
+          - @questions.each do |question|
+            h3 = link_to question.title, question_path(question)
+            = raw "Asked #{time_ago_in_words(question.created_at)} ago #{question.user.email}"
+            hr
     .row
       .col-md-offset-5.col-lg-offset-5
         = will_paginate @questions

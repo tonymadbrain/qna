@@ -4,11 +4,11 @@
   .row
     .col-md-1
       = render 'votes/votes', resource: @question
-    .col-md-10
+    .col-md-5
       p= @question.body
 .row
   .col-md-1
-  .col-md-10  
+  .col-md-5
     p Attachments:
     ul
       - cache collection_cache_key_for :attachment do

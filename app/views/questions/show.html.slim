@@ -1,16 +1,15 @@
 .row
-  .col-sm-12.col-md-8.col-md-offset-1.col-lg-8.col-lg-offset-1
+  .col-md-6.col-md-offset-3
+    .question
+      .question-error
+      .comment-errors
+      = render @question
     .row
-      .question
-        .question-error
-        .comment-errors
-        = render @question
-        .col-md-1
-        .col-md-10
-          = render 'comments/comments', resource: @question
-          = render 'comments/form', resource: @question
-    hr
+      .col-md-4.col-md-offset-2
+        = render 'comments/comments', resource: @question
+        = render 'comments/form', resource: @question
     .row
+      hr
       .answers data={ question_id: "#{@question.id}" }
         = render @question.answers
         .answer-errors
@@ -27,4 +26,3 @@
         | Sign in or sign up to leave answers
 
       = subscribe_to "/questions/#{@question.id}"
-  .col-md-2.col-lg-8

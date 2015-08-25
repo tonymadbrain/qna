@@ -1,5 +1,5 @@
 .row
-  .col-sm-12.col-md-3.col-md-offset-4.col-lg-4.col-lg-offset-4
+  .col-sm-4.col-sm-offset-4.col-md-3.col-md-offset-4.col-lg-4.col-lg-offset-4
     h2 Log in
     = bootstrap_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
       .field
@@ -12,5 +12,5 @@
         .field
           = f.check_box :remember_me
       .actions
-        = f.submit "Log in"
+        = f.submit "Sign in", class: "btn btn-default btn-block"
     = render "devise/shared/links"

@@ -19,9 +19,10 @@
           = f.text_area :body, label: 'Answer'
           = f.fields_for :attachments, @answer.attachments.build do |a|
             = a.file_field :file, label: "File"
-            = a.link_to_remove "Clear"
-          p= f.link_to_add 'Add more', :attachments
-          = f.submit 'Create'
+            = a.link_to_remove "Clear", class: "btn btn-xs btn-default float_left"
+          = f.link_to_add 'Add more', :attachments, class: "btn btn-xs btn-default", style: "margin-left: 5px;"
+          p
+          = f.submit 'Create', class: "btn btn-primary"
       - else
         | Sign in or sign up to leave answers
 

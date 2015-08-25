@@ -20,7 +20,7 @@ RSpec.feature 'Sign in with Twitter in order to improve usability as a user I wa
     click_on 'Sign up'
 
     expect(page).to have_content 'Welcome! You have signed up successfully.'
-    expect(page).to_not have_selector(:link_or_button, 'Log in')
+    expect(page).to_not have_selector(:link_or_button, 'Sign in')
     expect(page).to have_selector(:link_or_button, 'Sign out')
     expect(current_path).to eq root_path
   end
@@ -42,9 +42,9 @@ RSpec.feature 'Sign in with Twitter in order to improve usability as a user I wa
 
     visit new_user_session_path
     click_on 'Sign in with Twitter'
-    
+
     expect(page).to have_content 'Successfully authenticated from Twitter account'
-    expect(page).to_not have_selector(:link_or_button, 'Log in')
+    expect(page).to_not have_selector(:link_or_button, 'Sign in')
     expect(page).to have_selector(:link_or_button, 'Sign out')
     expect(current_path).to eq root_path
   end
@@ -64,7 +64,7 @@ RSpec.feature 'Sign in with Twitter in order to improve usability as a user I wa
     current_email.click_on 'Confirm your email now'
 
     expect(page).to have_content 'Successfully authenticated from Twitter account'
-    expect(page).to_not have_selector(:link_or_button, 'Log in')
+    expect(page).to_not have_selector(:link_or_button, 'Sign in')
     expect(page).to have_selector(:link_or_button, 'Sign out')
     expect(current_path).to eq root_path
   end

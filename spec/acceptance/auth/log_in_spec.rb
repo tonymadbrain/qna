@@ -21,8 +21,9 @@ feature 'User sign in', '
     visit new_user_session_path
     fill_in 'Email', with: 'wrong@test.com'
     fill_in 'Password', with: 'qwerty123'
-    click_on 'Log in'
-
+    within ".actions" do
+      click_on 'Sign in'
+    end
     expect(page).to have_content 'Invalid email or password.'
     expect(current_path).to eq new_user_session_path
   end

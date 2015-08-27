@@ -20,7 +20,7 @@
     - if can?(:update, @question)
       = link_to 'Edit', '', class: 'edit-question-link btn btn-danger btn-xs', data: { question_id: @question.id }, remote: true
     - if can?(:destroy, @question)
-      = link_to 'Delete question', question_path, method: :delete, class: 'button btn btn-danger btn-xs'
+      = link_to 'Delete question', question_path, method: :delete, class: 'button btn btn-danger btn-xs', style: "margin-left: 5px;"
     p
     - if user_signed_in?
       - if @question.has_subscribed?(current_user)

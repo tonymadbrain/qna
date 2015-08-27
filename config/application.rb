@@ -36,6 +36,5 @@ module Qna
     config.active_record.raise_in_transactional_callbacks = true
     config.active_job.queue_adapter = :sidekiq
     config.cache_store = :redis_store, 'redis://localhost:6379/0/cache', { expipres_in: 60.minutes }
-    config.web_console.whitelisted_ips = '10.20.10.0/24'
   end
 end

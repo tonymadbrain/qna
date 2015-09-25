@@ -9,7 +9,5 @@ env:
   - DB=mysql
   - DB=postgresql
 cache: bundler
-before_script:
-  - RAILS_ENV=test bundle exec rake db:create db:schema:load
 script:
-  - RAILS_ENV=test bundle exec rake test
+  - RAILS_ENV=test bundle exec rspec spec/

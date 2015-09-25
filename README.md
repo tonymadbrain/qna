@@ -1,4 +1,6 @@
 # README
+![travis-ci](https://travis-ci.org/tonymadbrain/qna.svg?branch=master)
+
 Учебное приложение для курсов профессиональной разработки на ROR - http://ror.thinknetica.com/
 
 Используется:

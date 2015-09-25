@@ -1,5 +1,6 @@
 # README
-![travis-ci](https://travis-ci.org/tonymadbrain/qna.svg?branch=master)
+
+[![Build Status](https://travis-ci.org/tonymadbrain/qna.svg?branch=master)](https://travis-ci.org/tonymadbrain/qna)
 
 Учебное приложение для курсов профессиональной разработки на ROR - http://ror.thinknetica.com/
 

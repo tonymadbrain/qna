@@ -1,0 +1,10 @@
+development:
+  server: "http://localhost:9292/faye"
+  secret_token: "secret"
+test:
+  server: "http://localhost:9292/faye"
+  secret_token: "secret"
+production:
+  server: "http://so-faye.herokuapp.com/faye"
+  secret_token: <%= ENV['FAYE_SECRET_TOKEN'] %>
+  signature_expiration: 3600 # one hour

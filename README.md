@@ -1,6 +1,7 @@
 # README
 
 [![Build Status](https://travis-ci.org/tonymadbrain/qna.svg?branch=master)](https://travis-ci.org/tonymadbrain/qna)
+[![Coverage Status](https://coveralls.io/repos/tonymadbrain/qna/badge.svg?branch=master&service=github)](https://coveralls.io/github/tonymadbrain/qna?branch=master)
 
 Учебное приложение для курсов профессиональной разработки на ROR - http://ror.thinknetica.com/
 

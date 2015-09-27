@@ -11,6 +11,16 @@ feature 'Show user profiles', type: :feature, js: true do
     expect(page).to have_content users[2].email
   end
 
+  scenario 'Any user can see user page' do
+    visit users_path
+
+    click_on users[0].email
+    expect(page).to have_content users[0].email
+    # expect(page).to have_content users[0].first_name
+    # expect(page).to have_content users[0].second_name
+    # expect(page).to have_content users[0].rating
+  end
+
   scenario 'Button "Users" on index page open users page' do
     visit root_path
     click_on 'Users'

@@ -7,6 +7,8 @@ require 'rspec/rails'
 require 'capybara/email/rspec'
 require 'cancan/matchers'
 require 'sidekiq/testing'
+require 'coveralls'
+Coveralls.wear!
 
 Sidekiq::Testing.inline!
 

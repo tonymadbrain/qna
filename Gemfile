@@ -43,6 +43,7 @@ gem 'bootstrap-will_paginate'
 gem 'kramdown'
 gem 'coderay'
 gem 'font-awesome-rails'
+gem 'coveralls', require: false
 
 group :development do
   gem 'capistrano', require: false

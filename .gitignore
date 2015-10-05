@@ -14,7 +14,7 @@
 
 config/database.yml
 .idea/
-coverage/
+/coverage
 
 #file for test sublime snippets
 test.rb

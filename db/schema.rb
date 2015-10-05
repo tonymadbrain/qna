@@ -62,13 +62,6 @@ ActiveRecord::Schema.define(version: 20151005135026) do
   add_index "identities", ["provider", "uid"], name: "index_identities_on_provider_and_uid", using: :btree
   add_index "identities", ["user_id"], name: "index_identities_on_user_id", using: :btree
 
-  create_table "multiplier_rating", force: :cascade do |t|
-    t.string   "rating_type"
-    t.string   "multiplier"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
   create_table "oauth_access_grants", force: :cascade do |t|
     t.integer  "resource_owner_id", null: false
     t.integer  "application_id",    null: false

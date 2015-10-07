@@ -15,5 +15,6 @@ class UsersController < ApplicationController
 
   def load_user
     @user = User.find(params[:id])
+    @user.rating = Rating.where(user_id: @user.id).count
   end
 end

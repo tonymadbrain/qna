@@ -4,6 +4,7 @@ class AnswersController < ApplicationController
   before_action :answer_owner, only: [:update, :destroy]
   before_action :question_owner, only: :make_best
   after_action  :publish_answer, only: :create
+  after_action  :increase_user_rating, only: :create
 
   authorize_resource
 
@@ -55,8 +56,14 @@ class AnswersController < ApplicationController
   def question_owner
     render text: 'You do not have permission to view this page.', status: 403 if @question.user_id != current_user.id
   end
-  
+
   def publish_answer
     PrivatePub.publish_to("/questions/#{@question.id}", answer: @answer.to_json(include: :attachments), author: @answer.user_id) if @answer.valid?
+  end
+
+  def increase_user_rating
+    tmp_rating = Rating.find_or_create_by(user_id: @answer.user, r_type: "answer")
+    tmp_rating.count += 1
+    tmp_rating.save!f
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151005181517) do
+ActiveRecord::Schema.define(version: 20151005192948) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,13 +61,6 @@ ActiveRecord::Schema.define(version: 20151005181517) do
 
   add_index "identities", ["provider", "uid"], name: "index_identities_on_provider_and_uid", using: :btree
   add_index "identities", ["user_id"], name: "index_identities_on_user_id", using: :btree
-
-  create_table "multiplier_rating", force: :cascade do |t|
-    t.string   "rating_type"
-    t.string   "multiplier"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
 
   create_table "oauth_access_grants", force: :cascade do |t|
     t.integer  "resource_owner_id", null: false
@@ -119,6 +112,16 @@ ActiveRecord::Schema.define(version: 20151005181517) do
 
   add_index "questions", ["user_id"], name: "index_questions_on_user_id", using: :btree
 
+  create_table "ratings", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "r_type"
+    t.integer  "count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "ratings", ["user_id"], name: "index_ratings_on_user_id", using: :btree
+
   create_table "subscribe_lists", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "question_id"
@@ -143,6 +146,7 @@ ActiveRecord::Schema.define(version: 20151005181517) do
     t.inet     "current_sign_in_ip"
     t.inet     "last_sign_in_ip"
     t.boolean  "admin"
+    t.integer  "rating"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
@@ -162,6 +166,7 @@ ActiveRecord::Schema.define(version: 20151005181517) do
   add_foreign_key "answers", "questions"
   add_foreign_key "comments", "users"
   add_foreign_key "identities", "users"
+  add_foreign_key "ratings", "users"
   add_foreign_key "subscribe_lists", "questions"
   add_foreign_key "subscribe_lists", "users"
   add_foreign_key "votes", "users"

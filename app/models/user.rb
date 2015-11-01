@@ -2,12 +2,13 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :omniauthable, omniauth_providers: [:facebook, :twitter] 
+         :recoverable, :rememberable, :trackable, :validatable, :omniauthable, omniauth_providers: [:facebook, :twitter]
   has_many :questions, dependent: :destroy
   has_many :answers, dependent: :destroy
+  has_many :ratings, dependent: :destroy
   has_many :identitys, dependent: :destroy
   has_many :subscribe_lists, dependent: :destroy
-  has_many :subscriptions, class_name: 'Question', through: :subscribe_lists 
+  has_many :subscriptions, class_name: 'Question', through: :subscribe_lists
 
   scope :all_except, ->(user) { where.not(id: user) }
 
@@ -20,7 +21,7 @@ class User < ActiveRecord::Base
   def self.find_for_oauth(auth)
     identity = Identity.includes(:user).find_or_create_by(uid: auth.uid, provider: auth.provider)
     return identity.user if identity.user.present?
-    
+
     if auth.info.email.present?
       user = User.find_by(email: auth.info.email)
       unless user.present?
@@ -31,7 +32,7 @@ class User < ActiveRecord::Base
       identity.update!(user: user)
       return user
     end
-    
+
     user = User.new
     user.identitys << identity
     user
@@ -42,4 +43,11 @@ class User < ActiveRecord::Base
       DailyMailer.delay.digest(user)
     end
   end
+
+  # def self.all_rating
+  #   rating = Rating.where(user_id: :user).sum
+  #   user_rating = User.find(id: :user)
+  #   user_rating = rating
+  #   user_rating.save!
+  # end
 end

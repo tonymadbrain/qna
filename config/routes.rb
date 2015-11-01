@@ -43,5 +43,7 @@ Rails.application.routes.draw do
     get :confirm, on: :member
   end
 
+  resources :users, only: [:index, :show]
+
   get 'search', to: 'search#search'
 end

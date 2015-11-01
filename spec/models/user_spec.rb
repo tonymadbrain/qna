@@ -5,6 +5,7 @@ RSpec.describe User do
   it { should validate_presence_of :password }
   it { should have_many(:questions).dependent(:destroy) }
   it { should have_many(:answers).dependent(:destroy) }
+  it { should have_many(:ratings).dependent(:destroy) }
   it { should have_many(:identitys).dependent(:destroy) }
   it { should have_many(:subscribe_lists).dependent(:destroy) }
   it { should have_many(:subscriptions) }
@@ -22,7 +23,7 @@ RSpec.describe User do
         })
       end
       let(:create_find_for_oauth) { User.find_for_oauth(auth) }
-      
+
       it 'creates user' do
         create_find_for_oauth
         expect(User.find_by(email: user.email)).to_not be_nil
@@ -50,7 +51,7 @@ RSpec.describe User do
         })
       end
       let(:find_find_for_oauth) { User.find_for_oauth(auth) }
-      
+
       it 'finds user' do
         expect(find_find_for_oauth).to eq user
       end

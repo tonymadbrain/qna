@@ -1,0 +1,10 @@
+.row
+  .col-sm-12.col-md-8.col-md-offset-1.col-lg-8.col-lg-offset-1
+    .questions
+      - unless_empty @users do
+        - @users.each do |user|
+          h3 = link_to user.email, user_path(user)
+          hr
+    .row
+      .col-md-offset-5.col-lg-offset-5
+        = will_paginate @users

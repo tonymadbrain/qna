@@ -23,19 +23,19 @@
       = markdown("~~~ruby\ngem 'bootstrap_form'\n~~~")
       p Позволяет проще создавать формы с bootstrap оформлением.
       = markdown("~~~ruby\ngem 'carrierwave'\n~~~")
-      p При создании вопроса или ответа пользователь может загрузить файл, который доступен по ссылке, carrierwave нужен для этого. 
+      p При создании вопроса или ответа пользователь может загрузить файл, который доступен по ссылке, carrierwave нужен для этого.
       = markdown("~~~ruby\ngem 'remotipart'\n~~~")
       p Так же используется для загрузки файлов, чтобы формы работали через AJAX.
       = markdown("~~~ruby\ngem 'nested_form'\n~~~")
-      p Мудьти-модельные формы.
+      p Мульти-модельные формы.
       = markdown("~~~ruby\ngem 'handlebars_assets'\n~~~")
-      p Шаблонизатор handlebars применяется при вставки новых вопросов и ответов на страницу через AJAX.
+      p Шаблонизатор handlebars применяется при вставке новых вопросов и ответов на страницу через AJAX.
       = markdown("~~~ruby\ngem 'private_pub'\n~~~")
-      p Это реализация вебсокетов для rails (обертка поверх faye), позволяет легко создавать каналы и отсылать в них данных. Таким образом, если у пользователя открыт вопрос, при добавлении нового ответа он тут же появляется на странице, без перезагрузки самой страницы. 
+      p Это реализация вебсокетов для rails (обертка поверх faye), позволяет легко создавать каналы и отсылать в них данных. Таким образом, если у пользователя открыт вопрос, при добавлении нового ответа он тут же появляется на странице, без перезагрузки самой страницы.
       = markdown("~~~ruby\ngem 'thin'\n~~~")
       p Зависимость private_pub, больше нигде не используется.
       = markdown("~~~ruby\ngem 'responders', '~> 2.0'\n~~~")
-      p Упрощаем себе жизнь и написание контроллеров, которые, при этом, становятся легче. 
+      p Упрощаем себе жизнь и написание контроллеров, которые, при этом, становятся легче.
       = markdown("~~~ruby\ngem 'omniauth'\ngem 'omniauth-facebook'\ngem 'omniauth-twitter'\n~~~")
       p В приложении пользователь может зарегистрироваться/авторизоваться через социальные сети, в частности facebook и twitter.
       = markdown("~~~ruby\ngem 'cancancan'\n~~~")
@@ -49,19 +49,19 @@
       = markdown("~~~ruby\ngem 'sidekiq'\n~~~")
       p Крутая штука для отложенных задач, в частности здесь используется для отправки писем/рассылок.
       = markdown("~~~ruby\ngem 'whenever'\n~~~")
-      p Управляем задачами Cron из рельсового приложения. Например через него задается запуск рассылки еженедельного дайджеста и переиндексация поиска. 
+      p Управляем задачами Cron из рельсового приложения. Например через него задается запуск рассылки еженедельного дайджеста и переиндексация поиска.
       = markdown("~~~ruby\ngem 'mysql2', '~> 0.3.18'\ngem 'thinking-sphinx', '~> 3.1.4'\n~~~")
-      p А вот и сам полнотекстовый поиск. 
+      p А вот и сам полнотекстовый поиск.
       = markdown("~~~ruby\ngem 'dotenv'\ngem 'dotenv-deployment', require: 'dotenv/deployment'\n~~~")
-      p Нужен для деплоя, причем второй гем deprecated, но ни как не дойдут руки переделать. 
+      p Нужен для деплоя, причем второй гем deprecated, но ни как не дойдут руки переделать.
       = markdown("~~~ruby\ngem 'therubyracer'\n~~~")
-      p Embed the V8 JavaScript interpreter into Ruby. А зачем он в проекте нужен не помню, может просто добавил чтобы был? 
+      p Embed the V8 JavaScript interpreter into Ruby. А зачем он в проекте нужен не помню, может просто добавил чтобы был?
       = markdown("~~~ruby\ngem 'unicorn'\n~~~")
-      p Хороший веб-сервер для Rails и хотя Puma мне нравится больше, пока проект работает на единороге. 
+      p Хороший веб-сервер для Rails и хотя Puma мне нравится больше, пока проект работает на единороге.
       = markdown("~~~ruby\ngem 'redis-rails'\n~~~")
       p Используем redis для russian doll caching и для sidekiq
       = markdown("~~~ruby\ngem 'will_paginate'\ngem 'bootstrap-will_paginate'\n~~~")
-      p Добавил уже после курсов, собственно пагинация на главной. 
+      p Добавил уже после курсов, собственно пагинация на главной.
       = markdown("~~~ruby\ngem 'kramdown'\ngem 'coderay'\n~~~")
       p Добавил только что, чтобы сделать подсветку синтаксиса.
       = markdown("~~~ruby\ngroup :development do\n  gem 'capistrano', require: false\n  gem 'capistrano-bundler', require: false\n  gem 'capistrano-rails', require: false\n  gem 'capistrano-rvm', require: false\n  gem 'capistrano-sidekiq', require: false\n  gem 'capistrano3-unicorn', require: false\nend\n~~~")
@@ -71,9 +71,9 @@
       = markdown("~~~ruby\n  gem 'rspec-rails'\n~~~")
       p Тестируем с помощью rspec (Unit-тесты).
       = markdown("~~~ruby\n  gem 'factory_girl_rails'\n~~~")
-      p Генерим данные с помощью фабрик, это удобнее чем фикстуры. 
+      p Генерим данные с помощью фабрик, это удобнее чем фикстуры.
       = markdown("~~~ruby\n  gem 'shoulda-matchers'\n~~~")
-      p Упрощаем написание тестов. 
+      p Упрощаем написание тестов.
       = markdown("~~~ruby\n  gem 'capybara'\n~~~")
       p Тестируем с помощью capybara (Интеграционные тесты).
       = markdown("~~~ruby\n  gem 'launchy'\n~~~")
@@ -85,9 +85,9 @@
       = markdown("~~~ruby\n  gem 'database_cleaner'\n~~~")
       p Не засоряем базу данных во время тестов.
       = markdown("~~~ruby\n  gem 'letter_opener'\n~~~")
-      p Проверяем отправку писем. 
+      p Проверяем отправку писем.
       = markdown("~~~ruby\n  gem 'capybara-email'\n~~~")
-      p Тестируем отправку писем. 
+      p Тестируем отправку писем.
       = markdown("~~~ruby\n  gem 'json_spec'\n~~~")
       p В API данные "бегают" по JSON, поэтому его надо тестировать.
       h2 Прогресс

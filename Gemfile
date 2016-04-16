@@ -44,6 +44,7 @@ gem 'kramdown'
 gem 'coderay'
 gem 'font-awesome-rails'
 gem 'coveralls', require: false
+gem 'rails_12factor', group: :production
 
 group :development do
   gem 'capistrano', require: false

@@ -21,7 +21,7 @@ test.rb
 
 .rubocop.yml
 config/database.yml
-config/private_pub.yml
+config/private_pub.yml.backup
 /public/uploads
 dump.rdb
 
@@ -29,5 +29,5 @@ dump.rdb
 config/*.sphinx.conf
 db/sphinx
 
-#mac_os specific 
+#mac_os specific
 *.DS_Store

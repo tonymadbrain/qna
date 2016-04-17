@@ -8,7 +8,7 @@
 
 # Create admin and user
 
-pw_123 = "123123123"
+pw_123 = "qwerty12345"
 User.create(email: "admin@qna.dev", password: pw_123, password_confirmation: pw_123, admin: true)
 
 ["user@qna.dev", "another_user@qna.dev"].each do |e_mail|

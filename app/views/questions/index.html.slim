@@ -5,7 +5,7 @@
         - cache collection_cache_key_for :question do
           - @questions.each do |question|
             h3 = link_to question.title, question_path(question)
-            = raw "Asked #{question.created_at, :format => :short} by #{question.user.email}"
+            = raw "Asked #{question.created_at.strftime '%B %d, %Y'} by #{question.user.email}"
             hr
     .row
       .col-md-offset-5.col-lg-offset-5

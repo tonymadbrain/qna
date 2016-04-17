@@ -5,6 +5,6 @@ test:
   server: "http://localhost:9292/faye/faye"
   secret_token: "secret"
 production:
-  server: "http:///warm-atoll-51530.herokuapp.com/faye"
+  server: "https://pure-ridge-25783.herokuapp.com/faye"
   secret_token: <%= ENV["FAYE_SECRET_TOKEN"] %>
   signature_expiration: 3600 # one hour

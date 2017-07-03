@@ -1,10 +1,11 @@
 Rails.application.routes.draw do
 
   get 'pages/about'
+  get 'pages/no_search'
 
   use_doorkeeper
   root to: 'questions#index'
-  
+
   devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks', registrations: 'registrations' }
 
   concern :votable do
@@ -25,7 +26,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :questions, concerns: [:votable] do 
+  resources :questions, concerns: [:votable] do
     post :subscribe, on: :member
     post :unsubscribe, on: :member
     resources :comments, only: [:create], defaults: { commentable: 'question' }
@@ -37,13 +38,13 @@ Rails.application.routes.draw do
 
   resources :comments, :only => [:create]
 
-  resources :attachments, only: [:destroy]  
-  
+  resources :attachments, only: [:destroy]
+
   resources :identities, only: :show do
     get :confirm, on: :member
   end
 
   resources :users, only: [:index, :show]
 
-  get 'search', to: 'pages/no_search'
+  get 'search', to: redirect('pages/no_search')
 end

@@ -45,5 +45,5 @@ Rails.application.routes.draw do
 
   resources :users, only: [:index, :show]
 
-  get 'search', to: 'search#search'
+  get 'search', to: 'pages/no_search'
 end

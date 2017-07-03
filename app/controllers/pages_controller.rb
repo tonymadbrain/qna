@@ -4,4 +4,7 @@ class PagesController < ApplicationController
   
   def about
   end
+
+  def no_search
+  end
 end

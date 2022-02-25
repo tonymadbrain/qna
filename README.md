@@ -3,6 +3,8 @@
 [![Build Status](https://travis-ci.org/tonymadbrain/qna.svg?branch=master)](https://travis-ci.org/tonymadbrain/qna)
 [![Coverage Status](https://coveralls.io/repos/tonymadbrain/qna/badge.svg?branch=master&service=github)](https://coveralls.io/github/tonymadbrain/qna?branch=master)
 
+!!! This app was created for learning purposes on https://thinknetica.com/ruby_on_rails courses. Because Heroku doesn't support such an old stack I shut it down and archived the repo.
+
 Учебное приложение для курсов профессиональной разработки на ROR - http://ror.thinknetica.com/
 
 Используется:
@@ -16,8 +18,8 @@
 Зависимости (Ubuntu):
 * rvm
 * bundler
-* postgresql-server-dev-9.3(на данный момент) 
-* libmysqlclient-dev 
+* postgresql-server-dev-9.3(на данный момент)
+* libmysqlclient-dev
 * libqtwebkit-dev
 * sphinxsearch
 
